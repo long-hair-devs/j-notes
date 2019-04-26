@@ -55,12 +55,14 @@ main {
 }
 @media only screen and (max-width: 720px) {
   body {
-    grid-template-columns: 100vw;
-    grid-template-rows: 3.75rem auto;
+    grid-template-columns: auto;
+    grid-template-rows: 4.75rem auto;
     grid-template-areas: "menu" "main";
   }
   .menu {
-    padding: 0 1rem 0 1rem;
+    position: sticky;
+    top: 0;
+    padding: 0 1.5rem 0 1.5rem;
   }
   .menu ul {
     flex-direction: row;
@@ -73,5 +75,8 @@ main {
   }
   .menu li.final:last-child {
     margin: auto 0 auto 1.5rem;
+  }
+  main {
+    overflow: initial;
   }
 }

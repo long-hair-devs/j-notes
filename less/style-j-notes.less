@@ -18,7 +18,6 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     line-height: 1;
-
     display: grid;
     grid-template-columns: 3.75rem auto;
     grid-template-rows: 100vh;
@@ -72,16 +71,18 @@ main {
     overflow: auto;
 }
 
-//Troca caso tela pequena
+//Mobile e Desktop de Baixa Resolução
 @media only screen and (max-width: 720px) {
     body {
-        grid-template-columns: 100vw;
-        grid-template-rows: 3.75rem auto;
+        grid-template-columns: auto;
+        grid-template-rows: 4.75rem auto;
         grid-template-areas: "menu" "main";    
     }    
     
     .menu {
-        padding: 0 1rem 0 1rem;
+        position: sticky;
+        top: 0;
+        padding: 0 1.5rem 0 1.5rem;
 
         ul {
             flex-direction: row;
@@ -96,5 +97,9 @@ main {
                 }
             }
         }
+    }
+
+    main {
+        overflow: initial;
     }
 }
