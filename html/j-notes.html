@@ -14,11 +14,12 @@
 </head>
 
 <body>
-    <nav class="menu-fixo">
+    <nav id="menu-fixo" class="menu-fixo">
         <ul>
             <li>
-                <a id="icone-menu">
+                <a class="btn-menu">
                     <img src="../img/svg/menu.svg" alt="icone menu">
+                    <span>Menu</span>
                 </a>
             </li>
             <li>
@@ -55,60 +56,62 @@
         </ul>
     </nav>
 
-    <div class="menu-movel">
-        <div>
+    <div class="div-menu-movel">
+        <nav id="menu-movel">
             <ul>
                 <li>
-                    <a>
-                        <span>Menu</span>
-                    </a>
+                    <a class="btn-menu"><span>Menu</span></a>
                 </li>
                 <li>
-                    <a href="#inicio">
-                        <span>Página Inicial</span>
-                    </a>
+                    <a href="#inicio"><span>Página Inicial</span></a>
                 </li>
                 <li>
-                    <a href="#nova-tarefa">
-                        <span>Nova Tarefa</span>
-                    </a>
+                    <a href="#nova-tarefa"><span>Nova Tarefa</span></a>
                 </li>
                 <li>
-                    <a href="#calendario">
-                        <span>Calendário</span>
-                    </a>
+                    <a href="#calendario"><span>Calendário</span></a>
                 </li>
                 <li>
-                    <a href="#concluir-tarefa">
-                        <span>Concluir Tarefa</span>
-                    </a>
+                    <a href="#concluir-tarefa"><span>Concluir Tarefa</span></a>
                 </li>
                 <li class="final">
-                    <a>
-                        <span>*Usuário</span>
-                    </a>
+                    <a><span>*Usuário</span></a>
                 </li>
                 <li class="final">
-                    <a>
-                        <span>Sair</span>
-                    </a>
+                    <a><span>Sair</span></a>
                 </li>
             </ul>
-        </div>
+        </nav>
     </div>
 
     <main>
-        <section id="inicio">
-            a
+        <section id="inicio" class="claro">
+            <div>
+                <header>
+                    <h1>Página Inicial</h1>
+                </header>
+            </div>
         </section>
-        <section id="nova-tarefa">
-
+        <section id="nova-tarefa" class="escuro">
+            <div>
+                <header>
+                    <h1>Nova Tarefa</h1>
+                </header>
+            </div>
         </section>
-        <section id="calendario">
-
+        <section id="calendario" class="claro">
+            <div>
+                <header>
+                    <h1>Calendário</h1>
+                </header>
+            </div>
         </section>
-        <section id="concluir-tarefa">
-
+        <section id="concluir-tarefa" class="escuro">
+            <div>
+                <header>
+                    <h1>Concluir Tarefa</h1>
+                </header>
+            </div>
         </section>
     </main>
 </body>
