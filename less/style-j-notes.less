@@ -21,12 +21,13 @@ body {
     display: grid;
     grid-template-columns: 3.75rem auto;
     grid-template-rows: 100vh;
-    grid-template-areas: "menu main"
+    grid-template-areas: "menu main";
 }
 
 a {
     cursor: pointer;
     text-decoration: none;
+    color: inherit;
 }
 
 /* Menu */
@@ -38,21 +39,27 @@ a {
 
     ul {
         height: 100%;
-        margin: 0;
+        margin: 0 0 0 0.975rem;
         padding: 0;
         list-style: none;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
+        overflow: hidden;
     }
     li {
         margin-bottom: 1.5rem;
 
         &.final {
-            margin: auto auto 0 auto;
+            margin: auto 0 0 0;
             &:last-child {
-                margin: 1.5rem auto 0 auto;
+                margin: 1.5rem 0 0 0;
             }
+        }
+        a {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
         }
     }
     img {
@@ -60,6 +67,15 @@ a {
         height: 1.8rem;
         filter: @branco-filter;
     }
+    span {
+        display: none;
+    }
+}
+
+.menu-painel {
+    position: fixed;
+    top: 0;
+    left: 3.75rem;
 }
 
 /* Main */
@@ -83,19 +99,36 @@ main {
         position: sticky;
         top: 0;
         padding: 0 1.5rem 0 1.5rem;
-
+        
         ul {
+            margin: 0;
             flex-direction: row;
+            align-items: center;
         }
         li {
-            margin: 0 1.5rem 0 0;
-
+            margin: 0;
+            img {
+                display: none;
+            }              
+            &:first-child {
+                img {
+                    display: block;
+                }
+            }            
             &.final {
                 margin: auto 0 auto auto;
                 &:last-child {
                     margin: auto 0 auto 1.5rem;
                 }
+                img {
+                    display: block;
+                }
             }
+        }
+        span {
+            display: block;
+            font-size: 1.4rem;
+            margin-left: 1rem;
         }
     }
 

@@ -1,10 +1,10 @@
 //Atributos
 
 //Main
-$(function(){
+$(function () {
     /* Faz a fonte ser dinâmica, igual no css, porém aqui é possivel arredondar o valor, diminui chance de gliches */
     calcTamanhoFonte();
-    $(window).resize(function() { calcTamanhoFonte() });
+    $(window).resize(function () { calcTamanhoFonte() });
 });
 
 //Secundários
