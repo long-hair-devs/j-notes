@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
-/* Básico */
+/* Básico - Desktop */
 body {
   margin: 0;
   padding: 0;
@@ -16,14 +16,24 @@ a {
   text-decoration: none;
   color: inherit;
 }
-/* Menu */
-.menu {
+/* Básico - Mobile */
+@media only screen and (max-width: 720px) {
+  body {
+    grid-template-columns: auto;
+    grid-template-rows: 4.75rem auto;
+    grid-template-areas: "menu" "main";
+  }
+}
+/* Menu Fixo - Desktop */
+.menu-fixo {
   grid-area: menu;
   padding: 1.5rem 0 1.5rem 0;
   background: #111;
   color: #FFF;
+  z-index: 20;
 }
-.menu ul {
+.menu-fixo ul,
+.menu-movel div ul {
   height: 100%;
   margin: 0 0 0 0.975rem;
   padding: 0;
@@ -33,80 +43,153 @@ a {
   align-items: flex-start;
   overflow: hidden;
 }
-.menu li {
+.menu-fixo li,
+.menu-movel div li {
   margin-bottom: 1.5rem;
 }
-.menu li.final {
+.menu-fixo li.final,
+.menu-movel div li.final {
   margin: auto 0 0 0;
 }
-.menu li.final:last-child {
+.menu-fixo li.final:last-child,
+.menu-movel div li.final:last-child {
   margin: 1.5rem 0 0 0;
 }
-.menu li a {
+.menu-fixo li a,
+.menu-movel div li a {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
 }
-.menu img {
+.menu-fixo img {
   width: 1.8rem;
   height: 1.8rem;
   filter: invert(75%) sepia(96%) saturate(1%) hue-rotate(327deg) brightness(97%) contrast(97%);
 }
-.menu span {
+.menu-fixo span,
+.menu-movel div span {
   display: none;
+  font-size: 1.4rem;
+  margin-left: 1rem;
 }
-.menu-painel {
+/* Menu Fixo - Mobile */
+@media only screen and (max-width: 720px) {
+  .menu-fixo {
+    position: sticky;
+    top: 0;
+    padding: 0 1.5rem 0 1.5rem;
+  }
+  .menu-fixo ul,
+  .menu-movel div ul {
+    margin: 0;
+    flex-direction: row;
+    align-items: center;
+  }
+  .menu-fixo li,
+  .menu-movel div li {
+    margin: 0;
+  }
+  .menu-fixo li img {
+    display: none;
+  }
+  .menu-fixo li:first-child img {
+    display: block;
+  }
+  .menu-fixo li.final,
+  .menu-movel div li.final {
+    margin: auto 0 auto auto;
+  }
+  .menu-fixo li.final:last-child,
+  .menu-movel div li.final:last-child {
+    margin: auto 0 auto 1.5rem;
+  }
+  .menu-fixo li.final img {
+    display: block;
+  }
+  .menu-fixo span,
+  .menu-movel div span {
+    display: block;
+  }
+}
+/* Menu Móvel - Desktop */
+.menu-movel {
   position: fixed;
   top: 0;
+  bottom: 0;
   left: 3.75rem;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10;
 }
-/* Main */
+.menu-movel div {
+  width: 18rem;
+  height: calc(100% - 3rem);
+  padding: 1.5rem 0 1.5rem 0;
+  background: #111;
+  transform: translateX(-20rem);
+  will-change: transform;
+}
+.menu-movel div ul {
+  margin: 0;
+}
+.menu-movel div li a {
+  height: 1.8rem;
+  color: #FFF;
+}
+.menu-movel div span {
+  display: block;
+}
+/* Menu Móvel - Mobile */
+@media only screen and (max-width: 720px) {
+  .menu-movel {
+    top: 4.75rem;
+    left: 0;
+  }
+  .menu-movel div {
+    height: 100%;
+    width: 20rem;
+    padding: 0;
+    transform: translateX(-22rem);
+  }
+  .menu-movel div ul {
+    margin: 0 0 0 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .menu-movel div li {
+    margin-bottom: 1.5rem;
+  }
+  .menu-movel div li:first-child {
+    display: none;
+  }
+  .menu-movel div li.final {
+    display: none;
+  }
+}
+/* Menu Móvel - Compartilhado */
+.menu-movel--animacao div {
+  transition: all 0.25s ease-in;
+}
+.menu-movel--visivel {
+  pointer-events: auto;
+}
+.menu-movel--visivel div {
+  transform: none;
+}
+.menu-movel--visivel.menu-movel--animacao div {
+  transition: all 0.5s ease-out;
+}
+/* Main - Desktop */
 main {
   grid-area: main;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: 100vh 100vh 100vh 100vh;
   overflow: auto;
+  z-index: 0;
 }
+/* Main - Mobile */
 @media only screen and (max-width: 720px) {
-  body {
-    grid-template-columns: auto;
-    grid-template-rows: 4.75rem auto;
-    grid-template-areas: "menu" "main";
-  }
-  .menu {
-    position: sticky;
-    top: 0;
-    padding: 0 1.5rem 0 1.5rem;
-  }
-  .menu ul {
-    margin: 0;
-    flex-direction: row;
-    align-items: center;
-  }
-  .menu li {
-    margin: 0;
-  }
-  .menu li img {
-    display: none;
-  }
-  .menu li:first-child img {
-    display: block;
-  }
-  .menu li.final {
-    margin: auto 0 auto auto;
-  }
-  .menu li.final:last-child {
-    margin: auto 0 auto 1.5rem;
-  }
-  .menu li.final img {
-    display: block;
-  }
-  .menu span {
-    display: block;
-    font-size: 1.4rem;
-    margin-left: 1rem;
-  }
   main {
     overflow: initial;
   }
