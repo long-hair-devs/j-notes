@@ -3,15 +3,13 @@
 //Main
 $(function () {
     /* Faz a fonte ser dinâmica, igual no css, porém aqui é possivel arredondar o valor, diminui chance de gliches */
+    /* Ativa o scrollSpy e caso a tela seja redimensionada, ele chama a fução para o spy ficar correto */
     calcTamanhoFonte();
-    $(window).resize(function () { calcTamanhoFonte() });
+    ativaScrollSpy();
+    $(window).resize(function () { calcTamanhoFonte(); ativaScrollSpy() });
 
     /* Listener para abrir o menu principal */
     $(".btn-menu").click(function () { abreFechaMenuPrincipal() });
-
-    /* Ativa o scrollSpy e caso a tela seja redimensionada, ele chama a fução para o spy ficar correto */
-    ativaScrollSpy();
-    $(window).resize(function () { ativaScrollSpy() });
 });
 
 //Secundários
@@ -36,7 +34,7 @@ function ativaScrollSpy() {
     $("#menu-fixo").unbind();
     $("#menu-movel").unbind();
     if ($(window).width() <= 720) {
-        $("#menu-movel").scrollspy({ offset: -5.75 * parseInt($("html").css('font-size')) });
+        $("#menu-movel").scrollspy({ offset: -5.5 * parseInt($("html").css('font-size')) });
     } else {
         $("#menu-fixo").scrollspy();
         $("#menu-movel").scrollspy();

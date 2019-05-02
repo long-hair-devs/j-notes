@@ -6,10 +6,8 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
   line-height: 1;
-  display: grid;
-  grid-template-columns: 3.75rem auto;
-  grid-template-rows: 100vh;
-  grid-template-areas: "menu main";
+  display: flex;
+  flex-flow: row nowrap;
 }
 a {
   cursor: pointer;
@@ -22,19 +20,16 @@ h1 {
 /* Básico - Mobile */
 @media only screen and (max-width: 720px) {
   body {
-    grid-template-columns: auto;
-    grid-template-rows: 5.75rem auto;
-    grid-template-areas: "menu" "main";
+    flex-flow: column nowrap;
   }
 }
 /* Menu Fixo - Desktop */
 .menu-fixo {
-  grid-area: menu;
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
-  width: 3.75rem;
+  width: 3.7rem;
+  height: calc(100% - 3rem);
   padding: 1.5rem 0 1.5rem 0;
   background: #111;
   color: #FFF;
@@ -43,13 +38,12 @@ h1 {
 .menu-fixo ul,
 .div-menu-movel nav ul {
   height: 100%;
-  margin: 0 0 0 0.975rem;
+  margin: 0 0 0 0.95rem;
   padding: 0;
   list-style: none;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  overflow: hidden;
 }
 .menu-fixo li,
 .div-menu-movel nav li {
@@ -80,17 +74,14 @@ h1 {
   height: 1.8rem;
   filter: invert(75%) sepia(96%) saturate(1%) hue-rotate(327deg) brightness(97%) contrast(97%);
 }
-.menu-fixo span,
-.div-menu-movel nav span {
+.menu-fixo span {
   display: none;
-  font-size: 1.4rem;
-  margin-left: 1rem;
 }
 /* Menu Fixo - Mobile */
 @media only screen and (max-width: 720px) {
   .menu-fixo {
-    position: sticky;
-    width: auto;
+    width: calc(100% - 3rem);
+    height: 5.5rem;
     padding: 0 1.5rem 0 1.5rem;
   }
   .menu-fixo ul,
@@ -121,10 +112,10 @@ h1 {
     width: 2rem;
     height: 2rem;
   }
-  .menu-fixo span,
-  .div-menu-movel nav span {
+  .menu-fixo span {
     display: block;
     font-size: 1.6rem;
+    margin-left: 1rem;
   }
 }
 /* Menu Móvel - Desktop */
@@ -132,7 +123,7 @@ h1 {
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 3.75rem;
+  left: 3.7rem;
   overflow: hidden;
   pointer-events: none;
   z-index: 10;
@@ -155,12 +146,13 @@ h1 {
   color: #6DA8D6;
 }
 .div-menu-movel nav span {
-  display: block;
+  font-size: 1.4rem;
+  margin-left: 1rem;
 }
 /* Menu Móvel - Mobile */
 @media only screen and (max-width: 720px) {
   .div-menu-movel {
-    top: 5.75rem;
+    top: 5.5rem;
     left: 0;
   }
   .div-menu-movel nav {
@@ -201,13 +193,12 @@ h1 {
 }
 /* Main - Desktop */
 main {
-  grid-area: main;
-  display: flex;
-  flex-flow: column nowrap;
+  margin: 0 0 0 3.7rem;
+  flex: 1;
   z-index: 0;
 }
 main section {
-  flex: 0 0 100vh;
+  height: 100vh;
 }
 main section.claro {
   background: #333;
@@ -218,7 +209,8 @@ main section.escuro {
 main section > div {
   width: 70vw;
   min-width: 45rem;
-  height: 100%;
+  min-height: 100%;
+  max-height: fit-content;
   margin: auto;
   display: flex;
   flex-flow: column nowrap;
@@ -232,10 +224,21 @@ main section > div header h1 {
   color: #FFF;
   margin: 1rem;
 }
+main section > div .wrapper-section {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
 /* Main - Mobile */
 @media only screen and (max-width: 720px) {
+  main {
+    margin: 5.5rem 0 0 0;
+  }
   main section {
-    flex-basis: calc(100vh - 5.75rem);
+    min-height: calc(100vh - 5.5rem);
   }
   main section > div header {
     width: calc(100% - 2rem);
