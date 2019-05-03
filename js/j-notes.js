@@ -2,6 +2,8 @@
 
 //Main
 $(function () {
+    /* Funções Básicas do Site */
+
     /* Faz a fonte ser dinâmica, igual no css, porém aqui é possivel arredondar o valor, diminui chance de gliches */
     /* Ativa o scrollSpy e caso a tela seja redimensionada, ele chama a fução para o spy ficar correto */
     calcTamanhoFonte();
@@ -10,6 +12,9 @@ $(function () {
 
     /* Listener para abrir o menu principal */
     $(".btn-menu").click(function () { abreFechaMenuPrincipal() });
+
+    /* Ao clicar em item do menu móvel, fecha o mesmo */
+    $(".div-menu-movel a").click(function () { abreFechaMenuPrincipal() });
 });
 
 //Secundários
@@ -18,7 +23,7 @@ function calcTamanhoFonte() {
     $("html").css('font-size', tamanho);
 }
 
-function abreFechaMenuPrincipal() {
+function abreFechaMenuPrincipal(e) {
     $(".div-menu-movel").addClass("div-menu-movel--animacao");
     if (!$(".div-menu-movel").hasClass("div-menu-movel--visivel")) {
         $(".div-menu-movel").addClass("div-menu-movel--visivel");

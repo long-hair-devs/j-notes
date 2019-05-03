@@ -8,14 +8,20 @@ body {
   line-height: 1;
   display: flex;
   flex-flow: row nowrap;
+  overflow: auto;
 }
 a {
   cursor: pointer;
   text-decoration: none;
 }
-h1 {
-  margin: 0;
+h1,
+h2 {
+  margin: 1.5rem 1rem 1rem 1rem ;
   font-size: 2rem;
+}
+h2 {
+  font-size: 1.6rem;
+  font-weight: normal;
 }
 /* Básico - Mobile */
 @media only screen and (max-width: 720px) {
@@ -64,6 +70,7 @@ h1 {
 .div-menu-movel nav li a {
   margin: -1rem;
   padding: 1rem;
+  outline: 0;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -158,7 +165,7 @@ h1 {
   .div-menu-movel nav {
     width: 20rem;
     height: 100%;
-    padding: 0;
+    padding: 0.3rem 0 0 0;
     transform: translateX(-22rem);
   }
   .div-menu-movel nav ul {
@@ -197,9 +204,6 @@ main {
   flex: 1;
   z-index: 0;
 }
-main section {
-  height: 100vh;
-}
 main section.claro {
   background: #333;
 }
@@ -208,21 +212,19 @@ main section.escuro {
 }
 main section > div {
   width: 70vw;
-  min-width: 45rem;
-  min-height: 100%;
-  max-height: fit-content;
+  min-width: 40rem;
+  min-height: 100vh;
   margin: auto;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
 }
-main section > div header {
-  width: 100%;
+main section > div > header {
+  width: inherit;
   border-bottom: 0.08rem solid #FFF;
 }
-main section > div header h1 {
+main section > div > header h1 {
   color: #FFF;
-  margin: 1rem;
 }
 main section > div .wrapper-section {
   flex: 1;
@@ -231,16 +233,49 @@ main section > div .wrapper-section {
   align-items: center;
   justify-content: center;
   margin: auto;
+  overflow: hidden;
 }
 /* Main - Mobile */
 @media only screen and (max-width: 720px) {
   main {
     margin: 5.5rem 0 0 0;
   }
-  main section {
+  main section > div {
     min-height: calc(100vh - 5.5rem);
   }
   main section > div header {
     width: calc(100% - 2rem);
   }
+}
+/*--- PÁGINA INICIAL ---*/
+#inicio .box-inicio {
+  position: relative;
+  width: 40rem;
+  height: 37rem;
+}
+#inicio .box-inicio .tira {
+  z-index: 1;
+  position: absolute;
+  left: 85%;
+  width: 0.125rem;
+  height: 50vh;
+  background: #DDD;
+  border-radius: 0.0625rem;
+  transform: translate(0, calc(-49.65vh));
+}
+#inicio .box-inicio .tira:first-child {
+  left: 15%;
+}
+#inicio .box-inicio header {
+  width: inherit;
+  height: 5rem;
+  background: #DDD;
+  border-radius: 0.75rem 0.75rem 0 0;
+  display: flex;
+  align-items: center;
+}
+#inicio .box-inicio > div {
+  height: calc(100% - 5rem);
+  box-shadow: inset 0 0 0 0.125rem #DDD;
+  border-radius: 0 0 0.75rem 0.75rem;
 }
