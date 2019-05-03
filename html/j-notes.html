@@ -49,7 +49,7 @@
             </li>
             <li class="final">
                 <a>
-                    <img src="../img/svg/exit.svg" alt="icone sair">
+                    <img src="../img/svg/exit.svg" alt=" icone sair">
                     <span>Sair</span>
                 </a>
             </li>
@@ -63,16 +63,16 @@
                     <a class="btn-menu"><span>Menu</span></a>
                 </li>
                 <li>
-                    <a href="#inicio"><span>Página Inicial</span></a>
+                    <a class="click" href="#inicio"><span>Página Inicial</span></a>
                 </li>
                 <li>
-                    <a href="#nova-tarefa"><span>Nova Tarefa</span></a>
+                    <a class="click" href="#nova-tarefa"><span>Nova Tarefa</span></a>
                 </li>
                 <li>
-                    <a href="#calendario"><span>Calendário</span></a>
+                    <a class="click" href="#calendario"><span>Calendário</span></a>
                 </li>
                 <li>
-                    <a href="#concluir-tarefa"><span>Concluir Tarefa</span></a>
+                    <a class="click" href="#concluir-tarefa"><span>Concluir Tarefa</span></a>
                 </li>
                 <li class="final">
                     <a><span>*Usuário</span></a>
@@ -111,7 +111,15 @@
                     <h1>Nova Tarefa</h1>
                 </header>
                 <div class="wrapper-section">
-
+                    <form class="box-nova-tarefa">
+                        <div class="box-argolas">
+                            <script>
+                                for (let i = 0; i < 16; i++) {
+                                    $(".box-argolas").append('<span></span>');
+                                }
+                            </script>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -121,7 +129,29 @@
                     <h1>Calendário</h1>
                 </header>
                 <div class="wrapper-section">
+                    <table class="box-calendario">
+                        <thead>
+                            <td>Dom<span></span></td>
+                            <td>Seg</td>
+                            <td>Ter</td>
+                            <td>Qua</td>
+                            <td>Qui</td>
+                            <td>Sex</td>
+                            <td>Sab<span></span></td>
+                        </thead>
+                        <tbody id="corpo-calendario">
+                            <!-- Código gerado no Java Script -->
+                        </tbody>
+                    </table>
+                    <div class="box-painel-calendario">
+                        <header>
+                            <span></span>
+                            <span></span>
+                        </header>
+                        <div>
 
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
