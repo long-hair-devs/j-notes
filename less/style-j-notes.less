@@ -20,6 +20,14 @@
 //Tamanhos
 @min-mobile-width: 38rem;
 
+//Mixins -- funções
+.user-select(@param) {
+    user-select: @param;
+    -moz-user-select: @param;
+    -ms-user-select: @param;
+    -webkit-user-select: @param;
+}
+
 /* Básico - Desktop */
 body {
     margin: 0;
@@ -39,6 +47,7 @@ a {
 h1 {
     margin: 1.5rem 1rem 1rem 1rem ;
     font-size: 2rem;
+    .user-select(none);
 }
 
 h2 {
@@ -77,6 +86,7 @@ h2 {
     }
     li {
         margin-bottom: 1.5rem;
+        .user-select(none);
 
         &.final {
             margin: auto 0 0 0;
@@ -311,13 +321,12 @@ main {
         margin: 1rem 0;
         
         .tira {
-            z-index: 10;
+            z-index: 2;
             position: absolute; 
             left: 95%;
             width: .125rem;
             height: 50vh;
             background: #DDD;
-            border-radius: .125rem;
             transform: translate(-0.0625rem, calc(~"-50vh + .6rem"));
 
             &:first-child {
@@ -325,7 +334,7 @@ main {
             }
         }
         .bolinha {
-            z-index: 0;
+            z-index: 1;
             position: absolute;  
             top: .3rem;
             left: 5%;
@@ -376,7 +385,7 @@ main {
 
         .box-argolas {
             position: absolute;
-            top: -1.5rem;
+            top: -1.6rem;
             left: 0;
             width: 100%;
             height: 3rem;
@@ -384,10 +393,11 @@ main {
             justify-content: center;
 
             span {
-                width: 1rem;
+                width: .5rem;
                 height: inherit;
                 background: @branco-fundo;
                 margin: 0 .75rem;
+                border: .25rem solid @cinza-escuro;
                 border-radius: .125rem;
             }
         }
@@ -415,19 +425,20 @@ main {
         table-layout: fixed;
         border-spacing: 0;
         margin: 3.2rem .5rem 1rem 0;
+        .user-select(none);
 
         td {
             position: relative;
             width: 2rem;
-            height: 2.1rem;
+            height: 3.166rem;
         }
         thead td {
             background: @branco-fundo;
             font-size: 1.4rem;
             text-align: center;
 
-            span {
-                z-index: 10;
+            .argola {
+                z-index: 1;
                 position: absolute;
                 width: 2rem;
                 height: 3rem;
@@ -442,7 +453,7 @@ main {
             &:last-child {
                 border-radius: 0 .75rem 0 0;
 
-                span {
+                .argola {
                     transform: translate(-205%, -4.7rem);
                 }
             }
@@ -483,15 +494,99 @@ main {
         header {
             &:extend(#inicio .box-inicio header);
             position: relative;
+            display: flex;
+            justify-content: space-between;
 
-            span {
-                &:extend(#calendario .box-calendario thead td span);
+            .argola {
+                &:extend(#calendario .box-calendario thead td .argola);
                 top: 0;
-                left: 15%;
+                left: 18%;
                 transform: translate(-50%, -2.85rem);
 
-                &:last-child {
-                    left: 85%;
+                &:last-of-type {
+                    left: 82%;
+                }
+            }
+            .wrapper-mes {
+                height: inherit;
+                display: flex;
+                align-items: center;
+                .user-select(none);
+        
+                img {
+                    width: 1.4rem;
+                    height: 1.4rem;
+                    padding: 1rem;
+                    cursor: pointer;
+                }
+                #mes {
+                    width: 6.4rem;
+                    font-size: 1.4rem;
+                    text-align: center;
+                }
+            }
+            .wrapper-ano {
+                &:extend(#calendario .box-painel-calendario header .wrapper-mes);
+                position: relative;
+
+                img {
+                    &:extend(#calendario .box-painel-calendario header .wrapper-mes img);  
+                    will-change: transform;
+                    
+                    &.ano--animacao {
+                        transition: 0.35s;
+                    }
+                }
+                #ano {
+                    font-size: 1.4rem;
+                }
+
+                .wrapper-lista-anos {
+                    position: absolute;
+                    left: -1.6rem;
+                    bottom: 0; 
+                    width: calc(~"100%");
+                    overflow: hidden;
+                    pointer-events: none;
+                    transform: translateY(100%);
+                    z-index: 1;
+
+                    .box-lista-anos {
+                        width: inherit;
+                        height: 27rem;
+                        background: @branco-fundo;
+                        display: flex;
+                        flex-flow: column nowrap;
+                        justify-content: space-around;
+                        align-items: center;
+                        border-radius: 0 0 .75rem .75rem;
+                        transform: translateY(-103%);
+                        will-change: transform;
+
+                        span {
+                            font-size: 1.4rem;
+                            margin: -1rem;
+                            padding: 1rem;
+                            cursor: pointer;
+                        }
+                    }
+                    &--animacao {
+                        .box-lista-anos {
+                            transition: all 0.35s ease-in;
+                        }
+                    }
+                    &--visivel {
+                        pointer-events: auto;
+
+                        .box-lista-anos {
+                            transform: none;
+                        }
+                        &.wrapper-lista-anos--animacao{
+                            .box-lista-anos {
+                                transition: all 0.5s ease-out;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -509,13 +604,13 @@ main {
         }
         .box-calendario {
             height: 34rem;
-            margin: 3.2rem 0 1rem 0;
+            margin: 4rem 0 1rem 0;
 
             td {
-                height: 2.7rem;
+                height: 4.75rem;
             }
             header {
-                span {
+                .argola {
                     left: 5.7rem; 
                     
                     &:last-child {
@@ -526,8 +621,98 @@ main {
         }
         .box-painel-calendario {
             width: 34rem;
-            height: 28rem;
-            margin: 2.2rem 0 1rem 0;
+            height: 33rem;
+            margin: 1rem 0;
+
+            header {
+                .argola {
+                    display: none;
+                }
+                .wrapper-mes {
+                    img:first-child {
+                        margin-left: 1rem;
+                    }
+                }
+                .wrapper-ano {
+                    img {
+                        margin-right: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*--- Concluir Tarefa ---*/
+/* Desktop */
+#concluir-tarefa {
+    &>div {
+        min-width: 50rem; 
+        
+        .wrapper-section {
+            z-index: 0;
+            overflow: initial;
+        }
+    }
+    .box-concluir-tarefa {
+        position: relative;
+        width: 50rem;
+        height: 30rem;
+        margin: 1rem 0;
+        background: @cinza-escuro;
+        border: .125rem solid @branco-fundo;
+        border-radius: .75rem;
+
+        .box-bolinhas {
+            z-index: -1;
+            position: absolute;
+            top: 10%;   
+            width: 5rem;
+            height: 7rem;
+            transform: translateX(-3.5rem);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            span {
+                width: 1.25rem;
+                height: 1.25rem;
+                background: @branco-fundo;
+                border-radius: 100%;
+                align-self: flex-start;
+
+                &:first-child {
+                    width: .6rem;
+                    height: .6rem;
+                    margin: 0 1.5rem 1rem 0;
+                    align-self: center;
+                }
+                &:last-child {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    align-self: flex-end;
+                }
+            }
+        }
+    }
+}
+
+/* Mobile */
+@media @mobile {
+    #concluir-tarefa {
+        &>div {
+            min-width: @min-mobile-width;
+        }
+        .box-concluir-tarefa {
+            width: @min-mobile-width;
+            height: 50rem;
+            margin-top: 5.5rem;
+
+            .box-bolinhas {
+                top: 0;
+                width: 4rem;
+                transform: translateY(-5.5rem);
+            }
         }
     }
 }

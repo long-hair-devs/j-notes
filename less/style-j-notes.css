@@ -18,6 +18,10 @@ h1,
 h2 {
   margin: 1.5rem 1rem 1rem 1rem ;
   font-size: 2rem;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 h2 {
   font-size: 1.6rem;
@@ -54,6 +58,10 @@ h2 {
 .menu-fixo li,
 .div-menu-movel nav li {
   margin-bottom: 1.5rem;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 .menu-fixo li.final,
 .div-menu-movel nav li.final {
@@ -258,20 +266,19 @@ main section > div .wrapper-section {
   margin: 1rem 0;
 }
 #inicio .box-inicio .tira {
-  z-index: 10;
+  z-index: 2;
   position: absolute;
   left: 95%;
   width: .125rem;
   height: 50vh;
   background: #DDD;
-  border-radius: .125rem;
   transform: translate(-0.0625rem, calc(-50vh + .6rem));
 }
 #inicio .box-inicio .tira:first-child {
   left: 5%;
 }
 #inicio .box-inicio .bolinha {
-  z-index: 0;
+  z-index: 1;
   position: absolute;
   top: .3rem;
   left: 5%;
@@ -318,7 +325,7 @@ main section > div .wrapper-section {
 }
 #nova-tarefa .box-nova-tarefa .box-argolas {
   position: absolute;
-  top: -1.5rem;
+  top: -1.6rem;
   left: 0;
   width: 100%;
   height: 3rem;
@@ -326,10 +333,11 @@ main section > div .wrapper-section {
   justify-content: center;
 }
 #nova-tarefa .box-nova-tarefa .box-argolas span {
-  width: 1rem;
+  width: .5rem;
   height: inherit;
   background: #DDD;
   margin: 0 .75rem;
+  border: 0.25rem solid #222;
   border-radius: .125rem;
 }
 /* Mobile */
@@ -349,20 +357,24 @@ main section > div .wrapper-section {
   table-layout: fixed;
   border-spacing: 0;
   margin: 3.2rem .5rem 1rem 0;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 #calendario .box-calendario td {
   position: relative;
   width: 2rem;
-  height: 2.1rem;
+  height: 3.166rem;
 }
 #calendario .box-calendario thead td {
   background: #DDD;
   font-size: 1.4rem;
   text-align: center;
 }
-#calendario .box-calendario thead td span,
-#calendario .box-painel-calendario header span {
-  z-index: 10;
+#calendario .box-calendario thead td .argola,
+#calendario .box-painel-calendario header .argola {
+  z-index: 1;
   position: absolute;
   width: 2rem;
   height: 3rem;
@@ -377,7 +389,7 @@ main section > div .wrapper-section {
 #calendario .box-calendario thead td:last-child {
   border-radius: 0 .75rem 0 0;
 }
-#calendario .box-calendario thead td:last-child span {
+#calendario .box-calendario thead td:last-child .argola {
   transform: translate(-205%, -4.7rem);
 }
 #calendario .box-calendario tbody {
@@ -413,14 +425,90 @@ main section > div .wrapper-section {
 }
 #calendario .box-painel-calendario header {
   position: relative;
+  display: flex;
+  justify-content: space-between;
 }
-#calendario .box-painel-calendario header span {
+#calendario .box-painel-calendario header .argola {
   top: 0;
-  left: 15%;
+  left: 18%;
   transform: translate(-50%, -2.85rem);
 }
-#calendario .box-painel-calendario header span:last-child {
-  left: 85%;
+#calendario .box-painel-calendario header .argola:last-of-type {
+  left: 82%;
+}
+#calendario .box-painel-calendario header .wrapper-mes,
+#calendario .box-painel-calendario header .wrapper-ano {
+  height: inherit;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+#calendario .box-painel-calendario header .wrapper-mes img,
+#calendario .box-painel-calendario header .wrapper-ano img {
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 1rem;
+  cursor: pointer;
+}
+#calendario .box-painel-calendario header .wrapper-mes #mes {
+  width: 6.4rem;
+  font-size: 1.4rem;
+  text-align: center;
+}
+#calendario .box-painel-calendario header .wrapper-ano {
+  position: relative;
+}
+#calendario .box-painel-calendario header .wrapper-ano img {
+  will-change: transform;
+}
+#calendario .box-painel-calendario header .wrapper-ano img.ano--animacao {
+  transition: 0.35s;
+}
+#calendario .box-painel-calendario header .wrapper-ano #ano {
+  font-size: 1.4rem;
+}
+#calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos {
+  position: absolute;
+  left: -1.6rem;
+  bottom: 0;
+  width: calc(100%);
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateY(100%);
+  z-index: 1;
+}
+#calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos .box-lista-anos {
+  width: inherit;
+  height: 27rem;
+  background: #DDD;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 0 0 .75rem .75rem;
+  transform: translateY(-103%);
+  will-change: transform;
+}
+#calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos .box-lista-anos span {
+  font-size: 1.4rem;
+  margin: -1rem;
+  padding: 1rem;
+  cursor: pointer;
+}
+#calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos--animacao .box-lista-anos {
+  transition: all 0.35s ease-in;
+}
+#calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos--visivel {
+  pointer-events: auto;
+}
+#calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos--visivel .box-lista-anos {
+  transform: none;
+}
+#calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos--visivel.wrapper-lista-anos--animacao .box-lista-anos {
+  transition: all 0.5s ease-out;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
@@ -429,20 +517,92 @@ main section > div .wrapper-section {
   }
   #calendario .box-calendario {
     height: 34rem;
-    margin: 3.2rem 0 1rem 0;
+    margin: 4rem 0 1rem 0;
   }
   #calendario .box-calendario td {
-    height: 2.7rem;
+    height: 4.75rem;
   }
-  #calendario .box-calendario header span {
+  #calendario .box-calendario header .argola {
     left: 5.7rem;
   }
-  #calendario .box-calendario header span:last-child {
+  #calendario .box-calendario header .argola:last-child {
     left: calc(100% - 5.7rem);
   }
   #calendario .box-painel-calendario {
     width: 34rem;
-    height: 28rem;
-    margin: 2.2rem 0 1rem 0;
+    height: 33rem;
+    margin: 1rem 0;
+  }
+  #calendario .box-painel-calendario header .argola {
+    display: none;
+  }
+  #calendario .box-painel-calendario header .wrapper-mes img:first-child {
+    margin-left: 1rem;
+  }
+  #calendario .box-painel-calendario header .wrapper-ano img {
+    margin-right: 1rem;
+  }
+}
+/*--- Concluir Tarefa ---*/
+/* Desktop */
+#concluir-tarefa > div {
+  min-width: 50rem;
+}
+#concluir-tarefa > div .wrapper-section {
+  z-index: 0;
+  overflow: initial;
+}
+#concluir-tarefa .box-concluir-tarefa {
+  position: relative;
+  width: 50rem;
+  height: 30rem;
+  margin: 1rem 0;
+  background: #222;
+  border: 0.125rem solid #DDD;
+  border-radius: .75rem;
+}
+#concluir-tarefa .box-concluir-tarefa .box-bolinhas {
+  z-index: -1;
+  position: absolute;
+  top: 10%;
+  width: 5rem;
+  height: 7rem;
+  transform: translateX(-3.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+#concluir-tarefa .box-concluir-tarefa .box-bolinhas span {
+  width: 1.25rem;
+  height: 1.25rem;
+  background: #DDD;
+  border-radius: 100%;
+  align-self: flex-start;
+}
+#concluir-tarefa .box-concluir-tarefa .box-bolinhas span:first-child {
+  width: .6rem;
+  height: .6rem;
+  margin: 0 1.5rem 1rem 0;
+  align-self: center;
+}
+#concluir-tarefa .box-concluir-tarefa .box-bolinhas span:last-child {
+  width: 2.5rem;
+  height: 2.5rem;
+  align-self: flex-end;
+}
+/* Mobile */
+@media only screen and (max-width: 720px) {
+  #concluir-tarefa > div {
+    min-width: 38rem;
+  }
+  #concluir-tarefa .box-concluir-tarefa {
+    width: 38rem;
+    height: 50rem;
+    margin-top: 5.5rem;
+  }
+  #concluir-tarefa .box-concluir-tarefa .box-bolinhas {
+    top: 0;
+    width: 4rem;
+    transform: translateY(-5.5rem);
   }
 }

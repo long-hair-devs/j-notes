@@ -114,8 +114,14 @@
                     <form class="box-nova-tarefa">
                         <div class="box-argolas">
                             <script>
-                                for (let i = 0; i < 16; i++) {
-                                    $(".box-argolas").append('<span></span>');
+                                if ($(window).width() <= 720) {
+                                    for (let i = 0; i < 15; i++) {
+                                        $(".box-argolas").append('<span></span>');
+                                    }
+                                } else {
+                                    for (let i = 0; i < 16; i++) {
+                                        $(".box-argolas").append('<span></span>');
+                                    }
                                 }
                             </script>
                         </div>
@@ -131,13 +137,13 @@
                 <div class="wrapper-section">
                     <table class="box-calendario">
                         <thead>
-                            <td>Dom<span></span></td>
+                            <td>Dom<span class="argola"></span></td>
                             <td>Seg</td>
                             <td>Ter</td>
                             <td>Qua</td>
                             <td>Qui</td>
                             <td>Sex</td>
-                            <td>Sab<span></span></td>
+                            <td>Sab<span class="argola"></span></td>
                         </thead>
                         <tbody id="corpo-calendario">
                             <!-- Código gerado no Java Script -->
@@ -145,8 +151,26 @@
                     </table>
                     <div class="box-painel-calendario">
                         <header>
-                            <span></span>
-                            <span></span>
+                            <span class="argola"></span>
+                            <span class="argola"></span>
+                            <div class="wrapper-mes">
+                                <img id="volta-mes" src="../img/svg/previous.svg">
+                                <span id="mes"></span>
+                                <img id="avanca-mes" src="../img/svg/next.svg">
+                            </div>
+                            <div class="wrapper-ano">
+                                <span id="ano"></span>
+                                <img id="mostra-lista-ano" src="../img/svg/down.svg">
+                                <div class="wrapper-lista-anos">
+                                    <div class="box-lista-anos">
+                                        <script>
+                                            for (let i = anoAtual - 5; i < anoAtual + 5; i++) {
+                                                $(".box-lista-anos").append('<span>' + i + '</span>');
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
                         </header>
                         <div>
 
@@ -161,7 +185,13 @@
                     <h1>Concluir Tarefa</h1>
                 </header>
                 <div class="wrapper-section">
-
+                    <div class="box-concluir-tarefa">
+                        <div class="box-bolinhas">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
