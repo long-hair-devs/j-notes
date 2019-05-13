@@ -1,14 +1,21 @@
+/* CSS Gerado Automáticamente com compilador LESS */
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 /* Básico - Desktop */
-body {
-  margin: 0;
+* {
+  box-sizing: border-box;
   padding: 0;
+  margin: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  width: 100%;
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
   line-height: 1;
   display: flex;
   flex-flow: row nowrap;
-  overflow: auto;
 }
 a {
   cursor: pointer;
@@ -16,40 +23,35 @@ a {
 }
 h1,
 h2 {
-  margin: 1.5rem 1rem 1rem 1rem ;
+  margin: 1.5rem 1rem 1rem 1rem;
   font-size: 2rem;
-  user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
 }
 h2 {
   font-size: 1.6rem;
   font-weight: normal;
 }
 /* Básico - Mobile */
-@media only screen and (max-width: 720px) {
-  body {
-    flex-flow: column nowrap;
-  }
-}
 /* Menu Fixo - Desktop */
 .menu-fixo {
   position: fixed;
   top: 0;
   left: 0;
   width: 3.7rem;
-  height: calc(100% - 3rem);
-  padding: 1.5rem 0 1.5rem 0;
+  height: 100%;
+  padding: 1.5rem 0;
   background: #111;
   color: #FFF;
   z-index: 20;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 .menu-fixo ul,
 .div-menu-movel nav ul {
+  width: 1.8rem;
   height: 100%;
-  margin: 0 0 0 0.95rem;
-  padding: 0;
+  margin: 0 auto;
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -58,10 +60,6 @@ h2 {
 .menu-fixo li,
 .div-menu-movel nav li {
   margin-bottom: 1.5rem;
-  user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
 }
 .menu-fixo li.final,
 .div-menu-movel nav li.final {
@@ -70,9 +68,6 @@ h2 {
 .menu-fixo li.final:last-child,
 .div-menu-movel nav li.final:last-child {
   margin: 1.5rem 0 0 0;
-}
-.menu-fixo li.active img {
-  filter: invert(82%) sepia(21%) saturate(5895%) hue-rotate(177deg) brightness(92%) contrast(81%);
 }
 .menu-fixo li a,
 .div-menu-movel nav li a {
@@ -83,6 +78,9 @@ h2 {
   flex-wrap: nowrap;
   align-items: center;
   color: #FFF;
+}
+.menu-fixo li a.active img {
+  filter: invert(82%) sepia(21%) saturate(5895%) hue-rotate(177deg) brightness(92%) contrast(81%);
 }
 .menu-fixo img {
   width: 1.8rem;
@@ -95,12 +93,13 @@ h2 {
 /* Menu Fixo - Mobile */
 @media only screen and (max-width: 720px) {
   .menu-fixo {
-    width: calc(100% - 3rem);
+    width: 100%;
     height: 5.5rem;
-    padding: 0 1.5rem 0 1.5rem;
+    padding: 0 1.5rem;
   }
   .menu-fixo ul,
   .div-menu-movel nav ul {
+    width: 100%;
     margin: 0;
     flex-direction: row;
     align-items: center;
@@ -145,19 +144,24 @@ h2 {
 }
 .div-menu-movel nav {
   width: 18rem;
-  height: calc(100% - 3rem);
+  height: 100%;
   padding: 1.5rem 0 1.5rem 0;
   background: #111;
   transform: translateX(-20rem);
   will-change: transform;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 .div-menu-movel nav ul {
-  margin: 0;
+  width: 100%;
 }
 .div-menu-movel nav li a {
   height: 1.8rem;
+  box-sizing: unset;
 }
-.div-menu-movel nav li.active a {
+.div-menu-movel nav li a.active {
   color: #6DA8D6;
 }
 .div-menu-movel nav span {
@@ -172,8 +176,7 @@ h2 {
   }
   .div-menu-movel nav {
     width: 20rem;
-    height: 100%;
-    padding: 0.3rem 0 0 0;
+    padding: 0;
     transform: translateX(-22rem);
   }
   .div-menu-movel nav ul {
@@ -212,6 +215,12 @@ main {
   flex: 1;
   z-index: 0;
 }
+main section {
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
 main section.claro {
   background: #333;
 }
@@ -229,10 +238,37 @@ main section > div {
 }
 main section > div > header {
   width: inherit;
-  border-bottom: 0.125rem solid #FFF;
+  border-bottom: 0.15rem solid #FFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 main section > div > header h1 {
   color: #FFF;
+}
+main section > div > header span {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  background: #6DA8D6;
+  border-radius: 0.75rem;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+main section > div > header span::after {
+  content: "";
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  bottom: -1rem;
+  left: -1rem;
 }
 main section > div .wrapper-section {
   flex: 1;
@@ -249,17 +285,16 @@ main section > div .wrapper-section {
     margin: 5.5rem 0 0 0;
   }
   main section > div {
-    min-height: calc(100vh - 5.5rem);
+    min-height: calc((var(--vh, 1vh) * 100) - 5.5rem);
   }
   main section > div header {
-    width: calc(100% - 2rem);
+    width: 36rem;
   }
 }
 /*--- PÁGINA INICIAL ---*/
 /* Desktop */
 #inicio .box-inicio,
-#nova-tarefa .box-nova-tarefa,
-#calendario .box-calendario {
+#nova-tarefa .box-nova-tarefa {
   position: relative;
   width: 38rem;
   height: 37rem;
@@ -269,7 +304,7 @@ main section > div .wrapper-section {
   z-index: 2;
   position: absolute;
   left: 95%;
-  width: .125rem;
+  width: 0.15rem;
   height: 50vh;
   background: #DDD;
   transform: translate(-0.0625rem, calc(-50vh + .6rem));
@@ -303,48 +338,155 @@ main section > div .wrapper-section {
 #inicio .box-inicio > div,
 #calendario .box-painel-calendario > div {
   height: calc(100% - 5rem);
-  box-shadow: inset 0 0 0 0.125rem #DDD;
+  box-shadow: inset 0 0 0 0.15rem #DDD;
   border-radius: 0 0 0.75rem 0.75rem;
+  overflow: hidden;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
   #inicio .box-inicio,
-  #nova-tarefa .box-nova-tarefa,
-  #calendario .box-calendario {
+  #nova-tarefa .box-nova-tarefa {
     height: 45rem;
   }
 }
 /*--- NOVA TAREFA ---*/
 /* Desktop */
 #nova-tarefa .box-nova-tarefa {
-  height: 50rem;
+  height: 48.6rem;
   margin: 3rem 0 1rem 0;
-  padding: 1rem;
-  border: 0.125rem solid #DDD;
+  padding: 3rem 1rem 1rem 1rem;
+  border: 0.15rem solid #DDD;
   border-radius: 0.75rem;
+  display: grid;
+  grid-auto-rows: min-content;
+  grid-template-columns: 1fr 1.75rem 1fr;
+  grid-template-areas: "tel1 . endereco" "nome . endereco" "tel2 . data" "radio radio radio" "problema problema problema" "info info info" "botao botao botao";
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 #nova-tarefa .box-nova-tarefa .box-argolas {
   position: absolute;
   top: -1.6rem;
   left: 0;
   width: 100%;
-  height: 3rem;
+  height: 3.5rem;
   display: flex;
   justify-content: center;
 }
 #nova-tarefa .box-nova-tarefa .box-argolas span {
   width: .5rem;
-  height: inherit;
-  background: #DDD;
+  height: 3rem;
+  box-sizing: unset;
   margin: 0 .75rem;
+  background: #DDD;
   border: 0.25rem solid #222;
-  border-radius: .125rem;
+  border-radius: 0.75rem;
 }
-/* Mobile */
-@media only screen and (max-width: 720px) {
-  #nova-tarefa .box-nova-tarefa {
-    width: calc(38rem - 2rem);
-  }
+#nova-tarefa .box-nova-tarefa label {
+  display: flex;
+  flex-direction: column;
+}
+#nova-tarefa .box-nova-tarefa label > span {
+  font-size: 1.2rem;
+  color: #FFF;
+  margin: 1rem 0 0.5rem 0;
+}
+#nova-tarefa .box-nova-tarefa label > span.required::after {
+  content: ' *';
+  color: #6DA8D6;
+}
+#nova-tarefa .box-nova-tarefa label input[type="text"],
+#nova-tarefa .box-nova-tarefa label textarea,
+#nova-tarefa .box-nova-tarefa #wrapper-botao .botao {
+  width: 17rem;
+  height: 2.5rem;
+  padding-left: 0.25rem;
+  border: none;
+  border-radius: .25rem;
+  outline: 0;
+  font-family: inherit;
+  font-size: 1.2rem;
+}
+#nova-tarefa .box-nova-tarefa label textarea {
+  width: 100%;
+  height: 100%;
+  padding-top: 0.25rem;
+  resize: none;
+}
+#nova-tarefa .box-nova-tarefa label textarea.textarea--grande {
+  height: 8rem;
+}
+#nova-tarefa .box-nova-tarefa label.box-radio {
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+#nova-tarefa .box-nova-tarefa label.box-radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+#nova-tarefa .box-nova-tarefa label.box-radio .radio-novo {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  border-radius: 100%;
+  background: #DDD;
+}
+#nova-tarefa .box-nova-tarefa label.box-radio .radio-texto {
+  margin: 0 0.5rem;
+}
+#nova-tarefa .box-nova-tarefa label.box-radio input[type="radio"]:checked ~ .radio-novo {
+  background: #6DA8D6;
+}
+#nova-tarefa .box-nova-tarefa label#l-nome {
+  grid-area: nome;
+}
+#nova-tarefa .box-nova-tarefa label#l-tel1 {
+  grid-area: tel1;
+}
+#nova-tarefa .box-nova-tarefa label#l-tel2 {
+  grid-area: tel2;
+}
+#nova-tarefa .box-nova-tarefa label#l-endereco {
+  grid-area: endereco;
+}
+#nova-tarefa .box-nova-tarefa label#l-data {
+  grid-area: data;
+}
+#nova-tarefa .box-nova-tarefa label#l-problema {
+  grid-area: problema;
+}
+#nova-tarefa .box-nova-tarefa label#l-info-adicional {
+  grid-area: info;
+}
+#nova-tarefa .box-nova-tarefa #wrapper-botao {
+  grid-area: botao;
+  margin-top: 1.4rem;
+  display: flex;
+  justify-content: space-evenly;
+}
+#nova-tarefa .box-nova-tarefa #wrapper-botao .botao {
+  width: 10rem;
+  height: 3.5rem;
+  padding: 0;
+  background: #6DA8D6;
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+#nova-tarefa .box-nova-tarefa #wrapper-botao .botao:first-child {
+  display: none;
+  color: #6DA8D6;
+  border: 0.15rem solid #6DA8D6;
+  background: #222;
+}
+#nova-tarefa .box-nova-tarefa #wrapper-radio {
+  grid-area: radio;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-evenly;
 }
 /*--- Calendário ---*/
 /* Desktop */
@@ -365,7 +507,7 @@ main section > div .wrapper-section {
 #calendario .box-calendario td {
   position: relative;
   width: 2rem;
-  height: 3.166rem;
+  height: 5rem;
 }
 #calendario .box-calendario thead td {
   background: #DDD;
@@ -378,22 +520,23 @@ main section > div .wrapper-section {
   position: absolute;
   width: 2rem;
   height: 3rem;
-  border: 0.5rem solid #333;
+  box-sizing: unset;
   background: #DDD;
+  border: 0.5rem solid #333;
   border-radius: 0.75rem;
   transform: translate(0, -4.7rem);
 }
 #calendario .box-calendario thead td:first-child {
-  border-radius: .75rem 0 0 0;
+  border-radius: 0.75rem 0 0 0;
 }
 #calendario .box-calendario thead td:last-child {
-  border-radius: 0 .75rem 0 0;
+  border-radius: 0 0.75rem 0 0;
 }
 #calendario .box-calendario thead td:last-child .argola {
   transform: translate(-205%, -4.7rem);
 }
 #calendario .box-calendario tbody {
-  box-shadow: inset 0 0 0 0.125rem #DDD;
+  box-shadow: inset 0 0 0 0.15rem #DDD;
   border-radius: 0 0 0.75rem 0.75rem;
 }
 #calendario .box-calendario tbody .box-dia {
@@ -407,6 +550,14 @@ main section > div .wrapper-section {
   justify-content: center;
   cursor: pointer;
   color: #FFF;
+}
+#calendario .box-calendario tbody .box-dia::after {
+  content: "";
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  bottom: -0.5rem;
+  left: -0.5rem;
 }
 #calendario .box-calendario tbody .dia-normal {
   background: #444;
@@ -422,6 +573,10 @@ main section > div .wrapper-section {
   width: 25rem;
   height: 37rem;
   margin: 3.2rem 0 1rem .5rem;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 #calendario .box-painel-calendario header {
   position: relative;
@@ -441,20 +596,17 @@ main section > div .wrapper-section {
   height: inherit;
   display: flex;
   align-items: center;
-  user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
 }
 #calendario .box-painel-calendario header .wrapper-mes img,
 #calendario .box-painel-calendario header .wrapper-ano img {
   width: 1.4rem;
   height: 1.4rem;
+  box-sizing: unset;
   padding: 1rem;
   cursor: pointer;
 }
 #calendario .box-painel-calendario header .wrapper-mes #mes {
-  width: 6.4rem;
+  width: 7.4rem;
   font-size: 1.4rem;
   text-align: center;
 }
@@ -474,7 +626,7 @@ main section > div .wrapper-section {
   position: absolute;
   left: -1.6rem;
   bottom: 0;
-  width: calc(100%);
+  width: 100%;
   overflow: hidden;
   pointer-events: none;
   transform: translateY(100%);
@@ -482,13 +634,13 @@ main section > div .wrapper-section {
 }
 #calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos .box-lista-anos {
   width: inherit;
-  height: 27rem;
+  height: 24rem;
   background: #DDD;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-around;
   align-items: center;
-  border-radius: 0 0 .75rem .75rem;
+  border-radius: 0 0 0.75rem 0.75rem;
   transform: translateY(-103%);
   will-change: transform;
 }
@@ -510,17 +662,78 @@ main section > div .wrapper-section {
 #calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos--visivel.wrapper-lista-anos--animacao .box-lista-anos {
   transition: all 0.5s ease-out;
 }
+#calendario .box-painel-calendario > div .box-painel-eventos {
+  height: calc(100% - 0.3rem);
+  margin: 0.15rem;
+  padding: 1rem;
+  overflow: auto;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item {
+  flex-shrink: 0;
+  width: 100%;
+  height: 5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #444;
+  display: flex;
+  flex-flow: column nowrap;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  will-change: height;
+  overflow: hidden;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item span {
+  height: 1rem;
+  margin-bottom: 1rem;
+  color: #FFF;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item span:first-child {
+  height: 0;
+  margin: 0;
+  display: none;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div {
+  align-self: center;
+  width: 100%;
+  height: 1.8rem;
+  box-sizing: initial;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  background: #222;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  cursor: default;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud {
+  margin: -1rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud img {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud span {
+  margin: 0 0 0 0.5rem;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item--animacao {
+  transition: height 0.25s;
+}
 /* Mobile */
 @media only screen and (max-width: 720px) {
   #calendario > div {
     min-width: 38rem;
   }
+  #calendario > div .wrapper-section {
+    flex-direction: column;
+  }
   #calendario .box-calendario {
     height: 34rem;
     margin: 4rem 0 1rem 0;
-  }
-  #calendario .box-calendario td {
-    height: 4.75rem;
   }
   #calendario .box-calendario header .argola {
     left: 5.7rem;
@@ -530,8 +743,8 @@ main section > div .wrapper-section {
   }
   #calendario .box-painel-calendario {
     width: 34rem;
-    height: 33rem;
-    margin: 1rem 0;
+    height: 30rem;
+    margin: 1rem 0 2rem 0;
   }
   #calendario .box-painel-calendario header .argola {
     display: none;
@@ -546,20 +759,19 @@ main section > div .wrapper-section {
 /*--- Concluir Tarefa ---*/
 /* Desktop */
 #concluir-tarefa > div {
-  min-width: 50rem;
+  min-width: 60rem;
 }
 #concluir-tarefa > div .wrapper-section {
   z-index: 0;
-  overflow: initial;
 }
 #concluir-tarefa .box-concluir-tarefa {
   position: relative;
   width: 50rem;
   height: 30rem;
-  margin: 1rem 0;
+  margin: 1rem 3.5rem;
   background: #222;
-  border: 0.125rem solid #DDD;
-  border-radius: .75rem;
+  border: 0.15rem solid #DDD;
+  border-radius: 0.75rem;
 }
 #concluir-tarefa .box-concluir-tarefa .box-bolinhas {
   z-index: -1;
@@ -598,11 +810,53 @@ main section > div .wrapper-section {
   #concluir-tarefa .box-concluir-tarefa {
     width: 38rem;
     height: 50rem;
-    margin-top: 5.5rem;
+    margin: 6rem 0 1rem 0;
   }
   #concluir-tarefa .box-concluir-tarefa .box-bolinhas {
     top: 0;
     width: 4rem;
     transform: translateY(-5.5rem);
+  }
+}
+/*--- Ajuda ---*/
+/* Desktop */
+.overlay-ajuda {
+  display: none;
+  z-index: 30;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  padding-left: 3.7rem;
+  background: rgba(0, 0, 0, 0.8);
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+.overlay-ajuda div {
+  width: 36rem;
+  padding: 1rem;
+  background: #6DA8D6;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.overlay-ajuda div span {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
+/* Mobile */
+@media only screen and (max-width: 720px) {
+  .overlay-ajuda {
+    padding: 0;
+  }
+  .overlay-ajuda div span {
+    font-size: 1.5rem;
   }
 }
