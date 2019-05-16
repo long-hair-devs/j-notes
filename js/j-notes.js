@@ -20,6 +20,7 @@ ajudaConcluir += "<span>Os itens com o indicador * são de preenchimento obrigat
 /*--- Nova Tarefa ---*/
 let mascara = ['(00) 00000-0000', '(00) 0000-00009'];
 
+let fezAutoComplete = false;
 /*--- Calendário ---*/
 let hoje = new Date();
 let mesAtual = hoje.getMonth();
@@ -108,7 +109,22 @@ $(function () {
 
     $("#botao-concluir").click(function () {
         if (validaDadosNovaTarefa()) {
+            let tel1 = $("#tel1").val();
+            let nome = $("#nome").val();
+            let endereco = $("#endereco").val();
+            let tel2 = $("#tel2").val();
+            let data = $("#data").val();
+            let periodo = $("input[name=periodo]:checked").val();
+            let problema = $("#problema").val();
+            let infoAdicional = $("#info").val();
 
+            if (fezAutoComplete) {
+                aplicaUpdateNoCliente(tel1, nome, endereco, tel2);
+                fezAutoComplete = false;
+            } else {
+                cadastraNovoCliente(tel1, nome, endereco, tel2);
+            }
+            cadastraNovatarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional);
         }
     });
 
@@ -241,8 +257,11 @@ function transformaPxEmRem(valorEmPx) {
 function validaDadosNovaTarefa() {
     let tel1 = $("#tel1");
     let nome = $("#nome");
+    let tel2 = $("#tel2");
     let endereco = $("#endereco");
     let data = $("#data");
+    let problema = $("#problema");
+    let info = $("#info");
 
     // Se não satisfazer a condição, mostra erro e cancela a execução do método
     if (!(tel1.val().length >= 14 && tel1.val().length <= 15)) {
@@ -258,6 +277,12 @@ function validaDadosNovaTarefa() {
     }
     nome.parent().removeClass();
 
+    if (!(tel2.val().length >= 14 && tel2.val().length <= 15)) {
+        tel2.parent().addClass("label--erro");
+        return false;
+    }
+    tel2.parent().removeClass();
+
     if (!(endereco.val().length > 0 && endereco.val().length <= 245)) {
         endereco.parent().addClass("label--erro");
         return false;
@@ -270,15 +295,27 @@ function validaDadosNovaTarefa() {
     }
     data.parent().removeClass();
 
+
     let data_array = data.val().split("/");
     let data_date = new Date(data_array[2], data_array[1] - 1, data_array[0]);
-    if (!(data_date.getDate() >= hoje.getDate() &&
-            data_date.getMonth() >= hoje.getMonth() &&
-            data_date.getFullYear() >= hoje.getFullYear())) {
+
+    if (!(data_date >= hoje)) {
         data.parent().addClass("label--erro");
         return false;
     }
     data.parent().removeClass();
+
+    if (!(problema.val().length <= 245)) {
+        problema.parent().addClass("label--erro");
+        return false;
+    }
+    problema.parent().removeClass();
+
+    if (!(info.val().length <= 245)) {
+        info.parent().addClass("label--erro");
+        return false;
+    }
+    info.parent().removeClass();
 
     return true;
 }
@@ -299,10 +336,60 @@ function aplicaDadosTelExistente() {
                     $("#nome").val(dados_array[0]);
                     $("#endereco").val(dados_array[1]);
                     $("#tel2").val(dados_array[2]);
+                    fezAutoComplete = true;
                 }
             }
         });
     }
+}
+
+function aplicaUpdateNoCliente(tel1, nome, endereco, tel2) {
+    $.ajax({
+        url: 'j-notes.php',
+        type: 'post',
+        data: {
+            'aplica-update-no-cliente': 1,
+            'tel1': tel1,
+            'nome': nome,
+            'endereco': endereco,
+            'tel2': tel2,
+        }
+    });
+}
+
+function cadastraNovoCliente(tel1, nome, endereco, tel2) {
+    $.ajax({
+        url: 'j-notes.php',
+        type: 'post',
+        data: {
+            'cadastra-novo-cliente': 1,
+            'tel1': tel1,
+            'nome': nome,
+            'endereco': endereco,
+            'tel2': tel2,
+        }
+    });
+}
+
+function cadastraNovatarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional) {
+    $.ajax({
+        url: 'j-notes.php',
+        type: 'post',
+        data: {
+            'cadastra-nova-tarefa': 1,
+            'tel1': tel1,
+            'nome': nome,
+            'endereco': endereco,
+            'tel2': tel2,
+            'data': data,
+            'periodo': periodo,
+            'problema': problema,
+            'infoAdicional': infoAdicional,
+        },
+        success: function () {
+            $("#box-nova-tarefa").trigger("reset");
+        }
+    });
 }
 
 /*--- Calendário ---*/

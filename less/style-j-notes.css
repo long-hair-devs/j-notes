@@ -442,7 +442,8 @@ main section > div .wrapper-section {
 #nova-tarefa .box-nova-tarefa label.box-radio input[type="radio"]:checked ~ .radio-novo {
   background: #6DA8D6;
 }
-#nova-tarefa .box-nova-tarefa label.label--erro input {
+#nova-tarefa .box-nova-tarefa label.label--erro input,
+#nova-tarefa .box-nova-tarefa label.label--erro textarea {
   border: 0.15rem solid red;
 }
 #nova-tarefa .box-nova-tarefa label#l-nome {

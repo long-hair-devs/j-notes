@@ -118,7 +118,7 @@
                     <span class="ajuda nova-tarefa">?</span>
                 </header>
                 <div class="wrapper-section">
-                    <form class="box-nova-tarefa">
+                    <form id="box-nova-tarefa" class="box-nova-tarefa">
                         <div class="box-argolas">
                             <script>
                                 for (let i = 0; i < 15; i++) {
@@ -152,17 +152,17 @@
                         </label>
                         <div id="wrapper-radio" class="wrapper-radio">
                             <label id="l-radio1" class="box-radio">
-                                <input name="periodo" type="radio" checked>
+                                <input name="periodo" type="radio" value="M" checked>
                                 <span class="radio-novo"></span>
                                 <span class="radio-texto">Manhã</span>
                             </label>
                             <label id="l-radio2" class="box-radio">
-                                <input name="periodo" type="radio">
+                                <input name="periodo" type="radio" value="T">
                                 <span class="radio-novo"></span>
                                 <span class="radio-texto">Tarde</span>
                             </label>
                             <label id="l-radio3" class="box-radio">
-                                <input name="periodo" type="radio">
+                                <input name="periodo" type="radio" value="N">
                                 <span class="radio-novo"></span>
                                 <span class="radio-texto">Noite</span>
                             </label>
