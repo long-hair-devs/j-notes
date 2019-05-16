@@ -550,6 +550,12 @@ main {
                 }
             }
 
+            &.label--erro {
+                input {
+                    border: @linha-borda solid red;
+                }
+            }
+
             &#l-nome {
                 grid-area: nome;
             }
@@ -840,8 +846,12 @@ main {
                     overflow: hidden;
                     cursor: pointer;
 
-                    &:last-child {
-                        margin: 0;
+                    @media screen and (-webkit-min-device-pixel-ratio:0) {
+
+                        //Só para o chrome
+                        &:last-child {
+                            margin: 0;
+                        }
                     }
 
                     span {

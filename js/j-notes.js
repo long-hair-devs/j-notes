@@ -94,12 +94,23 @@ $(function () {
     /* Mascara para o telefone, usando o modelo brasileiro para celulares e telefones fixos */
     $(".telefone").mask(mascara[1], { //retirado da internet
         onKeyPress: function (val, e, field, options) {
-            field.mask(val.length > 14 ? masks[0] : masks[1], options);
+            field.mask(val.length > 14 ? mascara[0] : mascara[1], options);
         }
     });
 
     /* Mascara para data */
     $(".data").mask("00/00/0000");
+
+    /* Função quando clica no botão concluir */
+    $("#tel1").keyup($.debounce(250, function () {
+        aplicaDadosTelExistente();
+    }));
+
+    $("#botao-concluir").click(function () {
+        if (validaDadosNovaTarefa()) {
+
+        }
+    });
 
     /*--- Calendário ---*/
 
@@ -226,6 +237,74 @@ function transformaPxEmRem(valorEmPx) {
     return valorEmPx / parseInt($("html").css('font-size'));
 }
 
+/*--- Nova Tarefa ---*/
+function validaDadosNovaTarefa() {
+    let tel1 = $("#tel1");
+    let nome = $("#nome");
+    let endereco = $("#endereco");
+    let data = $("#data");
+
+    // Se não satisfazer a condição, mostra erro e cancela a execução do método
+    if (!(tel1.val().length >= 14 && tel1.val().length <= 15)) {
+        tel1.parent().addClass("label--erro");
+        return false;
+    }
+    // Se satisfez a condição, remove o erro caso esteja ativo e continua para o proximo item
+    tel1.parent().removeClass();
+
+    if (!(nome.val().length > 0 && nome.val().length <= 50)) {
+        nome.parent().addClass("label--erro");
+        return false;
+    }
+    nome.parent().removeClass();
+
+    if (!(endereco.val().length > 0 && endereco.val().length <= 245)) {
+        endereco.parent().addClass("label--erro");
+        return false;
+    }
+    endereco.parent().removeClass();
+
+    if (!(data.val().length == 10)) {
+        data.parent().addClass("label--erro");
+        return false;
+    }
+    data.parent().removeClass();
+
+    let data_array = data.val().split("/");
+    let data_date = new Date(data_array[2], data_array[1] - 1, data_array[0]);
+    if (!(data_date.getDate() >= hoje.getDate() &&
+            data_date.getMonth() >= hoje.getMonth() &&
+            data_date.getFullYear() >= hoje.getFullYear())) {
+        data.parent().addClass("label--erro");
+        return false;
+    }
+    data.parent().removeClass();
+
+    return true;
+}
+
+function aplicaDadosTelExistente() {
+    let tel1 = $("#tel1");
+    if (tel1.val().length >= 14 && tel1.val().length <= 15) {
+        $.ajax({
+            url: 'j-notes.php',
+            type: 'post',
+            data: {
+                'verifica_tel_no_banco': 1,
+                'tel1': tel1.val(),
+            },
+            success: function (dados) {
+                if (dados != "") {
+                    let dados_array = JSON.parse(dados);
+                    $("#nome").val(dados_array[0]);
+                    $("#endereco").val(dados_array[1]);
+                    $("#tel2").val(dados_array[2]);
+                }
+            }
+        });
+    }
+}
+
 /*--- Calendário ---*/
 function mostrarCalendario(mes, ano) {
     let primeiroDia = new Date(ano, mes).getDay();
@@ -318,6 +397,7 @@ function descobreTamanho(item) {
     return tamanho + transformaRemEmPx(1);
 }
 
+/*--- Concluir Tarefa ---*/
 function abreFechaItemConcluir(item) {
     $(".box-concluir-tarefa-item").addClass("box-concluir-tarefa-item--animacao");
     if (transformaPxEmRem($(item).innerHeight()) == 10) {

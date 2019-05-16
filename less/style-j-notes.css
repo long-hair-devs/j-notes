@@ -442,6 +442,9 @@ main section > div .wrapper-section {
 #nova-tarefa .box-nova-tarefa label.box-radio input[type="radio"]:checked ~ .radio-novo {
   background: #6DA8D6;
 }
+#nova-tarefa .box-nova-tarefa label.label--erro input {
+  border: 0.15rem solid red;
+}
 #nova-tarefa .box-nova-tarefa label#l-nome {
   grid-area: nome;
 }
@@ -683,8 +686,10 @@ main section > div .wrapper-section {
   overflow: hidden;
   cursor: pointer;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item:last-child {
-  margin: 0;
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item:last-child {
+    margin: 0;
+  }
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item span {
   width: min-content;
