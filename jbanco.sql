@@ -1,4 +1,3 @@
-drop database jbanco;
 create database jbanco;
 use jbanco;
 
@@ -24,7 +23,6 @@ CREATE TABLE IF NOT EXISTS cliente (
 CREATE TABLE IF NOT EXISTS tarefas (
   id_tarefa int(11) NOT NULL AUTO_INCREMENT ,
   id_user int(11),
-  id_cliente int(11),
   
   dia date,
   periodo varchar(5),
@@ -34,7 +32,11 @@ CREATE TABLE IF NOT EXISTS tarefas (
   total_gasto varchar(10),
   observacoes_servico varchar(245),
   
+  nome varchar(50),
+  telefone1 varchar(15),
+  telefone2 varchar(15),
+  endereco varchar(245),
+  
   FOREIGN KEY (id_user) REFERENCES usuarios(id_user),
-  FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
   PRIMARY KEY (id_tarefa)
 );
