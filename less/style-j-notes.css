@@ -272,6 +272,7 @@ main section > div > header span::after {
 }
 main section > div .wrapper-section {
   flex: 1;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -668,8 +669,8 @@ main section > div .wrapper-section {
   padding: 1rem;
   overflow: auto;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item {
-  flex-shrink: 0;
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item {
   width: 100%;
   height: 5rem;
   padding: 1rem;
@@ -678,11 +679,15 @@ main section > div .wrapper-section {
   display: flex;
   flex-flow: column nowrap;
   border-radius: 0.75rem;
-  cursor: pointer;
   will-change: height;
   overflow: hidden;
+  cursor: pointer;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item:last-child {
+  margin: 0;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item span {
+  width: min-content;
   height: 1rem;
   margin-bottom: 1rem;
   color: #FFF;
@@ -762,60 +767,98 @@ main section > div .wrapper-section {
   min-width: 60rem;
 }
 #concluir-tarefa > div .wrapper-section {
-  z-index: 0;
-}
-#concluir-tarefa .box-concluir-tarefa {
   position: relative;
-  width: 50rem;
-  height: 30rem;
-  margin: 1rem 3.5rem;
-  background: #222;
-  border: 0.15rem solid #DDD;
-  border-radius: 0.75rem;
 }
-#concluir-tarefa .box-concluir-tarefa .box-bolinhas {
-  z-index: -1;
+#concluir-tarefa .box-bolinhas {
+  z-index: 0;
   position: absolute;
-  top: 10%;
+  top: 50%;
+  left: 50%;
   width: 5rem;
   height: 7rem;
-  transform: translateX(-3.5rem);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  transform: translate(-28.5rem, -12rem);
 }
-#concluir-tarefa .box-concluir-tarefa .box-bolinhas span {
+#concluir-tarefa .box-bolinhas span {
   width: 1.25rem;
   height: 1.25rem;
   background: #DDD;
   border-radius: 100%;
   align-self: flex-start;
 }
-#concluir-tarefa .box-concluir-tarefa .box-bolinhas span:first-child {
+#concluir-tarefa .box-bolinhas span:first-child {
   width: .6rem;
   height: .6rem;
   margin: 0 1.5rem 1rem 0;
   align-self: center;
 }
-#concluir-tarefa .box-concluir-tarefa .box-bolinhas span:last-child {
+#concluir-tarefa .box-bolinhas span:last-child {
   width: 2.5rem;
   height: 2.5rem;
   align-self: flex-end;
+}
+#concluir-tarefa .box-concluir-tarefa {
+  z-index: 1;
+  width: 50rem;
+  height: 30rem;
+  margin: 1rem 3.5rem;
+  background: #222;
+  border: 0.15rem solid #DDD;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+#concluir-tarefa .box-concluir-tarefa > div {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  overflow: auto;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item {
+  height: 10rem;
+  background: #333;
+  display: block;
+  will-change: height;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item--animacao {
+  transition: 0.25s;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item:last-child {
+  margin: 0;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info {
+  width: 100%;
+  height: 8rem;
+  display: flex;
+  flex-flow: column wrap;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info span {
+  height: 1.2rem;
+  margin: 0.4rem 0;
+  color: #FFF;
+  font-size: 1.2rem;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form {
+  width: 100%;
+  height: 9rem;
+  margin-top: 1rem;
+  border-top: 0.15rem solid #DDD;
+  padding-top: 1rem;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
   #concluir-tarefa > div {
     min-width: 38rem;
   }
+  #concluir-tarefa .box-bolinhas {
+    width: 4rem;
+    transform: translate(-18rem, -28rem);
+  }
   #concluir-tarefa .box-concluir-tarefa {
     width: 38rem;
     height: 50rem;
     margin: 6rem 0 1rem 0;
-  }
-  #concluir-tarefa .box-concluir-tarefa .box-bolinhas {
-    top: 0;
-    width: 4rem;
-    transform: translateY(-5.5rem);
   }
 }
 /*--- Ajuda ---*/

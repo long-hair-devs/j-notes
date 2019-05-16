@@ -129,7 +129,17 @@ $(function () {
 
     /* Listener para expandir o evento que for clicado */
     $("#box-painel-eventos").on("click", ".box-painel-eventos-item", function () {
-        abreFechaItemEvento(this);
+        abreFechaItemPainel(this);
+    });
+
+    /* Listener para evitar que o evento seja fechado ao clicar na barra de opções ou no texto*/
+    $("#box-painel-crud").click(function (e) {
+        e.stopPropagation();
+    });
+
+    /*--- Concluir Tarefa ---*/
+    $(".box-concluir-tarefa-item").click(function () {
+        abreFechaItemConcluir(this);
     });
 });
 
@@ -287,7 +297,7 @@ function mudaDiaSelecionado(o) {
     $(o).addClass("dia-evento");
 }
 
-function abreFechaItemEvento(item) {
+function abreFechaItemPainel(item) {
     $(".box-painel-eventos-item").addClass("box-painel-eventos-item--animacao");
     if (transformaPxEmRem($(item).innerHeight()) == 5) {
         $(".box-painel-eventos-item").css('height', '5rem');
@@ -306,4 +316,17 @@ function descobreTamanho(item) {
         tamanho += $(item).children().eq(i).outerHeight(true);
     }
     return tamanho + transformaRemEmPx(1);
+}
+
+function abreFechaItemConcluir(item) {
+    $(".box-concluir-tarefa-item").addClass("box-concluir-tarefa-item--animacao");
+    if (transformaPxEmRem($(item).innerHeight()) == 10) {
+        $(".box-concluir-tarefa-item").css('height', '10rem');
+        $(item).css('height', '20rem');
+    } else {
+        $(item).css('height', '10rem');
+    }
+    $(".box-concluir-tarefa-item").one("transitionend", function (e) {
+        $(".box-concluir-tarefa-item").removeClass("box-concluir-tarefa-item--animacao");
+    });
 }
