@@ -1,5 +1,6 @@
 <?php
     $db = mysqli_connect('localhost', 'root', '', 'jbanco');
+    $user_id = 1;
 
     if(isset($_POST['verifica_tel_no_banco'])) {
         $tel1 = $_POST['tel1'];
@@ -8,8 +9,7 @@
 
         if(mysqli_num_rows($results) > 0){
             $results = mysqli_fetch_array($results, MYSQLI_NUM);
-            $dados = [$results[0], $results[1], $results[2]];
-            echo json_encode($dados);
+            echo json_encode($results);
         } else {
             echo "";
         }
@@ -49,9 +49,26 @@
         $problema = $_POST['problema'];
         $infoAdicional = $_POST['infoAdicional'];
 
-        $sql = "INSERT INTO tarefas (telefone1, nome, endereco, telefone2, dia, periodo, problema, informacoes) 
-                    VALUES ('$tel1', '$nome', '$endereco', '$tel2', str_to_date('$data', '%d/%m/%Y %h:%i'), '$periodo', '$problema', '$infoAdicional')";
+        $sql = "INSERT INTO tarefas (telefone1, id_user, nome, endereco, telefone2, dia, periodo, problema, informacoes) 
+                    VALUES ('$tel1', '$user_id', '$nome', '$endereco', '$tel2', str_to_date('$data', '%d/%m/%Y'), '$periodo', '$problema', '$infoAdicional')";
         mysqli_query($db, $sql);
+        exit();
+    }
+
+    if(isset($_POST['pega-eventos-mes'])) {
+        $mes = $_POST['mes'] + 1;
+        $ano = $_POST['ano'];
+
+        $sql = "SELECT id_tarefa, dia, periodo, problema, informacoes, nome, telefone1, telefone2, endereco 
+                    FROM tarefas WHERE MONTH(dia) = '$mes' AND YEAR(dia) = '$ano'";
+        $results = mysqli_query($db, $sql);
+
+        if(mysqli_num_rows($results) > 0) {
+            $results = mysqli_fetch_all($results, MYSQLI_NUM);
+            echo json_encode($results);
+        } else {
+            echo "";
+        }
         exit();
     }
 ?>

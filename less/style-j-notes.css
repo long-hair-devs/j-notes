@@ -693,8 +693,6 @@ main section > div .wrapper-section {
   }
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item span {
-  width: min-content;
-  height: 1rem;
   margin-bottom: 1rem;
   color: #FFF;
 }

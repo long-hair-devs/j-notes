@@ -143,7 +143,7 @@
                         <label id="l-endereco">
                             <span class="required">Endereço:</span>
                             <textarea name="endereco" id="endereco"
-                                placeholder="Ex: Rua José , 58, Jd. das Rosas, Americana"></textarea>
+                                placeholder="Ex: Rua Maio, 58, Jd. das Rosas, Americana"></textarea>
                         </label>
                         <label id="l-data">
                             <span class="required">Data:</span>
@@ -238,42 +238,7 @@
                         </header>
                         <div>
                             <div id="box-painel-eventos" class="box-painel-eventos">
-                                <div class="box-painel-eventos-item">
-                                    <span>Laa</span>
-                                    <span>Laa</span>
-                                    <span>Laa</span>
-                                    <span>Laa</span>
-                                    <span>Laa</span>
-                                    <span>Laa</span>
-                                    <div id="box-painel-crud">
-                                        <div class="wrapper-painel-crud">
-                                            <img src="../img/svg/edit.svg" alt="botao-editar">
-                                            <span>Editar</span>
-                                        </div>
-                                        <div class="wrapper-painel-crud">
-                                            <img src="../img/svg/delete.svg" alt="botao deletar">
-                                            <span>Deletar</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-painel-eventos-item">
-                                    <span>Laa</span>
-                                    <span>Laa</span>
-                                    <span>Laa</span>
-                                    <span>Laa</span>
-                                    <span>Laa</span>
-                                    <span>Laa</span>
-                                    <div id="box-painel-crud">
-                                        <div class="wrapper-painel-crud">
-                                            <img src="../img/svg/edit.svg" alt="botao-editar">
-                                            <span>Editar</span>
-                                        </div>
-                                        <div class="wrapper-painel-crud">
-                                            <img src="../img/svg/delete.svg" alt="botao deletar">
-                                            <span>Deletar</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>

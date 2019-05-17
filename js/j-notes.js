@@ -23,12 +23,24 @@ let mascara = ['(00) 00000-0000', '(00) 0000-00009'];
 let fezAutoComplete = false;
 /*--- Calendário ---*/
 let hoje = new Date();
+hoje.setHours(0, 0, 0, 0);
 let mesAtual = hoje.getMonth();
 let anoAtual = hoje.getFullYear();
 let meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
 ];
 
+let eventosDoMes;
+
+let IDTAREFA = 0,
+    DIA = 1,
+    PERIODO = 2,
+    PROBLEMA = 3,
+    INFORMACOES = 4,
+    NOME = 5,
+    TELEFONE1 = 6,
+    TELEFONE2 = 7,
+    ENDERECO = 8;
 //Main
 $(function () {
     /* Variável vh para mobile, problema do autohide da barra de pesquisa solucionado */
@@ -58,9 +70,10 @@ $(function () {
         abreFechaMenuPrincipal();
     });
 
-    /* Fecha o menu caso clique fora dele */
+    /* Fecha o menu, lista de anos caso clique fora dele */
     $("main").click(function () {
         fechaMenuPrincipal();
+        fechaListaAnos();
     });
 
     /* Mostra a ajuda */
@@ -124,7 +137,9 @@ $(function () {
             } else {
                 cadastraNovoCliente(tel1, nome, endereco, tel2);
             }
-            cadastraNovatarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional);
+            $.when(cadastraNovatarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
+                mostrarCalendario(mesAtual, anoAtual);
+            });
         }
     });
 
@@ -147,6 +162,11 @@ $(function () {
     $(".box-lista-anos").on("click", "span", function () {
         mudaAno(this);
         abreFechaListaAnos();
+    });
+
+    /* Impede da lista ser fechada caso clique fora da mesma */
+    $(".wrapper-ano").click(function (e) {
+        e.stopPropagation();
     });
 
     /* Listener para mudar o dia selecionado */
@@ -277,9 +297,11 @@ function validaDadosNovaTarefa() {
     }
     nome.parent().removeClass();
 
-    if (!(tel2.val().length >= 14 && tel2.val().length <= 15)) {
-        tel2.parent().addClass("label--erro");
-        return false;
+    if (tel2.val().length != 0) {
+        if (!(tel2.val().length >= 14 && tel2.val().length <= 15)) {
+            tel2.parent().addClass("label--erro");
+            return false;
+        }
     }
     tel2.parent().removeClass();
 
@@ -299,7 +321,7 @@ function validaDadosNovaTarefa() {
     let data_array = data.val().split("/");
     let data_date = new Date(data_array[2], data_array[1] - 1, data_array[0]);
 
-    if (!(data_date >= hoje)) {
+    if (!(data_date.getTime() >= hoje.getTime())) {
         data.parent().addClass("label--erro");
         return false;
     }
@@ -400,6 +422,7 @@ function mostrarCalendario(mes, ano) {
     $("#mes").text(meses[mes]);
     $("#ano").text(ano);
     let data = 1;
+    let data_sel = 0;
     for (let i = 0; i < 6; i++) {
         let linha = "<tr>";
         for (let j = 0; j < 7; j++) {
@@ -413,6 +436,7 @@ function mostrarCalendario(mes, ano) {
                     linha += "dia-final-semana ";
                 }
                 if (data === hoje.getDate() && mes === hoje.getMonth() && ano === hoje.getFullYear()) {
+                    data_sel = data;
                     linha += "dia-evento";
                 }
                 linha += "'>" + data + "</span></td>";
@@ -422,6 +446,9 @@ function mostrarCalendario(mes, ano) {
         linha += "</tr>"
         $("#corpo-calendario").append(linha);
     }
+    $.when(pegaEventosDoMes()).done(function () { //Só executa a função após o Ajax terminar
+        verificaSeDiaTemEvento(data_sel);
+    });
 }
 
 function avancaMes() {
@@ -453,14 +480,22 @@ function abreFechaListaAnos() {
     });
 }
 
+function fechaListaAnos() {
+    if ($(".wrapper-lista-anos").hasClass("wrapper-lista-anos--visivel")) {
+        $(".wrapper-lista-anos").addClass("wrapper-lista-anos--animacao");
+        $("#mostra-lista-ano").addClass("ano--animacao");
+        $(".wrapper-lista-anos").removeClass("wrapper-lista-anos--visivel");
+        $("#mostra-lista-ano").css('transform', 'none');
+    }
+    $(".wrapper-lista-anos").one("transitionend", function (e) {
+        $(".wrapper-lista-anos").removeClass("wrapper-lista-anos--animacao");
+        $("#mostra-lista-ano").removeClass("ano--animacao");
+    });
+}
+
 function mudaAno(ano) {
     anoAtual = parseInt($(ano).text());
     mostrarCalendario(mesAtual, anoAtual);
-}
-
-function mudaDiaSelecionado(o) {
-    $(".box-dia").removeClass("dia-evento");
-    $(o).addClass("dia-evento");
 }
 
 function abreFechaItemPainel(item) {
@@ -484,6 +519,62 @@ function descobreTamanho(item) {
     return tamanho + transformaRemEmPx(1);
 }
 
+function mudaDiaSelecionado(item) {
+    $(".box-dia").removeClass("dia-evento");
+    $(item).addClass("dia-evento");
+
+    verificaSeDiaTemEvento($(item).text());
+}
+
+function pegaEventosDoMes() {
+    eventosDoMes = 0;
+    return $.ajax({
+        url: 'j-notes.php',
+        type: 'post',
+        data: {
+            'pega-eventos-mes': 1,
+            'mes': mesAtual,
+            'ano': anoAtual,
+        },
+        success: function (dados) {
+            if (dados != "") {
+                eventosDoMes = JSON.parse(dados);
+            }
+        }
+    });
+}
+
+function verificaSeDiaTemEvento(dia) {
+    $("#box-painel-eventos").empty();
+    for (let i = 0; i < eventosDoMes.length; i++) {
+        if (eventosDoMes[i][DIA].split("-")[2] == dia) {
+            criaEventoCalendario(eventosDoMes[i][IDTAREFA], eventosDoMes[i][NOME],
+                eventosDoMes[i][TELEFONE1], eventosDoMes[i][TELEFONE2],
+                eventosDoMes[i][PERIODO], eventosDoMes[i][ENDERECO],
+                eventosDoMes[i][PROBLEMA], eventosDoMes[i][INFORMACOES]);
+        }
+    }
+}
+
+function criaEventoCalendario(id, nome, tel1, tel2, endereco, periodo, problema, info) {
+    let comando = '<div class="box-painel-eventos-item">';
+    comando += '<span>' + id + '</span>';
+    comando += '<span>' + nome + '</span>';
+    comando += '<span>' + tel1 + '</span>';
+    tel2 != "" ? (comando += '<span>' + tel1 + '</span>') : (comando += "");
+    comando += '<span>' + endereco + '</span>';
+    comando += '<span>' + periodo + '</span>';
+    problema != "" ? (comando += '<span>' + problema + '</span>') : (comando += "");
+    info != "" ? (comando += '<span>' + info + '</span>') : (comando += "");
+
+    comando += '<div id="box-painel-crud">';
+    comando += '<div class="wrapper-painel-crud">';
+    comando += '<img src="../img/svg/edit.svg" alt="botao-editar"><span>Editar</span></div>';
+    comando += '<div class="wrapper-painel-crud">';
+    comando += '<img src="../img/svg/delete.svg" alt="botao-deletar"><span>Deletar</span></div></div></div>';
+
+    $("#box-painel-eventos").append(comando);
+}
 /*--- Concluir Tarefa ---*/
 function abreFechaItemConcluir(item) {
     $(".box-concluir-tarefa-item").addClass("box-concluir-tarefa-item--animacao");
