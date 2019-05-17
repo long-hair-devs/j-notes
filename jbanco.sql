@@ -1,4 +1,5 @@
-create database jbanco;
+CREATE DATABASE jbanco;
+ALTER DATABASE jbanco CHARACTER SET utf8 COLLATE utf8_general_cs;
 use jbanco;
 
 CREATE TABLE IF NOT EXISTS usuarios (
