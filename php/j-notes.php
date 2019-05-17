@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>J-Notes</title>
     <link rel="icon" href="../img/agenda.png">
-    <link rel="stylesheet" type="text/css" href="../less/style-j-notes.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style-j-notes.css" />
     <script type="text/javascript" src="../js/lib/jquery-3.4.0.min.js"></script>
     <script type="text/javascript" src="../js/lib/jquery.mask.min.js"></script>
     <script type="text/javascript" src="../js/lib/jquery.ba-throttle-debounce.min.js"></script>
