@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS tarefas (
   id_user int(11)  NOT NULL,
   
   dia date  NOT NULL,
-  periodo varchar(5)  NOT NULL,
+  periodo varchar(6)  NOT NULL,
   problema varchar(245),
   informacoes varchar(245),
   total_recebido varchar(10),
