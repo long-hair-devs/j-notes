@@ -1,6 +1,15 @@
 <?php
     include_once('./lib/process-j-notes.php');
-    $user = "tboerc";
+
+    session_start();
+
+    if(!isset( $_SESSION["nome"])){
+        header("location: ../index.php");
+     
+        exit(); // encerrar todas as funções da página...
+    }
+    $user = $_SESSION['nome'];
+    $id = $_SESSION['id'];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -21,28 +30,28 @@
 <body>
     <nav id="menu-fixo" class="menu-fixo">
         <ul>
-            <li>
+            <li class="click-scrollspy">
                 <a class="btn-menu">
                     <img src="../img/svg/menu.svg" alt="icone menu">
                     <span>Menu</span>
                 </a>
             </li>
-            <li>
+            <li class="click-scrollspy">
                 <a class="active" href="#inicio">
                     <img src="../img/svg/home.svg" alt="icone casa">
                 </a>
             </li>
-            <li>
+            <li class="click-scrollspy">
                 <a href="#nova-tarefa">
                     <img src="../img/svg/plus.svg" alt="icone nova tarefa">
                 </a>
             </li>
-            <li>
+            <li class="click-scrollspy">
                 <a href="#calendario">
                     <img src="../img/svg/calendar.svg" alt="icone calendario">
                 </a>
             </li>
-            <li>
+            <li class="click-scrollspy">
                 <a href="#concluir-tarefa">
                     <img src="../img/svg/check.svg" alt="icone concluir tarefa">
                 </a>
@@ -54,7 +63,7 @@
                 </a>
             </li>
             <li class="final">
-                <a>
+                <a href="./lib/logout.php">
                     <img src="../img/svg/exit.svg" alt=" icone sair">
                     <span>Sair</span>
                 </a>
@@ -64,26 +73,26 @@
     <div class="div-menu-movel">
         <nav id="menu-movel">
             <ul>
-                <li>
+                <li class="click-scrollspy">
                     <a class="btn-menu"><span>Menu</span></a>
                 </li>
-                <li>
+                <li class="click-scrollspy">
                     <a id="link-inicio" href="#inicio"><span>Página Inicial</span></a>
                 </li>
-                <li>
+                <li class="click-scrollspy">
                     <a id="link-nova" href="#nova-tarefa"><span>Nova Tarefa</span></a>
                 </li>
-                <li>
+                <li class="click-scrollspy">
                     <a id="link-calendario" href="#calendario"><span>Calendário</span></a>
                 </li>
-                <li>
+                <li class="click-scrollspy">
                     <a id="link-concluir" href="#concluir-tarefa"><span>Concluir Tarefa</span></a>
                 </li>
                 <li class="final">
                     <a><span><?php echo $user;?></span></a>
                 </li>
                 <li class="final">
-                    <a><span>Sair</span></a>
+                    <a href="./lib/logout.php"><span>Sair</span></a>
                 </li>
             </ul>
         </nav>
