@@ -56,7 +56,7 @@ $(function () {
     });
 
     /* Adiciona a classe active aos itens dos dois menus, quando clicar em algum deles, além de levar a página ao local desejado */
-    $('#menu-movel, #menu-fixo').on('click', 'li', function (e) {
+    $('#menu-movel, #menu-fixo').on('click', '.click-scrollspy', function (e) {
         scrollSpyClick(this, e);
     });
 

@@ -1,0 +1,526 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    min-width: 70rem;
+    background-color: #222
+}
+
+/*-- Scroll da Pagina --*/
+::-webkit-scrollbar {
+    width: 0.6vw;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #DDD;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #111;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.subir {
+    background: url(../img/svg/previous-white.svg) center no-repeat;
+    background-size: 1.5rem;
+    transform: rotate(90deg);
+    background-color: #111;
+    position: fixed;
+    display: none;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 1.5rem;
+    border-radius: 100%;
+    z-index: 3;
+}
+
+.subir:hover {
+    background-color: #333;
+}
+
+.apresentacao {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 100vh;
+    min-height: 40rem;
+    background-color: #fff;
+}
+
+/*//////////// Cabeçalho /////////////////////////////////*/
+.apresentacao .cabecalho {
+    height: 2rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.apresentacao .cabecalho div {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-end;
+}
+
+.apresentacao .cabecalho div a {
+    text-decoration: none;
+}
+
+.apresentacao .cabecalho .icon_empresa {
+    background: url(../img/svg/agenda.svg) no-repeat;
+    width: 2rem;
+    height: 2rem;
+    margin-left: 0.75rem;
+}
+
+.apresentacao .cabecalho .icon_cabecalho {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0 0.75rem 0 0.75rem;
+}
+
+.apresentacao .cabecalho .facebook {
+    background-image: url(../img/svg/facebook-logo.svg);
+}
+
+.apresentacao .cabecalho .facebook:hover {
+    filter: invert(35%) sepia(9%) saturate(3302%) hue-rotate(183deg) brightness(90%) contrast(92%);
+}
+
+.apresentacao .cabecalho .google {
+    background-image: url(../img/svg/google-plus.svg);
+}
+
+.apresentacao .cabecalho .google:hover {
+    filter: invert(39%) sepia(22%) saturate(4038%) hue-rotate(336deg) brightness(87%) contrast(90%);
+}
+
+.apresentacao .cabecalho .twitter {
+    background-image: url(../img/svg/twitter-logo.svg);
+}
+
+.apresentacao .cabecalho .twitter:hover {
+    filter: invert(51%) sepia(54%) saturate(2289%) hue-rotate(175deg) brightness(98%) contrast(94%);
+}
+
+/*///////////////////////////////// Div titulo //////////////////////////////*/
+.apresentacao .div_titulo {
+    height: 10.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.apresentacao .div_titulo .titulo {
+    color: #6DA8D6;
+    font-size: 3rem;
+    margin: 0 0 1rem 0;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.apresentacao .div_titulo .subtitulo {
+    font-size: 1.1rem;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+/* /////////////////// Imagens  ////////////////////////////// */
+.apresentacao .imagens {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0 2rem 0 2rem;
+    flex: 1;
+    overflow: hidden;
+}
+
+.apresentacao .imagens .imagem_monitor {
+    display: block;
+    margin: 0 auto;
+    height: 50vh;
+    width: 80vh;
+    max-height: 55vh;
+    max-width: 90vh;
+    background: url(../img/prints/monitor.png) center no-repeat;
+    background-size: 65vh 39vh;
+
+}
+
+.apresentacao .imagens .imagem_site {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    top: -1.8vh;
+    transform: translateX(-50%);
+    background: url(../img/prints/exemplo.png) center no-repeat;
+    background-size: 57.5vh;
+}
+
+/* /////////////////////////// Botao Entrar ///////////////////////////// */
+.apresentacao .botao_entrar {
+    height: 11rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.apresentacao .botao_entrar .botao {
+    font-size: 1.5rem;
+    background: #6DA8D6;
+    color: #FFF;
+    text-decoration: none;
+    padding: 2rem 5rem 2rem 5rem;
+    text-transform: uppercase;
+    border-radius: 0.75rem;
+}
+
+.apresentacao .botao_entrar .botao:hover {
+    background: #FFF;
+    color: #6DA8D6;
+    box-shadow: inset 0px 0px 0px 0.125rem rgba(144, 144, 144, 0.5);
+    /* box-shadow: (left) (top) (desfoque) (borda) (cor) */
+}
+
+/*////////////////////// Classes em comum //////////////////////////////////////*/
+.titulo_branco,
+.titulo_preto {
+    font-size: 3rem;
+    text-align: center;
+    margin: 0 0 2rem 0;
+}
+
+.texto_branco,
+.texto_preto {
+    text-align: justify;
+    text-indent: 3rem;
+    font-size: 1.2rem;
+    margin: 0 5rem 0 5rem;
+}
+
+.titulo_branco,
+.texto_branco {
+    color: #FFF;
+}
+
+.titulo_preto,
+.texto_preto {
+    color: #000;
+}
+
+.fundo {
+    height: 54.5rem;
+}
+
+/*////////////// Pagina inicial /////////////////////////////*/
+.fundo_incial {
+    background-image: linear-gradient(#6DA8D6, #222);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 60.5rem;
+    flex-shrink: 0;
+}
+
+.fundo_incial .imagem_inicial {
+    align-self: center;
+    overflow: hidden;
+    background: url(../img/prints/paginainicial.png) center no-repeat;
+    background-size: 70rem;
+    flex-shrink: 0;
+    height: 39.25rem;
+    width: 70rem;
+    border-radius: 0.75rem;
+}
+
+.fundo_incial .conteudo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
+    flex-shrink: 0;
+    padding-top: 2.5rem;
+}
+
+.fundo_incial .conteudo div {
+    width: 45rem;
+    height: 12rem;
+}
+
+/* ////////////////////////// Nova tarefa ///////////////////////// */
+.fundo_nova {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.fundo_nova .conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-shrink: 0;
+    width: 25.5rem;
+    z-index: 1;
+
+}
+
+.fundo_nova .conteudo div {
+    height: 25rem;
+    width: 25rem;
+    background-color: #6DA8D6;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.fundo_nova .imagem {
+    width: 70vw;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+}
+
+.fundo_nova .imagem_calendario {
+    display: flex;
+    flex-shrink: 0;
+    height: 43rem;
+    width: 77rem;
+    background: url(../img/prints/novatarefa.png) center no-repeat;
+    background-size: 80rem;
+    border-radius: 0.75rem;
+}
+
+/* ////////////////////////// Linha preta ///////////////////////// */
+.linha_preta {
+    height: 25rem;
+    background-color: #222;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+.linha_preta .gif-mobile {
+    flex-shrink: 0;
+    height: 25rem;
+    width: 22.5rem;
+    border: 0.4375rem solid #fff;
+    background-image: url(../img/gif/exemploMobile.gif);
+    background-size: 22.5rem;
+    border-radius: 12px;
+    margin: 3rem 0 0 0;
+}
+
+.linha_preta .texto_branco {
+    width: 17rem;
+    text-align: center;
+    text-indent: 0;
+}
+
+/* ////////////////////////// Calendario ///////////////////////// */
+.fundo_calendario {
+    display: flex;
+    justify-content: space-around;
+    background-color: #fff;
+}
+
+.fundo_calendario .div_texto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 30rem;
+    width: 30rem;
+    padding: 5rem 0 5rem 0;
+    margin: 1rem 0 1rem 0;
+    background-color: #6DA8D6;
+    border-radius: 0.75rem;
+    z-index: 1;
+}
+
+.fundo_calendario .div1 {
+    align-self: flex-start;
+    justify-content: flex-start;
+}
+
+.fundo_calendario .div2 {
+    align-self: center;
+    justify-content: center;
+    display: flex;
+    height: 32rem;
+    width: 32vw;
+    min-width: 32rem;
+    z-index: 0;
+}
+
+.fundo_calendario .div2 .imagem_adicionar {
+    height: 100%;
+    width: 50rem;
+    min-width: 50rem;
+    min-height: 100%;
+    background: url(../img/prints/calendario.png) center no-repeat;
+    background-size: 54rem;
+    border-radius: 0.75rem;
+
+}
+
+.fundo_calendario .div3 {
+    align-self: flex-end;
+    justify-content: flex-end;
+}
+
+/* ////////////////////////// Concluir Tarefa ///////////////////////// */
+.fundo_concluir {
+    background-color: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.fundo_concluir .conteudo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
+    flex-shrink: 0;
+    flex: 1;
+}
+
+.fundo_concluir .conteudo div {
+    width: 45rem;
+    height: 12rem;
+}
+
+.fundo_concluir .imagem_concluir {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: url(../img/prints/concluirtarefa.png) center no-repeat;
+    background-size: 85rem;
+    border-radius: 0.75rem;
+    flex-shrink: 0;
+    width: 59rem;
+    height: 33rem;
+    margin-bottom: 1rem;
+}
+
+/* ////////////////////////// Devs ///////////////////////// */
+.devs {
+    height: 58vh;
+    min-height: 25rem;
+    background-image: linear-gradient(#6DA8D6, #222);
+    display: flex;
+    flex-direction: column;
+}
+
+.devs .cabecalho {
+    align-self: center;
+    margin-top: 1.5rem;
+    border-bottom: 0.125rem solid #DDD;
+    width: 66vw;
+    min-width: 46.5rem;
+}
+
+.devs .titulo_branco {
+    text-indent: 0;
+    margin: 1rem 0;
+    font-size: 2rem;
+}
+
+.devs .conteudo {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.devs .conteudo .dev {
+    width: 18.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.devs .texto_branco {
+    text-indent: 0;
+    margin: 0.6rem 0;
+    font-size: 1.6rem;
+}
+
+.devs .texto_cinza {
+    text-indent: 0;
+    margin: 0.6rem 0;
+    color: #999;
+    font-size: 1.2rem;
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.devs .conteudo .dev img {
+    width: 10rem;
+    height: 10rem;
+    border: 0.3125rem solid #FFF;
+    border-radius: 10rem;
+}
+
+/* ////////////////////////// Rodapé ///////////////////////// */
+.rodape {
+    background-color: #222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 45vh;
+    min-height: 15rem;
+}
+
+.rodape .escrita {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.rodape .escrita .texto {
+    margin: 0;
+    color: #FFF;
+    font-size: 1.2rem;
+    width: 35rem;
+    text-align: center;
+}
+
+.rodape .escrita .link {
+    color: #6DA8D6;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.rodape .direitos p {
+    color: #777;
+    font-size: 1.2rem;
+    margin: 0.6rem 0;
+}
