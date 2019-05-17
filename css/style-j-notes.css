@@ -687,11 +687,6 @@ main section > div .wrapper-section {
   overflow: hidden;
   cursor: pointer;
 }
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item:last-child {
-    margin: 0;
-  }
-}
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item span {
   margin-bottom: 1rem;
   color: #FFF;
@@ -731,6 +726,19 @@ main section > div .wrapper-section {
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item--animacao {
   transition: height 0.25s;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data {
+  width: 100%;
+  height: 5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #6DA8D6;
+  border-radius: 0.75rem;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  #calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data .box-nova-data {
+    margin: 0;
+  }
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {

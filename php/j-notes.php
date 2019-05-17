@@ -1,6 +1,6 @@
 <?php
-    include_once('./lib/process-j-notes.php');
-    $user = "tboerc";
+include_once('./lib/process-j-notes.php');
+$user = "tboerc";
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -50,7 +50,7 @@
             <li class="final">
                 <a>
                     <img src="../img/svg/user.svg" alt="icone usuário">
-                    <span><?php echo $user;?></span>
+                    <span><?php echo $user; ?></span>
                 </a>
             </li>
             <li class="final">
@@ -80,7 +80,7 @@
                     <a id="link-concluir" href="#concluir-tarefa"><span>Concluir Tarefa</span></a>
                 </li>
                 <li class="final">
-                    <a><span><?php echo $user;?></span></a>
+                    <a><span><?php echo $user; ?></span></a>
                 </li>
                 <li class="final">
                     <a><span>Sair</span></a>
@@ -128,8 +128,7 @@
                         </div>
                         <label id="l-tel1">
                             <span class="required">Telefone 1:</span>
-                            <input class="telefone" id="tel1" name="tel1" type="text"
-                                placeholder="Ex: (99) 99999-9999" autocomplete="off">
+                            <input class="telefone" id="tel1" name="tel1" type="text" placeholder="Ex: (99) 99999-9999" autocomplete="off">
                         </label>
                         <label id="l-nome">
                             <span class="required">Nome:</span>
@@ -137,18 +136,15 @@
                         </label>
                         <label id="l-tel2">
                             <span>Telefone 2:</span>
-                            <input class="telefone" id="tel2" name="tel2" type="text"
-                                placeholder="Ex: (99) 99999-9999" autocomplete="off">
+                            <input class="telefone" id="tel2" name="tel2" type="text" placeholder="Ex: (99) 99999-9999" autocomplete="off">
                         </label>
                         <label id="l-endereco">
                             <span class="required">Endereço:</span>
-                            <textarea name="endereco" id="endereco"
-                                placeholder="Ex: Rua Maio, 58, Jd. das Rosas, Americana"></textarea>
+                            <textarea name="endereco" id="endereco" placeholder="Ex: Rua Maio, 58, Jd. das Rosas, Americana"></textarea>
                         </label>
                         <label id="l-data">
                             <span class="required">Data:</span>
-                            <input class="data" id="data" name="data" type="text"
-                                placeholder="Ex: dd/mm/aa" autocomplete="off">
+                            <input class="data" id="data" name="data" type="text" placeholder="Ex: dd/mm/aa" autocomplete="off">
                         </label>
                         <div id="wrapper-radio" class="wrapper-radio">
                             <label id="l-radio1" class="box-radio">
@@ -169,19 +165,15 @@
                         </div>
                         <label id="l-problema">
                             <span>Problema Encontrado:</span>
-                            <textarea class="textarea--grande" name="problema" id="problema"
-                                placeholder="Ex: Problema na placa"></textarea>
+                            <textarea class="textarea--grande" name="problema" id="problema" placeholder="Ex: Problema na placa"></textarea>
                         </label>
                         <label id="l-info-adicional">
                             <span>Informações Adicionais:</span>
-                            <textarea class="textarea--grande" name="info" id="info"
-                                placeholder="Ex: Ir depois das 16hrs"></textarea>
+                            <textarea class="textarea--grande" name="info" id="info" placeholder="Ex: Ir depois das 16hrs"></textarea>
                         </label>
                         <div id="wrapper-botao">
-                            <input class="botao" value="Cancelar" name="botao-cancelar" id="botao-cancelar"
-                                type="button">
-                            <input class="botao" value="Concluir" name="botao-concluir" id="botao-concluir"
-                                type="button">
+                            <input class="botao" value="Cancelar" name="botao-cancelar" id="botao-cancelar" type="button">
+                            <input class="botao" value="Concluir" name="botao-concluir" id="botao-concluir" type="button">
                         </div>
                     </form>
                 </div>
@@ -207,7 +199,7 @@
                         </thead>
                         <tbody id="corpo-calendario">
                             <script>
-                                $(function () {
+                                $(function() {
                                     mostrarCalendario(mesAtual, anoAtual);
                                 });
                             </script>
@@ -238,7 +230,7 @@
                         </header>
                         <div>
                             <div id="box-painel-eventos" class="box-painel-eventos">
-                                
+                                <div class="box-nova-data"></div>
                             </div>
                         </div>
                     </div>

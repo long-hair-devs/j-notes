@@ -127,7 +127,7 @@ $(function () {
             let endereco = $("#endereco").val();
             let tel2 = $("#tel2").val();
             let data = $("#data").val();
-            let periodo = $("input[name=periodo]:checked").val();
+            let periodo = $("input[name=periodo]:checked").siblings(".radio-texto").text();
             let problema = $("#problema").val();
             let infoAdicional = $("#info").val();
 
@@ -286,6 +286,7 @@ function validaDadosNovaTarefa() {
     // Se não satisfazer a condição, mostra erro e cancela a execução do método
     if (!(tel1.val().length >= 14 && tel1.val().length <= 15)) {
         tel1.parent().addClass("label--erro");
+        tel1.focus();
         return false;
     }
     // Se satisfez a condição, remove o erro caso esteja ativo e continua para o proximo item
@@ -293,6 +294,7 @@ function validaDadosNovaTarefa() {
 
     if (!(nome.val().length > 0 && nome.val().length <= 50)) {
         nome.parent().addClass("label--erro");
+        nome.focus();
         return false;
     }
     nome.parent().removeClass();
@@ -300,6 +302,7 @@ function validaDadosNovaTarefa() {
     if (tel2.val().length != 0) {
         if (!(tel2.val().length >= 14 && tel2.val().length <= 15)) {
             tel2.parent().addClass("label--erro");
+            tel2.focus();
             return false;
         }
     }
@@ -307,12 +310,14 @@ function validaDadosNovaTarefa() {
 
     if (!(endereco.val().length > 0 && endereco.val().length <= 245)) {
         endereco.parent().addClass("label--erro");
+        endereco.focus();
         return false;
     }
     endereco.parent().removeClass();
 
     if (!(data.val().length == 10)) {
         data.parent().addClass("label--erro");
+        data.focus();
         return false;
     }
     data.parent().removeClass();
@@ -323,18 +328,21 @@ function validaDadosNovaTarefa() {
 
     if (!(data_date.getTime() >= hoje.getTime())) {
         data.parent().addClass("label--erro");
+        data.focus();
         return false;
     }
     data.parent().removeClass();
 
     if (!(problema.val().length <= 245)) {
         problema.parent().addClass("label--erro");
+        problema.focus();
         return false;
     }
     problema.parent().removeClass();
 
     if (!(info.val().length <= 245)) {
         info.parent().addClass("label--erro");
+        info.focus();
         return false;
     }
     info.parent().removeClass();
@@ -545,7 +553,7 @@ function pegaEventosDoMes() {
 }
 
 function verificaSeDiaTemEvento(dia) {
-    $("#box-painel-eventos").empty();
+    $(".box-painel-eventos-item").remove();
     for (let i = 0; i < eventosDoMes.length; i++) {
         if (eventosDoMes[i][DIA].split("-")[2] == dia) {
             criaEventoCalendario(eventosDoMes[i][IDTAREFA], eventosDoMes[i][NOME],
@@ -561,7 +569,7 @@ function criaEventoCalendario(id, nome, tel1, tel2, endereco, periodo, problema,
     comando += '<span>' + id + '</span>';
     comando += '<span>' + nome + '</span>';
     comando += '<span>' + tel1 + '</span>';
-    tel2 != "" ? (comando += '<span>' + tel1 + '</span>') : (comando += "");
+    tel2 != "" ? (comando += '<span>' + tel2 + '</span>') : (comando += "");
     comando += '<span>' + endereco + '</span>';
     comando += '<span>' + periodo + '</span>';
     problema != "" ? (comando += '<span>' + problema + '</span>') : (comando += "");
@@ -573,7 +581,7 @@ function criaEventoCalendario(id, nome, tel1, tel2, endereco, periodo, problema,
     comando += '<div class="wrapper-painel-crud">';
     comando += '<img src="../img/svg/delete.svg" alt="botao-deletar"><span>Deletar</span></div></div></div>';
 
-    $("#box-painel-eventos").append(comando);
+    $("#box-painel-eventos").prepend(comando);
 }
 /*--- Concluir Tarefa ---*/
 function abreFechaItemConcluir(item) {
