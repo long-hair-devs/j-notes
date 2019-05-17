@@ -1,15 +1,7 @@
 <?php
 include_once('./lib/process-j-notes.php');
 
-session_start();
-
-if (!isset($_SESSION["nome"])) {
-    header("location: ../index.php");
-
-    exit(); // encerrar todas as funções da página...
-}
 $user = $_SESSION['nome'];
-$id = $_SESSION['id'];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
