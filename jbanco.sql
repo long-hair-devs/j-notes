@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 
 CREATE TABLE IF NOT EXISTS cliente (
   id_cliente int(11) NOT NULL AUTO_INCREMENT ,
-  id_user(11) NOT NULL,
+  id_user int(11) NOT NULL,
   nome varchar(50) NOT NULL,
   telefone1 varchar(15) NOT NULL,
   telefone2 varchar(15),
