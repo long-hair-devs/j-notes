@@ -78,3 +78,29 @@ if (isset($_POST['pega-eventos-mes'])) {
     }
     exit();
 }
+
+if (isset($_POST['atualiza-tarefa'])) {
+    $id = $_POST['id'];
+    $tel1 = $_POST['tel1'];
+    $nome = $_POST['nome'];
+    $endereco = $_POST['endereco'];
+    $tel2 = $_POST['tel2'];
+    $data =  $_POST['data'];
+    $periodo = $_POST['periodo'];
+    $problema = $_POST['problema'];
+    $infoAdicional = $_POST['infoAdicional'];
+
+    $sql = "UPDATE tarefas SET nome='$nome', endereco='$endereco', telefone2='$tel2', dia=str_to_date('$data', '%d/%m/%Y'), periodo='$periodo', problema='$problema', informacoes='$infoAdicional'
+                WHERE id_tarefa='$id'";
+
+    mysqli_query($db, $sql) or die($db->error);
+    exit();
+}
+
+if (isset($_POST['deleta-tarefa'])) {
+    $id = $_POST['id'];
+
+    $sql = "DELETE FROM tarefas WHERE id_tarefa='$id'";
+    mysqli_query($db, $sql) or die($db->error);
+    exit();
+}

@@ -570,7 +570,7 @@ main section > div .wrapper-section {
 #calendario .box-calendario tbody .dia-final-semana {
   background: #222;
 }
-#calendario .box-calendario tbody .dia-evento {
+#calendario .box-calendario tbody .dia-selecionado {
   background: #6DA8D6;
   color: #000;
 }
@@ -729,16 +729,28 @@ main section > div .wrapper-section {
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data {
   width: 100%;
-  height: 5rem;
+  height: 3rem;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem auto;
   background: #6DA8D6;
   border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   #calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data .box-nova-data {
     margin: 0;
   }
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data img {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.25rem;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data span {
+  margin-left: 0.25rem;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {

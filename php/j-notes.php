@@ -231,7 +231,7 @@ $user = $_SESSION['nome'];
                         </header>
                         <div>
                             <div id="box-painel-eventos" class="box-painel-eventos">
-                                <div class="box-nova-data"></div>
+                                <div class="box-nova-data"><img src="../img/svg/plus.svg"><span>Nova Tarefa</span></div>
                             </div>
                         </div>
                     </div>

@@ -21,6 +21,8 @@ ajudaConcluir += "<span>Os itens com o indicador * são de preenchimento obrigat
 let mascara = ['(00) 00000-0000', '(00) 0000-00009'];
 
 let fezAutoComplete = false;
+let editarTarefa = false;
+let idTarefaEditada;
 /*--- Calendário ---*/
 let hoje = new Date();
 hoje.setHours(0, 0, 0, 0);
@@ -41,6 +43,8 @@ let IDTAREFA = 0,
     TELEFONE1 = 6,
     TELEFONE2 = 7,
     ENDERECO = 8;
+
+let podeCriarDivNovaData = false;
 //Main
 $(function () {
     /* Variável vh para mobile, problema do autohide da barra de pesquisa solucionado */
@@ -120,6 +124,7 @@ $(function () {
         aplicaDadosTelExistente();
     }));
 
+    /* Listener para o botão concluir do formuláiro */
     $("#botao-concluir").click(function () {
         if (validaDadosNovaTarefa()) {
             let tel1 = $("#tel1").val();
@@ -131,16 +136,34 @@ $(function () {
             let problema = $("#problema").val();
             let infoAdicional = $("#info").val();
 
-            if (fezAutoComplete) {
+            if (editarTarefa) {
                 aplicaUpdateNoCliente(tel1, nome, endereco, tel2);
-                fezAutoComplete = false;
+                $.when(atualizaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
+                    fechaEditarTarefa();
+                    mostrarCalendario(mesAtual, anoAtual);
+                });
             } else {
-                cadastraNovoCliente(tel1, nome, endereco, tel2);
+                if (fezAutoComplete) {
+                    aplicaUpdateNoCliente(tel1, nome, endereco, tel2);
+                    fezAutoComplete = false;
+                } else {
+                    cadastraNovoCliente(tel1, nome, endereco, tel2);
+                }
+                $.when(cadastraNovatarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
+                    mostrarCalendario(mesAtual, anoAtual);
+                });
             }
-            $.when(cadastraNovatarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
-                mostrarCalendario(mesAtual, anoAtual);
-            });
         }
+    });
+
+    /* Listener para o botão cancelar do formuláiro */
+    $("#botao-cancelar").click(function () {
+        fechaEditarTarefa();
+    });
+
+    /* Listener para levar ao calendário quando clicar em nova tarefa */
+    $("#data").click(function () {
+        $("#link-calendario").click();
     });
 
     /*--- Calendário ---*/
@@ -179,9 +202,23 @@ $(function () {
         abreFechaItemPainel(this);
     });
 
-    /* Listener para evitar que o evento seja fechado ao clicar na barra de opções ou no texto*/
+    /* Listener para evitar que o evento seja fechado ao clicar na barra de opções ou no texto */
     $("#box-painel-crud").click(function (e) {
         e.stopPropagation();
+    });
+
+    /* Listener para colocar nova data no formulário */
+    $(".box-painel-eventos").on("click", ".box-nova-data", function () {
+        pegaDataCalendario();
+    });
+
+    $(".box-painel-eventos").on("click", ".editar-tarefa", function () {
+        ativaEditarTarefa();
+        passaValoresFormulario($(this).parent().parent());
+    });
+
+    $(".box-painel-eventos").on("click", ".deletar-tarefa", function () {
+        deletarTarefa($(this).parent().parent());
     });
 
     /*--- Concluir Tarefa ---*/
@@ -402,7 +439,7 @@ function cadastraNovoCliente(tel1, nome, endereco, tel2) {
 }
 
 function cadastraNovatarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional) {
-    $.ajax({
+    return $.ajax({
         url: 'j-notes.php',
         type: 'post',
         data: {
@@ -443,9 +480,14 @@ function mostrarCalendario(mes, ano) {
                 if (j === 0 || j === 6) {
                     linha += "dia-final-semana ";
                 }
-                if (data === hoje.getDate() && mes === hoje.getMonth() && ano === hoje.getFullYear()) {
+                if (data === 1) {
                     data_sel = data;
-                    linha += "dia-evento";
+                    linha += "dia-selecionado";
+                } else if (data === hoje.getDate() && mes === hoje.getMonth() && ano === hoje.getFullYear()) {
+                    data_sel = data;
+                    linha = linha.replace('dia-selecionado', '');
+                    $(".dia-normal").removeClass("dia-selecionado");
+                    linha += "dia-selecionado";
                 }
                 linha += "'>" + data + "</span></td>";
                 data++;
@@ -455,6 +497,7 @@ function mostrarCalendario(mes, ano) {
         $("#corpo-calendario").append(linha);
     }
     $.when(pegaEventosDoMes()).done(function () { //Só executa a função após o Ajax terminar
+        verificaDiaMenorQueAtual();
         verificaSeDiaTemEvento(data_sel);
     });
 }
@@ -528,9 +571,10 @@ function descobreTamanho(item) {
 }
 
 function mudaDiaSelecionado(item) {
-    $(".box-dia").removeClass("dia-evento");
-    $(item).addClass("dia-evento");
+    $(".box-dia").removeClass("dia-selecionado");
+    $(item).addClass("dia-selecionado");
 
+    verificaDiaMenorQueAtual();
     verificaSeDiaTemEvento($(item).text());
 }
 
@@ -558,7 +602,7 @@ function verificaSeDiaTemEvento(dia) {
         if (eventosDoMes[i][DIA].split("-")[2] == dia) {
             criaEventoCalendario(eventosDoMes[i][IDTAREFA], eventosDoMes[i][NOME],
                 eventosDoMes[i][TELEFONE1], eventosDoMes[i][TELEFONE2],
-                eventosDoMes[i][PERIODO], eventosDoMes[i][ENDERECO],
+                eventosDoMes[i][ENDERECO], eventosDoMes[i][PERIODO],
                 eventosDoMes[i][PROBLEMA], eventosDoMes[i][INFORMACOES]);
         }
     }
@@ -569,20 +613,133 @@ function criaEventoCalendario(id, nome, tel1, tel2, endereco, periodo, problema,
     comando += '<span>' + id + '</span>';
     comando += '<span>' + nome + '</span>';
     comando += '<span>' + tel1 + '</span>';
-    tel2 != "" ? (comando += '<span>' + tel2 + '</span>') : (comando += "");
+    tel2 != "" ? (comando += '<span class="opcional">' + tel2 + '</span>') : (comando += "");
     comando += '<span>' + endereco + '</span>';
     comando += '<span>' + periodo + '</span>';
     problema != "" ? (comando += '<span>' + problema + '</span>') : (comando += "");
     info != "" ? (comando += '<span>' + info + '</span>') : (comando += "");
 
     comando += '<div id="box-painel-crud">';
-    comando += '<div class="wrapper-painel-crud">';
+    comando += '<div class="wrapper-painel-crud editar-tarefa">';
     comando += '<img src="../img/svg/edit.svg" alt="botao-editar"><span>Editar</span></div>';
-    comando += '<div class="wrapper-painel-crud">';
+    comando += '<div class="wrapper-painel-crud deletar-tarefa">';
     comando += '<img src="../img/svg/delete.svg" alt="botao-deletar"><span>Deletar</span></div></div></div>';
 
     $("#box-painel-eventos").prepend(comando);
 }
+
+function verificaDiaMenorQueAtual() {
+    let dataSelecionada = new Date(anoAtual, mesAtual, $(".dia-selecionado").text());
+    if (dataSelecionada.getTime() >= hoje.getTime()) {
+        mostraDivNovaData();
+        podeCriarDivNovaData = false;
+    } else {
+        $(".box-nova-data").remove();
+        podeCriarDivNovaData = true;
+    }
+}
+
+function mostraDivNovaData() {
+    if (podeCriarDivNovaData) {
+        let comando = '<div class="box-nova-data"><img src="../img/svg/plus.svg"><span>Nova Tarefa</span></div>';
+        $("#box-painel-eventos").append(comando);
+    }
+}
+
+// Função retirada da internet, para adicionar 0 ao dia ou mês caso seja menor que 10
+Number.prototype.pad = function (size) {
+    var s = String(this);
+    while (s.length < (size || 2)) {
+        s = "0" + s;
+    }
+    return s;
+}
+
+function pegaDataCalendario() {
+    $("#data").val(parseInt($(".dia-selecionado").text()).pad(2) + "/" + (mesAtual + 1).pad(2) + "/" + anoAtual);
+    $("#link-nova").click();
+}
+
+function ativaEditarTarefa() {
+    $("#nova-tarefa").find("h1").text("Editar Tarefa");
+    $("#botao-cancelar").css('display', 'block');
+    $("#link-nova").click();
+    editarTarefa = true;
+}
+
+function passaValoresFormulario(div) {
+    idTarefaEditada = $(div).children().eq(0).text();
+    let nome = $(div).children().eq(1).text();
+    let tel1 = $(div).children().eq(2).text();
+
+    let tel2, endereco, periodo, problema, info;
+
+    if ($(div).children().eq(3).hasClass("opcional")) {
+        tel2 = $(div).children().eq(3).text();
+        endereco = $(div).children().eq(4).text();
+
+        problema = $(div).children().eq(6).text() != "EditarDeletar" ? $(div).children().eq(6).text() : "";
+        info = $(div).children().eq(7).text() != "EditarDeletar" ? $(div).children().eq(7).text() : "";
+    } else {
+        tel2 = "";
+        endereco = $(div).children().eq(3).text();
+
+        problema = $(div).children().eq(5).text() != "EditarDeletar" ? $(div).children().eq(5).text() : "";
+        info = $(div).children().eq(6).text() != "EditarDeletar" ? $(div).children().eq(6).text() : "";
+    }
+    $("#tel1").val(tel1);
+    $("#tel1").prop("readonly", true);
+    $("#nome").val(nome);
+    $("#endereco").val(endereco);
+    $("#tel2").val(tel2);
+    pegaDataCalendario();
+    $("#problema").val(problema);
+    $("#info").val(info);
+}
+
+function atualizaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional) {
+    return $.ajax({
+        url: 'j-notes.php',
+        type: 'post',
+        data: {
+            'atualiza-tarefa': 1,
+            'id': idTarefaEditada,
+            'tel1': tel1,
+            'nome': nome,
+            'endereco': endereco,
+            'tel2': tel2,
+            'data': data,
+            'periodo': periodo,
+            'problema': problema,
+            'infoAdicional': infoAdicional,
+        }
+    });
+}
+
+function fechaEditarTarefa() {
+    $("#nova-tarefa").find("h1").text("Nova Tarefa");
+    $("#botao-cancelar").css('display', 'none');
+    $("#box-nova-tarefa").trigger("reset");
+    $("#tel1").prop("readonly", false);
+    editarTarefa = false;
+}
+
+function deletarTarefa(div) {
+    idTarefaEditada = $(div).children().eq(0).text();
+    $(div).fadeOut(function () {
+        $(div).remove();
+    });
+
+    $.ajax({
+        url: 'j-notes.php',
+        type: 'post',
+        data: {
+            'deleta-tarefa': 1,
+            'id': idTarefaEditada,
+        }
+    });
+}
+
 /*--- Concluir Tarefa ---*/
 function abreFechaItemConcluir(item) {
     $(".box-concluir-tarefa-item").addClass("box-concluir-tarefa-item--animacao");
