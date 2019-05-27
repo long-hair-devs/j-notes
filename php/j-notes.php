@@ -146,6 +146,7 @@ $user = $_SESSION['nome'];
                         <label id="l-data">
                             <span class="required">Data:</span>
                             <input class="data" id="data" name="data" type="text" placeholder="Ex: dd/mm/aa" autocomplete="off">
+                            <img id="desce-para-calendario" src="../img/svg/down.svg">
                         </label>
                         <div id="wrapper-radio" class="wrapper-radio">
                             <label id="l-radio1" class="box-radio">

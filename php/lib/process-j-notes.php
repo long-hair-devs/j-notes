@@ -100,7 +100,14 @@ if (isset($_POST['atualiza-tarefa'])) {
 if (isset($_POST['deleta-tarefa'])) {
     $id = $_POST['id'];
 
-    $sql = "DELETE FROM tarefas WHERE id_tarefa='$id'";
-    mysqli_query($db, $sql) or die($db->error);
+    if (is_numeric($id)) {
+        $sql = "SELECT * FROM tarefas WHERE id_tarefa='$id' AND id_user='$user_id'";
+        $results = mysqli_query($db, $sql) or die($db->error);
+        if (mysqli_num_rows($results) > 0) {
+            $sql = "DELETE FROM tarefas WHERE id_tarefa='$id'";
+            mysqli_query($db, $sql) or die($db->error);
+            echo "certo";
+        }
+    }
     exit();
 }

@@ -21,18 +21,21 @@ ajudaConcluir += "<span>Os itens com o indicador * são de preenchimento obrigat
 let mascara = ['(00) 00000-0000', '(00) 0000-00009'];
 
 let fezAutoComplete = false;
-let editarTarefa = false;
-let idTarefaEditada;
+let vaiEditarTarefa = false;
+
+let idTarefaSelecionada;
+
 /*--- Calendário ---*/
 let hoje = new Date();
 hoje.setHours(0, 0, 0, 0);
+
 let mesAtual = hoje.getMonth();
 let anoAtual = hoje.getFullYear();
 let meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
 ];
 
-let eventosDoMes;
+let tarefasDoMes = 0;
 
 let IDTAREFA = 0,
     DIA = 1,
@@ -45,6 +48,7 @@ let IDTAREFA = 0,
     ENDERECO = 8;
 
 let podeCriarDivNovaData = false;
+
 //Main
 $(function () {
     /* Variável vh para mobile, problema do autohide da barra de pesquisa solucionado */
@@ -66,7 +70,7 @@ $(function () {
 
     /* Muda a classe active de acordo com o scroll da página */
     $(document).on('scroll', $.debounce(200, function () {
-        scrollSpyNormal();
+        scrollSpy();
     }));
 
     /* Clicar no icone do menu abre ou fecha o menu */
@@ -74,13 +78,13 @@ $(function () {
         abreFechaMenuPrincipal();
     });
 
-    /* Fecha o menu, lista de anos caso clique fora dele */
+    /* Fecha o menu e a lista de anos, do painel do calendário, caso clique fora de um deles */
     $("main").click(function () {
         fechaMenuPrincipal();
         fechaListaAnos();
     });
 
-    /* Mostra a ajuda */
+    /* Mostra a ajuda ao clicar no botão de ajuda */
     $(".ajuda").click(function () {
         if ($(this).hasClass("inicio")) {
             $("#link-inicio").click();
@@ -119,9 +123,9 @@ $(function () {
     /* Mascara para data */
     $(".data").mask("00/00/0000");
 
-    /* Função quando clica no botão concluir */
+    /* Quando está digitando o telefone, verifica se o telefone já foi cadastrado no banco */
     $("#tel1").keyup($.debounce(250, function () {
-        aplicaDadosTelExistente();
+        autoCompletaTelExistente();
     }));
 
     /* Listener para o botão concluir do formuláiro */
@@ -136,7 +140,7 @@ $(function () {
             let problema = $("#problema").val();
             let infoAdicional = $("#info").val();
 
-            if (editarTarefa) {
+            if (vaiEditarTarefa) {
                 aplicaUpdateNoCliente(tel1, nome, endereco, tel2);
                 $.when(atualizaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
                     fechaEditarTarefa();
@@ -149,7 +153,7 @@ $(function () {
                 } else {
                     cadastraNovoCliente(tel1, nome, endereco, tel2);
                 }
-                $.when(cadastraNovatarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
+                $.when(cadastraNovaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
                     mostrarCalendario(mesAtual, anoAtual);
                 });
             }
@@ -161,8 +165,8 @@ $(function () {
         fechaEditarTarefa();
     });
 
-    /* Listener para levar ao calendário quando clicar em nova tarefa */
-    $("#data").click(function () {
+    /* Listener para levar ao calendário quando clicar no campo da data */
+    $("#desce-para-calendario").click(function () {
         $("#link-calendario").click();
     });
 
@@ -199,22 +203,23 @@ $(function () {
 
     /* Listener para expandir o evento que for clicado */
     $("#box-painel-eventos").on("click", ".box-painel-eventos-item", function () {
-        abreFechaItemPainel(this);
+        abreFechaTarefaPainel(this);
     });
 
-    /* Listener para evitar que o evento seja fechado ao clicar na barra de opções ou no texto */
+    /* Listener para evitar que o evento seja fechado ao clicar na barra de opções */
     $("#box-painel-crud").click(function (e) {
         e.stopPropagation();
     });
 
     /* Listener para colocar nova data no formulário */
     $(".box-painel-eventos").on("click", ".box-nova-data", function () {
-        pegaDataCalendario();
+        addDataCalendarioNoNovaTerfa();
     });
 
+    /* Listeners para o editar tarefa e deletar tarefa da barra de opções */
     $(".box-painel-eventos").on("click", ".editar-tarefa", function () {
         ativaEditarTarefa();
-        passaValoresFormulario($(this).parent().parent());
+        passaValoresParaNovaTarefa($(this).parent().parent());
     });
 
     $(".box-painel-eventos").on("click", ".deletar-tarefa", function () {
@@ -275,7 +280,7 @@ function scrollSpyClick(item, e) {
     }
 }
 
-function scrollSpyNormal() {
+function scrollSpy() {
     $('.section-principal').each(function () {
         let id = $(this).attr('id'),
             areaHeight = $(this).outerHeight(),
@@ -295,7 +300,7 @@ function mostraAjuda(texto) {
     $(".overlay-ajuda div").empty();
     $(".overlay-ajuda").fadeIn().css('display', 'flex');
     $(".overlay-ajuda div").append(texto);
-    $(".overlay-ajuda div").css('height', descobreTamanho - transformaRemEmPx(1));
+    $(".overlay-ajuda div").css('height', descobreTamanhoElemento - transformaRemEmPx(1));
 }
 
 function fechaAjuda() {
@@ -387,7 +392,7 @@ function validaDadosNovaTarefa() {
     return true;
 }
 
-function aplicaDadosTelExistente() {
+function autoCompletaTelExistente() {
     let tel1 = $("#tel1");
     if (tel1.val().length >= 14 && tel1.val().length <= 15) {
         $.ajax({
@@ -438,7 +443,7 @@ function cadastraNovoCliente(tel1, nome, endereco, tel2) {
     });
 }
 
-function cadastraNovatarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional) {
+function cadastraNovaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional) {
     return $.ajax({
         url: 'j-notes.php',
         type: 'post',
@@ -455,6 +460,7 @@ function cadastraNovatarefa(tel1, nome, endereco, tel2, data, periodo, problema,
         },
         success: function () {
             $("#box-nova-tarefa").trigger("reset");
+            mostraAjuda("<span>Tarefa cadastrada com sucesso!</span>");
         }
     });
 }
@@ -466,8 +472,9 @@ function mostrarCalendario(mes, ano) {
     $("#corpo-calendario").empty();
     $("#mes").text(meses[mes]);
     $("#ano").text(ano);
-    let data = 1;
-    let data_sel = 0;
+    let data = 1,
+        dataSel = 0;
+
     for (let i = 0; i < 6; i++) {
         let linha = "<tr>";
         for (let j = 0; j < 7; j++) {
@@ -481,13 +488,13 @@ function mostrarCalendario(mes, ano) {
                     linha += "dia-final-semana ";
                 }
                 if (data === 1) {
-                    data_sel = data;
-                    linha += "dia-selecionado";
+                    dataSel = data;
+                    linha += "dia-selecionado ";
                 } else if (data === hoje.getDate() && mes === hoje.getMonth() && ano === hoje.getFullYear()) {
-                    data_sel = data;
+                    dataSel = data;
                     linha = linha.replace('dia-selecionado', '');
                     $(".dia-normal").removeClass("dia-selecionado");
-                    linha += "dia-selecionado";
+                    linha += "dia-selecionado ";
                 }
                 linha += "'>" + data + "</span></td>";
                 data++;
@@ -496,9 +503,10 @@ function mostrarCalendario(mes, ano) {
         linha += "</tr>"
         $("#corpo-calendario").append(linha);
     }
-    $.when(pegaEventosDoMes()).done(function () { //Só executa a função após o Ajax terminar
-        verificaDiaMenorQueAtual();
-        verificaSeDiaTemEvento(data_sel);
+    $.when(pegaTarefasDoMes()).done(function () { //Só executa a função após o Ajax terminar
+        addOuTiraNovaData();
+        addIndicadorAosDias();
+        verificaSeDiaTemTarefa(dataSel);
     });
 }
 
@@ -549,11 +557,11 @@ function mudaAno(ano) {
     mostrarCalendario(mesAtual, anoAtual);
 }
 
-function abreFechaItemPainel(item) {
+function abreFechaTarefaPainel(item) {
     $(".box-painel-eventos-item").addClass("box-painel-eventos-item--animacao");
     if (transformaPxEmRem($(item).innerHeight()) == 5) {
         $(".box-painel-eventos-item").css('height', '5rem');
-        $(item).css('height', descobreTamanho(item));
+        $(item).css('height', descobreTamanhoElemento(item));
     } else {
         $(item).css('height', '5rem');
     }
@@ -562,7 +570,7 @@ function abreFechaItemPainel(item) {
     });
 }
 
-function descobreTamanho(item) {
+function descobreTamanhoElemento(item) {
     let tamanho = 0;
     for (let i = 0; i < $(item).children().length; i++) {
         tamanho += $(item).children().eq(i).outerHeight(true);
@@ -574,12 +582,12 @@ function mudaDiaSelecionado(item) {
     $(".box-dia").removeClass("dia-selecionado");
     $(item).addClass("dia-selecionado");
 
-    verificaDiaMenorQueAtual();
-    verificaSeDiaTemEvento($(item).text());
+    addOuTiraNovaData();
+    verificaSeDiaTemTarefa($(item).text());
 }
 
-function pegaEventosDoMes() {
-    eventosDoMes = 0;
+function pegaTarefasDoMes() {
+    tarefasDoMes = 0;
     return $.ajax({
         url: 'j-notes.php',
         type: 'post',
@@ -590,25 +598,40 @@ function pegaEventosDoMes() {
         },
         success: function (dados) {
             if (dados != "") {
-                eventosDoMes = JSON.parse(dados);
+                tarefasDoMes = JSON.parse(dados);
             }
         }
     });
 }
 
-function verificaSeDiaTemEvento(dia) {
-    $(".box-painel-eventos-item").remove();
-    for (let i = 0; i < eventosDoMes.length; i++) {
-        if (eventosDoMes[i][DIA].split("-")[2] == dia) {
-            criaEventoCalendario(eventosDoMes[i][IDTAREFA], eventosDoMes[i][NOME],
-                eventosDoMes[i][TELEFONE1], eventosDoMes[i][TELEFONE2],
-                eventosDoMes[i][ENDERECO], eventosDoMes[i][PERIODO],
-                eventosDoMes[i][PROBLEMA], eventosDoMes[i][INFORMACOES]);
+function addIndicadorAosDias() {
+    $(".dia-normal").removeClass("dia-evento");
+    if (tarefasDoMes != 0) {
+        let dias = $("#corpo-calendario").find("span");
+        for (let i = 0; i < dias.length; i++) {
+            for (let j = 0; j < tarefasDoMes.length; j++) {
+                if ($(dias[i]).text() == tarefasDoMes[j][DIA].split("-")[2]) {
+                    $(dias[i]).addClass("dia-evento");
+                    break;
+                }
+            }
         }
     }
 }
 
-function criaEventoCalendario(id, nome, tel1, tel2, endereco, periodo, problema, info) {
+function verificaSeDiaTemTarefa(dia) {
+    $(".box-painel-eventos-item").remove();
+    for (let i = 0; i < tarefasDoMes.length; i++) {
+        if (dia == tarefasDoMes[i][DIA].split("-")[2]) {
+            colocaTarefaNoPainel(tarefasDoMes[i][IDTAREFA], tarefasDoMes[i][NOME],
+                tarefasDoMes[i][TELEFONE1], tarefasDoMes[i][TELEFONE2],
+                tarefasDoMes[i][ENDERECO], tarefasDoMes[i][PERIODO],
+                tarefasDoMes[i][PROBLEMA], tarefasDoMes[i][INFORMACOES]);
+        }
+    }
+}
+
+function colocaTarefaNoPainel(id, nome, tel1, tel2, endereco, periodo, problema, info) {
     let comando = '<div class="box-painel-eventos-item">';
     comando += '<span>' + id + '</span>';
     comando += '<span>' + nome + '</span>';
@@ -628,7 +651,7 @@ function criaEventoCalendario(id, nome, tel1, tel2, endereco, periodo, problema,
     $("#box-painel-eventos").prepend(comando);
 }
 
-function verificaDiaMenorQueAtual() {
+function addOuTiraNovaData() {
     let dataSelecionada = new Date(anoAtual, mesAtual, $(".dia-selecionado").text());
     if (dataSelecionada.getTime() >= hoje.getTime()) {
         mostraDivNovaData();
@@ -655,7 +678,7 @@ Number.prototype.pad = function (size) {
     return s;
 }
 
-function pegaDataCalendario() {
+function addDataCalendarioNoNovaTerfa() {
     $("#data").val(parseInt($(".dia-selecionado").text()).pad(2) + "/" + (mesAtual + 1).pad(2) + "/" + anoAtual);
     $("#link-nova").click();
 }
@@ -664,11 +687,11 @@ function ativaEditarTarefa() {
     $("#nova-tarefa").find("h1").text("Editar Tarefa");
     $("#botao-cancelar").css('display', 'block');
     $("#link-nova").click();
-    editarTarefa = true;
+    vaiEditarTarefa = true;
 }
 
-function passaValoresFormulario(div) {
-    idTarefaEditada = $(div).children().eq(0).text();
+function passaValoresParaNovaTarefa(div) {
+    idTarefaSelecionada = $(div).children().eq(0).text();
     let nome = $(div).children().eq(1).text();
     let tel1 = $(div).children().eq(2).text();
 
@@ -692,7 +715,7 @@ function passaValoresFormulario(div) {
     $("#nome").val(nome);
     $("#endereco").val(endereco);
     $("#tel2").val(tel2);
-    pegaDataCalendario();
+    addDataCalendarioNoNovaTerfa();
     $("#problema").val(problema);
     $("#info").val(info);
 }
@@ -703,7 +726,7 @@ function atualizaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, inf
         type: 'post',
         data: {
             'atualiza-tarefa': 1,
-            'id': idTarefaEditada,
+            'id': idTarefaSelecionada,
             'tel1': tel1,
             'nome': nome,
             'endereco': endereco,
@@ -712,6 +735,9 @@ function atualizaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, inf
             'periodo': periodo,
             'problema': problema,
             'infoAdicional': infoAdicional,
+        },
+        success: function (dados) {
+            mostraAjuda("<span>Tarefa editada com sucesso!</span>");
         }
     });
 }
@@ -721,22 +747,30 @@ function fechaEditarTarefa() {
     $("#botao-cancelar").css('display', 'none');
     $("#box-nova-tarefa").trigger("reset");
     $("#tel1").prop("readonly", false);
-    editarTarefa = false;
+    vaiEditarTarefa = false;
 }
 
 function deletarTarefa(div) {
-    idTarefaEditada = $(div).children().eq(0).text();
-    $(div).fadeOut(function () {
-        $(div).remove();
-    });
+    idTarefaSelecionada = $(div).children().eq(0).text();
 
-    $.ajax({
+    $.when($.ajax({
         url: 'j-notes.php',
         type: 'post',
         data: {
             'deleta-tarefa': 1,
-            'id': idTarefaEditada,
+            'id': parseInt(idTarefaSelecionada),
+        },
+        success: function (dados) {
+            if (dados == "certo") {
+                $(div).fadeOut(function () {
+                    $(div).remove();
+                });
+            }
         }
+    })).done(function () {
+        $.when(pegaTarefasDoMes()).done(function () {
+            addIndicadorAosDias();
+        });
     });
 }
 

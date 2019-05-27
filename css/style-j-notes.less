@@ -485,6 +485,7 @@ main {
         }
 
         label {
+            position: relative;
             display: flex;
             flex-direction: column;
 
@@ -497,6 +498,19 @@ main {
                     content: ' *';
                     color: @azul;
                 }
+            }
+
+            #desce-para-calendario {
+                position: absolute;
+                right: -5%;
+                top: 95%;
+                width: 1rem;
+                height: 1rem;
+                box-sizing: initial;
+                margin: -1rem;
+                padding: 1rem;
+                transform: translate(-50%, -50%);
+                cursor: pointer;
             }
 
             input[type="text"] {
@@ -709,6 +723,19 @@ main {
             .dia-selecionado {
                 background: @azul;
                 color: @preto-fonte;
+            }
+
+            .dia-evento::after {
+                content: "";
+                position: absolute;
+                top: 18%;
+                left: 82%;
+                width: 0.7rem;
+                height: 0.7rem;
+                background: #FFAA00;
+                border: 0.1rem solid @preto-fonte;
+                border-radius: 100%;
+                transform: translate(-50%, -50%);
             }
         }
     }
