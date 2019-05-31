@@ -1,4 +1,4 @@
-<?php include('lib/cadastrar-user.php');?>
+<?php include('lib/cadastrar-user.php'); ?>
 <html>
 
 <head>
@@ -32,7 +32,7 @@
                 </span>
             </form>
             <form id="registrar" class="box registrar" method="post" action="./lib/autenticar-login.php">
-            
+
                 <span class="texto" id="id-texto-user">Nome de Usuário</span>
                 <input name="nome" type="text" class="textoinput" id="id-user" required autocomplete="off">
 
@@ -56,4 +56,5 @@
     <span class="xis bolinha"></span>
     <span class="xis bolinha"></span>
 </body>
+
 </html>

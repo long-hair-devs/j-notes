@@ -41,7 +41,7 @@ if (isset($_POST['save'])) {
   }
 
   //Verifica se o email é valido
-  if (strpos($_mail, '@') == NULL) {
+  if (strpos($_mail, '@') == NULL || strpos($_mail, '.') == NULL) {
     echo ("Email inválido");
     exit();
   }
