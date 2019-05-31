@@ -425,9 +425,24 @@ main {
 
         &>div {
             height: calc(~"100% - 5rem");
+            padding: 1rem;
             box-shadow: inset 0 0 0 @linha-borda @branco-fundo;
             border-radius: 0 0 @borda-padrao @borda-padrao;
             overflow: hidden;
+
+            .notificacao-item {
+                background: #444;
+                padding: 1rem;
+                width: 100%;
+                height: 5rem;
+                margin-bottom: 1rem;
+                border-radius: 0.75rem;
+                cursor: pointer;
+
+                span {
+                    color: @branco-fonte;
+                }
+            }
         }
     }
 }
@@ -733,7 +748,7 @@ main {
                 width: 0.7rem;
                 height: 0.7rem;
                 background: #FFAA00;
-                border: 0.1rem solid @preto-fonte;
+                border: 0.07rem solid @preto-fonte;
                 border-radius: 100%;
                 transform: translate(-50%, -50%);
             }
@@ -938,8 +953,7 @@ main {
 
                     @media screen and (-webkit-min-device-pixel-ratio:0) {
 
-                        //Só para o chrome
-                        .box-nova-data {
+                        & {
                             margin: 0;
                         }
                     }
@@ -1074,6 +1088,7 @@ main {
 
             .box-concluir-tarefa-item {
                 &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item);
+                position: relative;
                 height: 10rem;
                 background: @cinza-claro;
                 display: block;
@@ -1088,7 +1103,7 @@ main {
                 }
 
                 .info {
-                    width: 100%;
+                    width: calc(~"100% - 5rem");
                     height: 8rem;
                     display: flex;
                     flex-flow: column wrap;
@@ -1102,11 +1117,63 @@ main {
                 }
 
                 form {
-                    width: 100%;
-                    height: 9rem;
+                    width: calc(~"100% - 5rem");
+                    height: auto;
                     margin-top: 1rem;
                     border-top: @linha-borda solid @branco-fundo;
-                    padding-top: 1rem;
+
+                    display: grid;
+                    grid-auto-rows: min-content;
+                    grid-template-columns: 1fr 1rem 1fr;
+                    grid-template-areas:
+                        "tRecebido . obs"
+                        "tGasto . obs";
+                    .user-select(none);
+
+                    label {
+                        &:extend(#nova-tarefa .box-nova-tarefa label);
+
+                        &>span {
+                            &:extend(#nova-tarefa .box-nova-tarefa label>span);
+
+                            &.required::after {
+                                &:extend(#nova-tarefa .box-nova-tarefa label>span.required::after);
+                            }
+                        }
+
+                        input[type="text"] {
+                            &:extend(#nova-tarefa .box-nova-tarefa label input[type="text"]);
+                            width: auto;
+                        }
+
+                        textarea {
+                            &:extend(#nova-tarefa .box-nova-tarefa label textarea);
+                        }
+                    }
+
+                    #l-total-recebido {
+                        grid-area: tRecebido;
+                    }
+
+                    #l-total-gasto {
+                        grid-area: tGasto;
+                    }
+
+                    #l-observacoes {
+                        grid-area: obs;
+                    }
+                }
+
+                .botao-concluir-tarefa {
+                    position: absolute;
+                    top: 50%;
+                    right: 1rem;
+                    width: 3rem;
+                    height: 3rem;
+                    box-sizing: initial;
+                    padding: 1rem;
+                    margin: -1rem;
+                    transform: translateY(calc(~"-50% + 1rem"));
                 }
             }
         }

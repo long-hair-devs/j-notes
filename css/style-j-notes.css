@@ -339,9 +339,22 @@ main section > div .wrapper-section {
 #inicio .box-inicio > div,
 #calendario .box-painel-calendario > div {
   height: calc(100% - 5rem);
+  padding: 1rem;
   box-shadow: inset 0 0 0 0.15rem #DDD;
   border-radius: 0 0 0.75rem 0.75rem;
   overflow: hidden;
+}
+#inicio .box-inicio > div .notificacao-item {
+  background: #444;
+  padding: 1rem;
+  width: 100%;
+  height: 5rem;
+  margin-bottom: 1rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+#inicio .box-inicio > div .notificacao-item span {
+  color: #FFF;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
@@ -385,17 +398,20 @@ main section > div .wrapper-section {
   border: 0.25rem solid #222;
   border-radius: 0.75rem;
 }
-#nova-tarefa .box-nova-tarefa label {
+#nova-tarefa .box-nova-tarefa label,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label {
   position: relative;
   display: flex;
   flex-direction: column;
 }
-#nova-tarefa .box-nova-tarefa label > span {
+#nova-tarefa .box-nova-tarefa label > span,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label > span {
   font-size: 1.2rem;
   color: #FFF;
   margin: 1rem 0 0.5rem 0;
 }
-#nova-tarefa .box-nova-tarefa label > span.required::after {
+#nova-tarefa .box-nova-tarefa label > span.required::after,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label > span.required::after {
   content: ' *';
   color: #6DA8D6;
 }
@@ -413,7 +429,9 @@ main section > div .wrapper-section {
 }
 #nova-tarefa .box-nova-tarefa label input[type="text"],
 #nova-tarefa .box-nova-tarefa label textarea,
-#nova-tarefa .box-nova-tarefa #wrapper-botao .botao {
+#nova-tarefa .box-nova-tarefa #wrapper-botao .botao,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label input[type="text"],
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label textarea {
   width: 17rem;
   height: 2.5rem;
   padding-left: 0.25rem;
@@ -423,7 +441,8 @@ main section > div .wrapper-section {
   font-family: inherit;
   font-size: 1.2rem;
 }
-#nova-tarefa .box-nova-tarefa label textarea {
+#nova-tarefa .box-nova-tarefa label textarea,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label textarea {
   width: 100%;
   height: 100%;
   padding-top: 0.25rem;
@@ -595,7 +614,7 @@ main section > div .wrapper-section {
   width: 0.7rem;
   height: 0.7rem;
   background: #FFAA00;
-  border: 0.1rem solid #000;
+  border: 0.07rem solid #000;
   border-radius: 100%;
   transform: translate(-50%, -50%);
 }
@@ -765,7 +784,7 @@ main section > div .wrapper-section {
   cursor: pointer;
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
-  #calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data .box-nova-data {
+  #calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data {
     margin: 0;
   }
 }
@@ -865,6 +884,7 @@ main section > div .wrapper-section {
   overflow: auto;
 }
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item {
+  position: relative;
   height: 10rem;
   background: #333;
   display: block;
@@ -877,7 +897,7 @@ main section > div .wrapper-section {
   margin: 0;
 }
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info {
-  width: 100%;
+  width: calc(100% - 5rem);
   height: 8rem;
   display: flex;
   flex-flow: column wrap;
@@ -889,11 +909,41 @@ main section > div .wrapper-section {
   font-size: 1.2rem;
 }
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form {
-  width: 100%;
-  height: 9rem;
+  width: calc(100% - 5rem);
+  height: auto;
   margin-top: 1rem;
   border-top: 0.15rem solid #DDD;
-  padding-top: 1rem;
+  display: grid;
+  grid-auto-rows: min-content;
+  grid-template-columns: 1fr 1rem 1fr;
+  grid-template-areas: "tRecebido . obs" "tGasto . obs";
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label input[type="text"] {
+  width: auto;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form #l-total-recebido {
+  grid-area: tRecebido;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form #l-total-gasto {
+  grid-area: tGasto;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form #l-observacoes {
+  grid-area: obs;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .botao-concluir-tarefa {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  width: 3rem;
+  height: 3rem;
+  box-sizing: initial;
+  padding: 1rem;
+  margin: -1rem;
+  transform: translateY(calc(-50% + 1rem));
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
