@@ -111,3 +111,5 @@ if (isset($_POST['deleta-tarefa'])) {
     }
     exit();
 }
+
+if (isset($_POST['pega-nao-concluidas'])) { }

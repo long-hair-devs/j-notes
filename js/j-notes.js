@@ -3,14 +3,16 @@
 let ajudaInicio = "<span>Nesta seção é possível ter uma noção prévia das atividades do dia atual, e também de todas atividades que não foram concluídas nos dias anteriores.</span>";
 ajudaInicio += "<span>Ao clicar em alguma notificação, a página será redirecionada ao local indicado pela notificação.</span>";
 
-let ajudaNova = "<span>Nesta seção pode-se criar uma nova tarefa, que será mais tarde mostrada no calendário, ou editar alguma já criada.</span>";
+let ajudaNova = "<span>Nesta seção pode-se editar uma tarefa ja criada, ou criar uma nova tarefa, que será mostrada no calendário.</span>";
 ajudaNova += '<span>Os itens com o indicador * são de preenchimento obrigatório.</span>';
+ajudaNova += "<span>Ao clicar na seta que esta na compo da data, você será redirecionado para o calendario .</span>";
 ajudaNova += '<span>Caso tenha aberto a opção de editar por engano, clique no botão cancelar.</span>';
 
 let ajudaCaledario = "<span>Nesta parte do site, o usuário tem acesso ao Calendário, local onde ele consegue ter controle sobre as tarefas que devem ser feitas, e as tarefas já concluidas.</span>";
 ajudaCaledario += "<span>Os dias com marcas amarelas indicam que há tarefas a serem feitas.</span>";
 ajudaCaledario += "<span>Os dias com marcas cinzas indicam que alguma tarefa foi concluída.</span>";
 ajudaCaledario += "<span>Ao clicar em uma tarefa é possível obter mais informações sobre a mesma.</span>";
+ajudaCaledario += "<span>Ao clicar no item azul 'nova tarefa', você será redirecionado para o calendário que estará com a data preenchida.</span>";
 ajudaCaledario += "<span>Caso queira deletar ou editar uma tarefa, use os controladores que aparecem ao expandir uma.</span>";
 
 let ajudaConcluir = "<span>Com essa seção, o usuário pode concluir uma tarefa informando dados essênciais para a geração de formulários do site.</span>";
@@ -48,6 +50,9 @@ let IDTAREFA = 0,
     ENDERECO = 8;
 
 let podeCriarDivNovaData = false;
+
+/*--- Concluir Tarefa ---*/
+let tarefasNaoConcluidas = 0;
 
 //Main
 $(function () {
@@ -230,6 +235,16 @@ $(function () {
     $(".box-concluir-tarefa-item").click(function () {
         abreFechaItemConcluir(this);
     });
+
+    $(".box-concluir-tarefa-item label").click(function (e) {
+        e.stopPropagation();
+    });
+
+    $("#botao-concluir-tarefa").click(function (e) {
+        if (transformaPxEmRem($(".box-concluir-tarefa-item").height()) > 10) {
+            e.stopPropagation();
+        }
+    });
 });
 
 //Secundários
@@ -313,6 +328,15 @@ function transformaRemEmPx(valorEmRem) {
 
 function transformaPxEmRem(valorEmPx) {
     return valorEmPx / parseInt($("html").css('font-size'));
+}
+
+// Função retirada da internet, para adicionar 0 ao dia ou mês caso seja menor que 10
+Number.prototype.pad = function (size) {
+    var s = String(this);
+    while (s.length < (size || 2)) {
+        s = "0" + s;
+    }
+    return s;
 }
 
 /*--- Nova Tarefa ---*/
@@ -561,7 +585,7 @@ function abreFechaTarefaPainel(item) {
     $(".box-painel-eventos-item").addClass("box-painel-eventos-item--animacao");
     if (transformaPxEmRem($(item).innerHeight()) == 5) {
         $(".box-painel-eventos-item").css('height', '5rem');
-        $(item).css('height', descobreTamanhoElemento(item));
+        $(item).css('height', transformaPxEmRem(descobreTamanhoElemento(item)) + "rem");
     } else {
         $(item).css('height', '5rem');
     }
@@ -583,7 +607,7 @@ function mudaDiaSelecionado(item) {
     $(item).addClass("dia-selecionado");
 
     addOuTiraNovaData();
-    verificaSeDiaTemTarefa($(item).text());
+    verificaSeDiaTemTarefa(parseInt($(item).text()).pad(2));
 }
 
 function pegaTarefasDoMes() {
@@ -610,7 +634,7 @@ function addIndicadorAosDias() {
         let dias = $("#corpo-calendario").find("span");
         for (let i = 0; i < dias.length; i++) {
             for (let j = 0; j < tarefasDoMes.length; j++) {
-                if ($(dias[i]).text() == tarefasDoMes[j][DIA].split("-")[2]) {
+                if (parseInt($(dias[i]).text()).pad(2) == tarefasDoMes[j][DIA].split("-")[2]) {
                     $(dias[i]).addClass("dia-evento");
                     break;
                 }
@@ -667,15 +691,6 @@ function mostraDivNovaData() {
         let comando = '<div class="box-nova-data"><img src="../img/svg/plus.svg"><span>Nova Tarefa</span></div>';
         $("#box-painel-eventos").append(comando);
     }
-}
-
-// Função retirada da internet, para adicionar 0 ao dia ou mês caso seja menor que 10
-Number.prototype.pad = function (size) {
-    var s = String(this);
-    while (s.length < (size || 2)) {
-        s = "0" + s;
-    }
-    return s;
 }
 
 function addDataCalendarioNoNovaTerfa() {
@@ -779,11 +794,27 @@ function abreFechaItemConcluir(item) {
     $(".box-concluir-tarefa-item").addClass("box-concluir-tarefa-item--animacao");
     if (transformaPxEmRem($(item).innerHeight()) == 10) {
         $(".box-concluir-tarefa-item").css('height', '10rem');
-        $(item).css('height', '20rem');
+        $(item).css('height', (transformaPxEmRem(descobreTamanhoElemento(item)) - 3.6) + "rem");
     } else {
         $(item).css('height', '10rem');
     }
     $(".box-concluir-tarefa-item").one("transitionend", function (e) {
         $(".box-concluir-tarefa-item").removeClass("box-concluir-tarefa-item--animacao");
+    });
+}
+
+function pegaTarefaQueFaltaConcluir() {
+    tarefasNaoConcluidas = 0;
+    return $.ajax({
+        url: 'j-notes.php',
+        type: 'post',
+        data: {
+            'pega-nao-concluidas': 1,
+        },
+        success: function (dados) {
+            if (dados != "") {
+                tarefasNaoConcluidas = JSON.parse(dados);
+            }
+        }
     });
 }
