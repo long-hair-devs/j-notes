@@ -64,7 +64,7 @@ $(function () {
             mail_estado = false;
             return;
         }
-        if (mail.indexOf("@") == -1) {
+        if (mail.indexOf("@") == -1 || mail.indexOf(".") == -1) {
             mail_estado = false;
             $("#registrar #id-texto-mail").addClass("form-mail-erro");
             mail_estado_error = true;
