@@ -711,6 +711,9 @@ main section > div .wrapper-section {
 #calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos--visivel.wrapper-lista-anos--animacao .box-lista-anos {
   transition: all 0.5s ease-out;
 }
+#calendario .box-painel-calendario > div {
+  padding: 0;
+}
 #calendario .box-painel-calendario > div .box-painel-eventos {
   height: calc(100% - 0.3rem);
   margin: 0.15rem;

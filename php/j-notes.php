@@ -109,6 +109,9 @@ $user = $_SESSION['nome'];
                             <div class="notificacao-item">
                                 <span>Bleu Bleu</span>
                             </div>
+                            <div class="notificacao-item">
+                                <span>Bleu Bleu</span>
+                            </div>
                         </div>
                     </div>
                 </div>
