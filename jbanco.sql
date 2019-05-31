@@ -4,8 +4,8 @@ use jbanco;
 
 CREATE TABLE IF NOT EXISTS usuarios (
   id_user int(11) NOT NULL AUTO_INCREMENT ,
-  usuario varchar(100) NOT NULL,
-  email varchar(100) NOT NULL,
+  usuario varchar(30) NOT NULL,
+  email varchar(30) NOT NULL,
   senha varchar(100) NOT NULL,
   
   PRIMARY KEY (id_user)
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS tarefas (
   periodo varchar(6)  NOT NULL,
   problema varchar(245),
   informacoes varchar(245),
-  total_recebido varchar(10),
-  total_gasto varchar(10),
+  total_recebido decimal(8,2),
+  total_gasto decimal(8,2),
   observacoes_servico varchar(245),
   
   nome varchar(50)  NOT NULL,
