@@ -1257,7 +1257,7 @@ main {
     justify-content: center;
     .user-select(none);
 
-    div {
+    &>div {
         width: @min-mobile-width - 2rem;
         padding: 1rem;
         background: @azul;
@@ -1266,10 +1266,23 @@ main {
         flex-direction: column;
         justify-content: center;
 
-        span {
+        &>span {
             margin: 1rem 0;
             font-size: 1.2rem;
             text-align: center;
+        }
+
+        div {
+            &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>div);
+            margin: 0;
+
+            span {
+                padding: 1rem;
+                margin: -1rem;
+                font-size: 1.2rem;
+                color: @branco-fonte;
+                cursor: pointer;
+            }
         }
     }
 }

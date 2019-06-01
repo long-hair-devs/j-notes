@@ -764,7 +764,8 @@ main section > div .wrapper-section {
   margin: 0;
   display: none;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div {
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div,
+.overlay-ajuda > div div {
   align-self: center;
   width: 100%;
   height: 1.8rem;
@@ -1007,7 +1008,7 @@ main section > div .wrapper-section {
   -ms-user-select: none;
   -webkit-user-select: none;
 }
-.overlay-ajuda div {
+.overlay-ajuda > div {
   width: 36rem;
   padding: 1rem;
   background: #6DA8D6;
@@ -1016,10 +1017,20 @@ main section > div .wrapper-section {
   flex-direction: column;
   justify-content: center;
 }
-.overlay-ajuda div span {
+.overlay-ajuda > div > span {
   margin: 1rem 0;
   font-size: 1.2rem;
   text-align: center;
+}
+.overlay-ajuda > div div {
+  margin: 0;
+}
+.overlay-ajuda > div div span {
+  padding: 1rem;
+  margin: -1rem;
+  font-size: 1.2rem;
+  color: #FFF;
+  cursor: pointer;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {

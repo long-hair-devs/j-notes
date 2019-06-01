@@ -17,7 +17,10 @@ ajudaCaledario += "<span>Caso queira deletar ou editar uma tarefa, use os contro
 
 let ajudaConcluir = "<span>Com essa seção, o usuário pode concluir uma tarefa informando dados essênciais para a geração de formulários do site.</span>";
 ajudaConcluir += "<span>Nenhum dos dados são divulgados externamente, são de uso exclusivo apenas para a criação dos formulários.</span>";
-ajudaConcluir += "<span>Os itens com o indicador * são de preenchimento obrigatório.<span>";
+ajudaConcluir += "<span>Os itens com o indicador * são de preenchimento obrigatório.</span>";
+
+let textoConfirmação = "<span>Você realmente deseja deletar esse item ?</span>";
+textoConfirmação += "<div><span class='confirmacao'>Sim</span><span class='confirmacao'>Não</span></div>";
 
 /*--- Nova Tarefa ---*/
 const mascara = ['(00) 00000-0000', '(00) 0000-00009'];
@@ -26,6 +29,7 @@ let fezAutoComplete = false;
 let vaiEditarTarefa = false;
 
 let idTarefaSelecionada;
+let divTarefaDeletar;
 
 /*--- Calendário ---*/
 let hoje = new Date();
@@ -54,6 +58,7 @@ const IDTAREFA = 0,
 
 let podeCriarDivNovaData = false;
 
+let diaParaMarcar = hoje.getDate();
 /*--- Concluir Tarefa ---*/
 let tarefasNaoConcluidas = 0;
 
@@ -123,6 +128,7 @@ $(function () {
 
     /* Listener para quando clicar na notificação levar para o local desejado */
     $(".notificacao-item.tarefa").click(function () {
+        diaParaMarcar = hoje.getDate();
         mesAtual = hoje.getMonth();
         anoAtual = hoje.getFullYear();
         mostrarCalendario(mesAtual, anoAtual);
@@ -167,6 +173,10 @@ $(function () {
                 $.when(atualizaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
                     fechaEditarTarefa();
                     mostrarCalendario(mesAtual, anoAtual);
+                    $.when(pegaTarefasQueFaltaConcluir()).done(function () {
+                        verificaTarefasConcluir();
+                        atualizaNotificacoes();
+                    });
                 });
             } else {
                 if (fezAutoComplete) {
@@ -176,6 +186,9 @@ $(function () {
                     cadastraNovoCliente(tel1, nome, endereco, tel2);
                 }
                 $.when(cadastraNovaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
+                    diaParaMarcar = parseInt(data.split("/")[0]);
+                    mesAtual = (parseInt(data.split("/")[1]) - 1);
+                    anoAtual = parseInt(data.split("/")[2]);
                     mostrarCalendario(mesAtual, anoAtual);
                 });
             }
@@ -187,7 +200,7 @@ $(function () {
         fechaEditarTarefa();
     });
 
-    /* Listener para levar ao calendário quando clicar no campo da data */
+    /* Listener para levar ao calendário quando clicar na seta do campo da data */
     $("#desce-para-calendario").click(function () {
         $("#link-calendario").click();
     });
@@ -213,7 +226,7 @@ $(function () {
         abreFechaListaAnos();
     });
 
-    /* Impede da lista ser fechada caso clique fora da mesma */
+    /* Impede da lista ser fechada caso clique dentro da mesma */
     $(".wrapper-ano").click(function (e) {
         e.stopPropagation();
     });
@@ -245,7 +258,16 @@ $(function () {
     });
 
     $(".box-painel-eventos").on("click", ".deletar-tarefa", function () {
-        deletarTarefa($(this).parent().parent());
+        mostraAjuda(textoConfirmação);
+        divTarefaDeletar = $(this).parent().parent();
+    });
+
+    /* Listener que confirma se vai ou não deletar a tarefa */
+    $(".overlay-ajuda div").on('click', '.confirmacao', function () {
+        if ($(this).text() == "Sim") {
+            deletarTarefa(divTarefaDeletar);
+        }
+        fechaAjuda();
     });
 
     /*--- Concluir Tarefa ---*/
@@ -556,8 +578,13 @@ function mostrarCalendario(mes, ano) {
     $("#corpo-calendario").empty();
     $("#mes").text(meses[mes]);
     $("#ano").text(ano);
-    let data = 1,
-        dataSel = 0;
+    let data = 1;
+
+    if (mes == hoje.getMonth()) {
+        diaParaMarcar = hoje.getDate();
+    } else if (diaParaMarcar > totalDiasMes) {
+        diaParaMarcar = 1;
+    }
 
     for (let i = 0; i < 6; i++) {
         let linha = "<tr>";
@@ -571,13 +598,7 @@ function mostrarCalendario(mes, ano) {
                 if (j === 0 || j === 6) {
                     linha += "dia-final-semana ";
                 }
-                if (data === 1) {
-                    dataSel = data;
-                    linha += "dia-selecionado ";
-                } else if (data === hoje.getDate() && mes === hoje.getMonth() && ano === hoje.getFullYear()) {
-                    dataSel = data;
-                    linha = linha.replace('dia-selecionado', '');
-                    $(".dia-normal").removeClass("dia-selecionado");
+                if (data == diaParaMarcar) {
                     linha += "dia-selecionado ";
                 }
                 linha += "'>" + data + "</span></td>";
@@ -590,7 +611,7 @@ function mostrarCalendario(mes, ano) {
     $.when(pegaTarefasDoMes()).done(function () { //Só executa a função após o Ajax terminar
         addOuTiraNovaData();
         addIndicadorAosDias();
-        verificaSeDiaTemTarefa(dataSel);
+        verificaSeDiaTemTarefa(diaParaMarcar);
         atualizaNotificacoes();
     });
 }
@@ -666,6 +687,7 @@ function descobreTamanhoElemento(item) {
 function mudaDiaSelecionado(item) {
     $(".box-dia").removeClass("dia-selecionado");
     $(item).addClass("dia-selecionado");
+    diaParaMarcar = parseInt($(item).text());
 
     addOuTiraNovaData();
     verificaSeDiaTemTarefa(parseInt($(item).text()).pad(2));
@@ -837,7 +859,6 @@ function atualizaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, inf
         },
         success: function (dados) {
             mostraAjuda("<span>Tarefa editada com sucesso!</span>");
-            atualizaNotificacoes();
         }
     });
 }
@@ -864,13 +885,16 @@ function deletarTarefa(div) {
             if (dados == "certo") {
                 $(div).fadeOut(function () {
                     $(div).remove();
-                    atualizaNotificacoes();
                 });
             }
         }
     })).done(function () {
         $.when(pegaTarefasDoMes()).done(function () {
             addIndicadorAosDias();
+        });
+        $.when(pegaTarefasQueFaltaConcluir()).done(function () {
+            verificaTarefasConcluir();
+            atualizaNotificacoes();
         });
     });
 }
@@ -928,6 +952,7 @@ function verificaTarefasConcluir() {
 
 function colocaTarefaParaConcluir(i) {
     let dia = tarefasNaoConcluidas[i][DIA].split("-")[2] + "/" + tarefasNaoConcluidas[i][DIA].split("-")[1] + "/" + tarefasNaoConcluidas[i][DIA].split("-")[0];
+
     let comando = '<div class="box-concluir-tarefa-item"><div class="info">';
     comando += '<span>' + tarefasNaoConcluidas[i][IDTAREFA] + '</span>';
     comando += '<span>' + tarefasNaoConcluidas[i][NOME] + '</span>';
@@ -938,16 +963,13 @@ function colocaTarefaParaConcluir(i) {
     comando += '<span>' + tarefasNaoConcluidas[i][ENDERECO] + '</span>';
     tarefasNaoConcluidas[i][PROBLEMA] != "" ? (comando += '<span>' + tarefasNaoConcluidas[i][PROBLEMA] + '</span>') : (comando += "");
     tarefasNaoConcluidas[i][INFORMACOES] != "" ? (comando += '<span>' + tarefasNaoConcluidas[i][INFORMACOES] + '</span>') : (comando += "");
-    comando += '</div><form>';
-    comando += '<label id="l-total-recebido">';
+    comando += '</div><form><label id="l-total-recebido">';
     comando += '<span class="required">Total Recebido:</span>';
     comando += '<input class="dinheiro" id="total-recebido" name="total-recebido" type="text" placeholder="Ex: 000.00" autocomplete="off">';
-    comando += '</label>';
-    comando += '<label id="l-total-gasto">';
+    comando += '</label><label id="l-total-gasto">';
     comando += '<span>Total Gasto:</span>';
     comando += '<input class="dinheiro" id="total-gasto" name="total-gasto" type="text" placeholder="Ex: 000.00" autocomplete="off">';
-    comando += '</label>';
-    comando += '<label id="l-observacoes">';
+    comando += '</label><label id="l-observacoes">';
     comando += '<span>Observações :</span>';
     comando += '<textarea id="observacoes" name="observacoes" placeholder="Ex: Componente x trocado" autocomplete="off"></textarea>';
     comando += '</label></form><img class="botao-concluir-tarefa" src="../img/svg/check-white.svg" alt="botao concluir tarefa"></div>';
