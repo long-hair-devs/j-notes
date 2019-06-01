@@ -66,7 +66,7 @@ if (isset($_POST['pega-eventos-mes'])) {
     $mes = $_POST['mes'] + 1;
     $ano = $_POST['ano'];
 
-    $sql = "SELECT id_tarefa, dia, periodo, problema, informacoes, nome, telefone1, telefone2, endereco 
+    $sql = "SELECT id_tarefa, dia, periodo, problema, informacoes, nome, telefone1, telefone2, endereco, total_recebido, total_gasto, observacoes_servico 
                     FROM tarefas WHERE MONTH(dia) = '$mes' AND YEAR(dia) = '$ano' AND id_user ='$user_id'";
     $results = mysqli_query($db, $sql) or die($db->error);
 
@@ -91,7 +91,7 @@ if (isset($_POST['atualiza-tarefa'])) {
     $infoAdicional = $_POST['infoAdicional'];
 
     $sql = "UPDATE tarefas SET nome='$nome', endereco='$endereco', telefone2='$tel2', dia=str_to_date('$data', '%d/%m/%Y'), periodo='$periodo', problema='$problema', informacoes='$infoAdicional'
-                WHERE id_tarefa='$id'";
+                WHERE id_tarefa='$id' AND id_user ='$user_id'";
 
     mysqli_query($db, $sql) or die($db->error);
     exit();
@@ -112,4 +112,35 @@ if (isset($_POST['deleta-tarefa'])) {
     exit();
 }
 
-if (isset($_POST['pega-nao-concluidas'])) { }
+if (isset($_POST['pega-nao-concluidas'])) {
+    $hoje = $_POST['hoje'];
+
+    $sql = "SELECT id_tarefa, dia, periodo, problema, informacoes, nome, telefone1, telefone2, endereco
+                    FROM tarefas WHERE DATE(dia) < '$hoje' AND id_user ='$user_id' AND total_recebido IS NULL";
+    $results = mysqli_query($db, $sql) or die($db->error);
+
+    if (mysqli_num_rows($results) > 0) {
+        $results = mysqli_fetch_all($results, MYSQLI_NUM);
+        echo json_encode($results);
+    } else {
+        echo "";
+    }
+    exit();
+}
+
+if (isset($_POST['concluir-tarefa'])) {
+    $id = $_POST['id'];
+    $tRecebido = $_POST['tRecebido'];
+    $tGasto = $_POST['tGasto'];
+    $obs = $_POST['obs'];
+
+    if (is_numeric($id)) {
+        $sql = "UPDATE tarefas SET total_recebido='$tRecebido', total_gasto='$tGasto', observacoes_servico='$obs'
+                WHERE id_tarefa='$id' AND id_user ='$user_id'";
+
+        mysqli_query($db, $sql) or die($db->error);
+
+        echo "certo";
+    }
+    exit();
+}

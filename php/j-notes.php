@@ -45,7 +45,7 @@ $user = $_SESSION['nome'];
             </li>
             <li class="click-scrollspy">
                 <a href="#concluir-tarefa">
-                    <img src="../img/svg/check.svg" alt="icone concluir tarefa">
+                    <img src="../img/svg/check.svg" alt="icone concluir-tarefa">
                 </a>
             </li>
             <li class="final">
@@ -106,11 +106,11 @@ $user = $_SESSION['nome'];
                             <h2>Notificações</h2>
                         </header>
                         <div>
-                            <div class="notificacao-item">
-                                <span>Bleu Bleu</span>
+                            <div class="notificacao-item tarefa">
+
                             </div>
-                            <div class="notificacao-item">
-                                <span>Bleu Bleu</span>
+                            <div class="notificacao-item concluir">
+
                             </div>
                         </div>
                     </div>
@@ -259,32 +259,7 @@ $user = $_SESSION['nome'];
                     </div>
                     <div class="box-concluir-tarefa">
                         <div>
-                            <div class="box-concluir-tarefa-item">
-                                <div class="info">
-                                    <span>Bleu</span>
-                                    <span>Bleu</span>
-                                    <span>Bleu</span>
-                                    <span>Bleu</span>
-                                    <span>Bleu</span>
-                                    <span>Bleu</span>
-                                    <span>Bleu</span>
-                                </div>
-                                <form>
-                                    <label id="l-total-recebido">
-                                        <span class="required">Total Recebido:</span>
-                                        <input id="total-recebido" name="total-recebido" type="text" placeholder="R$ 000,00" autocomplete="off">
-                                    </label>
-                                    <label id="l-total-gasto">
-                                        <span>Total Gasto:</span>
-                                        <input id="total-gasto" name="total-gasto" type="text" placeholder="R$ 000,00" autocomplete="off">
-                                    </label>
-                                    <label id="l-observacoes">
-                                        <span>Observações :</span>
-                                        <textarea id="observacoes" name="observacoes" placeholder="Ex: Componente x trocado" autocomplete="off"></textarea>
-                                    </label>
-                                </form>
-                                <img id="botao-concluir-tarefa" class="botao-concluir-tarefa" src="../img/svg/check-white.svg" alt="botao concluir tarefa">
-                            </div>
+
                         </div>
                     </div>
                 </div>

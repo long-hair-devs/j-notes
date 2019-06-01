@@ -5,7 +5,7 @@ ajudaInicio += "<span>Ao clicar em alguma notificação, a página será redirec
 
 let ajudaNova = "<span>Nesta seção pode-se editar uma tarefa ja criada, ou criar uma nova tarefa, que será mostrada no calendário.</span>";
 ajudaNova += '<span>Os itens com o indicador * são de preenchimento obrigatório.</span>';
-ajudaNova += "<span>Ao clicar na seta que esta na compo da data, você será redirecionado para o calendario .</span>";
+ajudaNova += "<span>Ao clicar na seta que esta na compo da data, você será redirecionado para o calendario.</span>";
 ajudaNova += '<span>Caso tenha aberto a opção de editar por engano, clique no botão cancelar.</span>';
 
 let ajudaCaledario = "<span>Nesta parte do site, o usuário tem acesso ao Calendário, local onde ele consegue ter controle sobre as tarefas que devem ser feitas, e as tarefas já concluidas.</span>";
@@ -20,7 +20,7 @@ ajudaConcluir += "<span>Nenhum dos dados são divulgados externamente, são de u
 ajudaConcluir += "<span>Os itens com o indicador * são de preenchimento obrigatório.<span>";
 
 /*--- Nova Tarefa ---*/
-let mascara = ['(00) 00000-0000', '(00) 0000-00009'];
+const mascara = ['(00) 00000-0000', '(00) 0000-00009'];
 
 let fezAutoComplete = false;
 let vaiEditarTarefa = false;
@@ -33,13 +33,13 @@ hoje.setHours(0, 0, 0, 0);
 
 let mesAtual = hoje.getMonth();
 let anoAtual = hoje.getFullYear();
-let meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
 ];
 
 let tarefasDoMes = 0;
 
-let IDTAREFA = 0,
+const IDTAREFA = 0,
     DIA = 1,
     PERIODO = 2,
     PROBLEMA = 3,
@@ -47,7 +47,10 @@ let IDTAREFA = 0,
     NOME = 5,
     TELEFONE1 = 6,
     TELEFONE2 = 7,
-    ENDERECO = 8;
+    ENDERECO = 8,
+    TOTAL = 9,
+    TOTALGASTO = 10,
+    OBSERVACOES = 11;
 
 let podeCriarDivNovaData = false;
 
@@ -114,6 +117,20 @@ $(function () {
     /* Previne a ajuda de ser fechada caso clique dentro da mesma */
     $(".overlay-ajuda div").click(function (e) {
         e.stopPropagation();
+    });
+
+    /*--- Página Inicial ---*/
+
+    /* Listener para quando clicar na notificação levar para o local desejado */
+    $(".notificacao-item.tarefa").click(function () {
+        mesAtual = hoje.getMonth();
+        anoAtual = hoje.getFullYear();
+        mostrarCalendario(mesAtual, anoAtual);
+        $("#link-calendario").click();
+    });
+
+    $(".notificacao-item.concluir").click(function () {
+        $("#link-concluir").click();
     });
 
     /*--- Nova Terfa ---*/
@@ -232,18 +249,43 @@ $(function () {
     });
 
     /*--- Concluir Tarefa ---*/
-    $(".box-concluir-tarefa-item").click(function () {
+
+    /* Listener para expandir ou fechar a tarefa do concluir tarefa */
+    $(".box-concluir-tarefa").on('click', '.box-concluir-tarefa-item', function () {
         abreFechaItemConcluir(this);
     });
 
-    $(".box-concluir-tarefa-item label").click(function (e) {
+    /* Listener para impedir de fechar a tarefa quando clicar na label da tarefa */
+    $(".box-concluir-tarefa").on('click', '.box-concluir-tarefa-item label', function (e) {
         e.stopPropagation();
     });
 
-    $("#botao-concluir-tarefa").click(function (e) {
+    /* Listener para impedir de fechar a tarefa quando clicar no icone de concluir, e concluir a tarefa */
+    $(".box-concluir-tarefa").on('click', '.botao-concluir-tarefa', function (e) {
         if (transformaPxEmRem($(".box-concluir-tarefa-item").height()) > 10) {
             e.stopPropagation();
+
+            if (validaDadosConcluirTarefa($(this).siblings("form"))) {
+                let id = $(this).siblings(".info").children().eq(0);
+                let tRecebido = $(this).siblings("form").find("input").eq(0).val();
+                let tGasto = $(this).siblings("form").find("input").eq(1).val();
+                let obs = $(this).siblings("form").find("textarea").val();
+
+                $.when(concluirTarefa(id.text(), tRecebido, tGasto, obs)).done(function () {
+                    id.parent().parent().fadeOut(function () {
+                        id.parent().parent().remove();
+                        atualizaNotificacoes();
+                    });
+                    mostrarCalendario(mesAtual, anoAtual);
+                });
+            }
         }
+    });
+
+    /* Ajax para verificar se tem tarefas a serem concluidas, cria um vetor com as mesmas caso existam */
+    $.when(pegaTarefasQueFaltaConcluir()).done(function () {
+        verificaTarefasConcluir();
+        atualizaNotificacoes();
     });
 });
 
@@ -339,6 +381,24 @@ Number.prototype.pad = function (size) {
     return s;
 }
 
+/*--- Tela Inicial ---*/
+function atualizaNotificacoes() {
+    if ($(".box-concluir-tarefa>div").children().length > 0) {
+        $(".box-concluir-tarefa>div").children().length == 1 ? $(".notificacao-item.concluir").text("Há somente uma tarefa para concluir.") :
+            $(".notificacao-item.concluir").text("Há " + $(".box-concluir-tarefa>div").children().length + " tarefas para concluir.");
+    } else {
+        $(".notificacao-item.concluir").text("Não há nada para concluir.");
+    }
+
+    if ($(".dia-selecionado").text() == hoje.getDate() && hoje.getMonth() == mesAtual && hoje.getFullYear() == anoAtual) {
+        if ($(".box-painel-eventos").find(".box-painel-eventos-item").length > 0) {
+            $(".box-painel-eventos").find(".box-painel-eventos-item").length == 1 ? $(".notificacao-item.tarefa").text("Você tem apenas uma tarefa para fazer hoje!") :
+                $(".notificacao-item.tarefa").text("Você tem " + $(".box-painel-eventos").find(".box-painel-eventos-item").length + " tarefas para fazer hoje!");
+        } else {
+            $(".notificacao-item.tarefa").text("Nenhuma tarefa para fazer hoje!");
+        }
+    }
+}
 /*--- Nova Tarefa ---*/
 function validaDadosNovaTarefa() {
     let tel1 = $("#tel1");
@@ -531,6 +591,7 @@ function mostrarCalendario(mes, ano) {
         addOuTiraNovaData();
         addIndicadorAosDias();
         verificaSeDiaTemTarefa(dataSel);
+        atualizaNotificacoes();
     });
 }
 
@@ -629,14 +690,19 @@ function pegaTarefasDoMes() {
 }
 
 function addIndicadorAosDias() {
-    $(".dia-normal").removeClass("dia-evento");
+    $(".dia-normal").removeClass("dia-evento-ativo dia-evento-passado");
     if (tarefasDoMes != 0) {
         let dias = $("#corpo-calendario").find("span");
         for (let i = 0; i < dias.length; i++) {
             for (let j = 0; j < tarefasDoMes.length; j++) {
                 if (parseInt($(dias[i]).text()).pad(2) == tarefasDoMes[j][DIA].split("-")[2]) {
-                    $(dias[i]).addClass("dia-evento");
-                    break;
+                    let dataSelecionada = new Date(anoAtual, mesAtual, $(dias[i]).text());
+                    if (dataSelecionada.getTime() < hoje.getTime()) {
+                        tarefasDoMes[j][TOTAL] != null ? $(dias[i]).addClass("dia-evento-concluido") : $(dias[i]).addClass("dia-evento-passado");
+                    } else {
+                        $(dias[i]).addClass("dia-evento-ativo");
+                        break;
+                    }
                 }
             }
         }
@@ -647,31 +713,49 @@ function verificaSeDiaTemTarefa(dia) {
     $(".box-painel-eventos-item").remove();
     for (let i = 0; i < tarefasDoMes.length; i++) {
         if (dia == tarefasDoMes[i][DIA].split("-")[2]) {
-            colocaTarefaNoPainel(tarefasDoMes[i][IDTAREFA], tarefasDoMes[i][NOME],
-                tarefasDoMes[i][TELEFONE1], tarefasDoMes[i][TELEFONE2],
-                tarefasDoMes[i][ENDERECO], tarefasDoMes[i][PERIODO],
-                tarefasDoMes[i][PROBLEMA], tarefasDoMes[i][INFORMACOES]);
+            let tipo;
+            if (tarefasDoMes[i][TOTAL] != null) {
+                tipo = "concluida";
+            } else {
+                tipo = "normal";
+            }
+            colocaTarefaNoPainel(tipo, i);
         }
     }
 }
 
-function colocaTarefaNoPainel(id, nome, tel1, tel2, endereco, periodo, problema, info) {
-    let comando = '<div class="box-painel-eventos-item">';
-    comando += '<span>' + id + '</span>';
-    comando += '<span>' + nome + '</span>';
-    comando += '<span>' + tel1 + '</span>';
-    tel2 != "" ? (comando += '<span class="opcional">' + tel2 + '</span>') : (comando += "");
-    comando += '<span>' + endereco + '</span>';
-    comando += '<span>' + periodo + '</span>';
-    problema != "" ? (comando += '<span>' + problema + '</span>') : (comando += "");
-    info != "" ? (comando += '<span>' + info + '</span>') : (comando += "");
+function colocaTarefaNoPainel(tipo, i) {
+    let comando = "";
+    if (tipo == "normal") {
+        comando = '<div class="box-painel-eventos-item">';
+        comando += '<span>' + tarefasDoMes[i][IDTAREFA] + '</span>';
+        comando += '<span>' + tarefasDoMes[i][NOME] + '</span>';
+        comando += '<span>' + tarefasDoMes[i][TELEFONE1] + '</span>';
+        tarefasDoMes[i][TELEFONE2] != "" ? (comando += '<span class="opcional">' + tarefasDoMes[i][TELEFONE2] + '</span>') : (comando += "");
+        comando += '<span>' + tarefasDoMes[i][ENDERECO] + '</span>';
+        comando += '<span>' + tarefasDoMes[i][PERIODO] + '</span>';
+        tarefasDoMes[i][PROBLEMA] != "" ? (comando += '<span>' + tarefasDoMes[i][PROBLEMA] + '</span>') : (comando += "");
+        tarefasDoMes[i][INFORMACOES] != "" ? (comando += '<span>' + tarefasDoMes[i][INFORMACOES] + '</span>') : (comando += "");
 
-    comando += '<div id="box-painel-crud">';
-    comando += '<div class="wrapper-painel-crud editar-tarefa">';
-    comando += '<img src="../img/svg/edit.svg" alt="botao-editar"><span>Editar</span></div>';
-    comando += '<div class="wrapper-painel-crud deletar-tarefa">';
-    comando += '<img src="../img/svg/delete.svg" alt="botao-deletar"><span>Deletar</span></div></div></div>';
-
+        comando += '<div id="box-painel-crud">';
+        comando += '<div class="wrapper-painel-crud editar-tarefa">';
+        comando += '<img src="../img/svg/edit.svg" alt="botao-editar"><span>Editar</span></div>';
+        comando += '<div class="wrapper-painel-crud deletar-tarefa">';
+        comando += '<img src="../img/svg/delete.svg" alt="botao-deletar"><span>Deletar</span></div></div></div>';
+    } else if (tipo = "concluida") {
+        comando = '<div class="box-painel-eventos-item concluida">';
+        comando += '<span></span>';
+        comando += '<span>' + tarefasDoMes[i][NOME] + '</span>';
+        comando += '<span>' + tarefasDoMes[i][TELEFONE1] + '</span>';
+        tarefasDoMes[i][TELEFONE2] != "" ? (comando += '<span>' + tarefasDoMes[i][TELEFONE2] + '</span>') : (comando += "");
+        comando += '<span>' + tarefasDoMes[i][ENDERECO] + '</span>';
+        comando += '<span>' + tarefasDoMes[i][PERIODO] + '</span>';
+        tarefasDoMes[i][PROBLEMA] != "" ? (comando += '<span>' + tarefasDoMes[i][PROBLEMA] + '</span>') : (comando += "");
+        tarefasDoMes[i][INFORMACOES] != "" ? (comando += '<span>' + tarefasDoMes[i][INFORMACOES] + '</span>') : (comando += "");
+        comando += '<span>Total Recebido: R$ ' + tarefasDoMes[i][TOTAL] + '</span>';
+        tarefasDoMes[i][TOTALGASTO] != "" ? (comando += '<span>Total Gasto: R$ ' + tarefasDoMes[i][TOTALGASTO] + '</span>') : (comando += "");
+        tarefasDoMes[i][OBSERVACOES] != "" ? (comando += '<span>' + tarefasDoMes[i][OBSERVACOES] + '</span>') : (comando += "");
+    }
     $("#box-painel-eventos").prepend(comando);
 }
 
@@ -753,6 +837,7 @@ function atualizaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, inf
         },
         success: function (dados) {
             mostraAjuda("<span>Tarefa editada com sucesso!</span>");
+            atualizaNotificacoes();
         }
     });
 }
@@ -779,6 +864,7 @@ function deletarTarefa(div) {
             if (dados == "certo") {
                 $(div).fadeOut(function () {
                     $(div).remove();
+                    atualizaNotificacoes();
                 });
             }
         }
@@ -794,26 +880,113 @@ function abreFechaItemConcluir(item) {
     $(".box-concluir-tarefa-item").addClass("box-concluir-tarefa-item--animacao");
     if (transformaPxEmRem($(item).innerHeight()) == 10) {
         $(".box-concluir-tarefa-item").css('height', '10rem');
+        $(".box-concluir-tarefa-item").one("transitionend", function (e) {
+            $(".box-concluir-tarefa-item .info").css('height', '8rem');
+            $(item).find('.info').css('height', (transformaPxEmRem(descobreTamanhoElemento($(item).find('.info'))) - 1) + "rem");
+        });
+
+        $(item).find('.info').css('height', (transformaPxEmRem(descobreTamanhoElemento($(item).find('.info'))) - 1) + "rem");
         $(item).css('height', (transformaPxEmRem(descobreTamanhoElemento(item)) - 3.6) + "rem");
     } else {
         $(item).css('height', '10rem');
+        $(item).one("transitionend", function (e) {
+            $(".box-concluir-tarefa-item .info").css('height', '8rem');
+            $(".box-concluir-tarefa-item form").trigger('reset');
+        });
     }
     $(".box-concluir-tarefa-item").one("transitionend", function (e) {
         $(".box-concluir-tarefa-item").removeClass("box-concluir-tarefa-item--animacao");
     });
 }
 
-function pegaTarefaQueFaltaConcluir() {
+function pegaTarefasQueFaltaConcluir() {
     tarefasNaoConcluidas = 0;
     return $.ajax({
         url: 'j-notes.php',
         type: 'post',
         data: {
             'pega-nao-concluidas': 1,
+            'hoje': hoje.getFullYear() + "-" + (hoje.getMonth() + 1).pad(2) + "-" + hoje.getDate().pad(2),
         },
         success: function (dados) {
             if (dados != "") {
                 tarefasNaoConcluidas = JSON.parse(dados);
+            }
+        }
+    });
+}
+
+function verificaTarefasConcluir() {
+    $(".box-concluir-tarefa-item").remove();
+    for (let i = 0; i < tarefasNaoConcluidas.length; i++) {
+        colocaTarefaParaConcluir(i);
+    }
+    $(".dinheiro").mask('#,##0.00', {
+        reverse: true
+    });
+}
+
+function colocaTarefaParaConcluir(i) {
+    let dia = tarefasNaoConcluidas[i][DIA].split("-")[2] + "/" + tarefasNaoConcluidas[i][DIA].split("-")[1] + "/" + tarefasNaoConcluidas[i][DIA].split("-")[0];
+    let comando = '<div class="box-concluir-tarefa-item"><div class="info">';
+    comando += '<span>' + tarefasNaoConcluidas[i][IDTAREFA] + '</span>';
+    comando += '<span>' + tarefasNaoConcluidas[i][NOME] + '</span>';
+    comando += '<span>' + tarefasNaoConcluidas[i][TELEFONE1] + '</span>';
+    tarefasNaoConcluidas[i][TELEFONE2] != "" ? (comando += '<span class="opcional">' + tarefasNaoConcluidas[i][TELEFONE2] + '</span>') : (comando += "");
+    comando += '<span>' + dia + '</span>';
+    comando += '<span>' + tarefasNaoConcluidas[i][PERIODO] + '</span>';
+    comando += '<span>' + tarefasNaoConcluidas[i][ENDERECO] + '</span>';
+    tarefasNaoConcluidas[i][PROBLEMA] != "" ? (comando += '<span>' + tarefasNaoConcluidas[i][PROBLEMA] + '</span>') : (comando += "");
+    tarefasNaoConcluidas[i][INFORMACOES] != "" ? (comando += '<span>' + tarefasNaoConcluidas[i][INFORMACOES] + '</span>') : (comando += "");
+    comando += '</div><form>';
+    comando += '<label id="l-total-recebido">';
+    comando += '<span class="required">Total Recebido:</span>';
+    comando += '<input class="dinheiro" id="total-recebido" name="total-recebido" type="text" placeholder="Ex: 000.00" autocomplete="off">';
+    comando += '</label>';
+    comando += '<label id="l-total-gasto">';
+    comando += '<span>Total Gasto:</span>';
+    comando += '<input class="dinheiro" id="total-gasto" name="total-gasto" type="text" placeholder="Ex: 000.00" autocomplete="off">';
+    comando += '</label>';
+    comando += '<label id="l-observacoes">';
+    comando += '<span>Observações :</span>';
+    comando += '<textarea id="observacoes" name="observacoes" placeholder="Ex: Componente x trocado" autocomplete="off"></textarea>';
+    comando += '</label></form><img class="botao-concluir-tarefa" src="../img/svg/check-white.svg" alt="botao concluir tarefa"></div>';
+
+    $(".box-concluir-tarefa>div").append(comando);
+}
+
+function validaDadosConcluirTarefa(form) {
+    let tRecebido = $(form).find("input").eq(0);
+    let obs = $(form).find("textarea");
+
+    if (!(tRecebido.val().length > 2)) {
+        tRecebido.parent().addClass("label--erro");
+        return false;
+    }
+
+    if (!(obs.val().length <= 245)) {
+        obs.parent().addClass("label--erro");
+        return false;
+    }
+    obs.parent().removeClass();
+
+    return true;
+}
+
+function concluirTarefa(id, tRecebido, tGasto, obs) {
+    return $.ajax({
+        url: 'j-notes.php',
+        type: 'post',
+        data: {
+            'concluir-tarefa': 1,
+            'id': parseInt(id),
+            'tRecebido': tRecebido,
+            'tGasto': tGasto,
+            'obs': obs,
+        },
+        success: function (dados) {
+            if (dados == "certo") {
+                mostraAjuda("<span>Tarefa concluída com sucesso!</span>");
             }
         }
     });
