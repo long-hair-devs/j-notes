@@ -16,6 +16,16 @@ $user = $_SESSION['nome'];
     <script type="text/javascript" src="../js/lib/jquery-3.4.0.min.js"></script>
     <script type="text/javascript" src="../js/lib/jquery.mask.min.js"></script>
     <script type="text/javascript" src="../js/lib/jquery.ba-throttle-debounce.min.js"></script>
+
+    <script type="text/javascript" src="../js/class/Secundario.js"></script>
+    <script type="text/javascript" src="../js/class/Main.js"></script>
+    <script type="text/javascript" src="../js/class/Menu.js"></script>
+    <script type="text/javascript" src="../js/class/Ajuda.js"></script>
+    <script type="text/javascript" src="../js/class/ScrollSpy.js"></script>
+    <script type="text/javascript" src="../js/class/Notificacoes.js"></script>
+    <script type="text/javascript" src="../js/class/Calendario.js"></script>
+    <script type="text/javascript" src="../js/class/PainelCalendario.js"></script>
+    <script type="text/javascript" src="../js/class/Concluir.js"></script>
     <script type="text/javascript" src="../js/j-notes.js"></script>
 </head>
 
@@ -205,11 +215,7 @@ $user = $_SESSION['nome'];
                             <td>Sab<span class="argola"></span></td>
                         </thead>
                         <tbody id="corpo-calendario">
-                            <script>
-                                $(function() {
-                                    mostrarCalendario(mesAtual, anoAtual);
-                                });
-                            </script>
+                            <!-- Código gerado via javaScript -->
                         </tbody>
                     </table>
                     <div class="box-painel-calendario">
@@ -226,11 +232,7 @@ $user = $_SESSION['nome'];
                                 <img id="mostra-lista-ano" src="../img/svg/down.svg">
                                 <div class="wrapper-lista-anos">
                                     <div class="box-lista-anos">
-                                        <script>
-                                            for (let i = anoAtual - 4; i < anoAtual + 4; i++) {
-                                                $(".box-lista-anos").append('<span>' + i + '</span>');
-                                            }
-                                        </script>
+                                        <!-- Código gerado via javaScript -->
                                     </div>
                                 </div>
                             </div>

@@ -1,27 +1,4 @@
 //Atributos
-/*--- Funções Básicas do Site ---*/
-let ajudaInicio = "<span>Nesta seção é possível ter uma noção prévia das atividades do dia atual, e também de todas atividades que não foram concluídas nos dias anteriores.</span>";
-ajudaInicio += "<span>Ao clicar em alguma notificação, a página será redirecionada ao local indicado pela notificação.</span>";
-
-let ajudaNova = "<span>Nesta seção pode-se editar uma tarefa ja criada, ou criar uma nova tarefa, que será mostrada no calendário.</span>";
-ajudaNova += '<span>Os itens com o indicador * são de preenchimento obrigatório.</span>';
-ajudaNova += "<span>Ao clicar na seta que esta na compo da data, você será redirecionado para o calendario.</span>";
-ajudaNova += '<span>Caso tenha aberto a opção de editar por engano, clique no botão cancelar.</span>';
-
-let ajudaCaledario = "<span>Nesta parte do site, o usuário tem acesso ao Calendário, local onde ele consegue ter controle sobre as tarefas que devem ser feitas, e as tarefas já concluidas.</span>";
-ajudaCaledario += "<span>Os dias com marcas amarelas indicam que há tarefas a serem feitas.</span>";
-ajudaCaledario += "<span>Os dias com marcas cinzas indicam que alguma tarefa foi concluída.</span>";
-ajudaCaledario += "<span>Ao clicar em uma tarefa é possível obter mais informações sobre a mesma.</span>";
-ajudaCaledario += "<span>Ao clicar no item azul 'nova tarefa', você será redirecionado para o calendário que estará com a data preenchida.</span>";
-ajudaCaledario += "<span>Caso queira deletar ou editar uma tarefa, use os controladores que aparecem ao expandir uma.</span>";
-
-let ajudaConcluir = "<span>Com essa seção, o usuário pode concluir uma tarefa informando dados essênciais para a geração de formulários do site.</span>";
-ajudaConcluir += "<span>Nenhum dos dados são divulgados externamente, são de uso exclusivo apenas para a criação dos formulários.</span>";
-ajudaConcluir += "<span>Os itens com o indicador * são de preenchimento obrigatório.</span>";
-
-let textoConfirmação = "<span>Você realmente deseja deletar esse item ?</span>";
-textoConfirmação += "<div><span class='confirmacao'>Sim</span><span class='confirmacao'>Não</span></div>";
-
 /*--- Nova Tarefa ---*/
 const mascara = ['(00) 00000-0000', '(00) 0000-00009'];
 
@@ -30,16 +7,6 @@ let vaiEditarTarefa = false;
 
 let idTarefaSelecionada;
 let divTarefaDeletar;
-
-/*--- Calendário ---*/
-let hoje = new Date();
-hoje.setHours(0, 0, 0, 0);
-
-let mesAtual = hoje.getMonth();
-let anoAtual = hoje.getFullYear();
-const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-];
 
 let tarefasDoMes = 0;
 
@@ -57,87 +24,34 @@ const IDTAREFA = 0,
     OBSERVACOES = 11;
 
 let podeCriarDivNovaData = false;
-
-let diaParaMarcar = hoje.getDate();
 /*--- Concluir Tarefa ---*/
 let tarefasNaoConcluidas = 0;
 
-//Main
 $(function () {
-    /* Variável vh para mobile, problema do autohide da barra de pesquisa solucionado */
-    let vh = window.innerHeight * 0.01;
+    main = new Main();
+
+    // Variável vh para mobile, problema do autohide da barra de pesquisa solucionado 
+    let vh = Secundario.tela.innerHeight() * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 
-    /*--- Funções Básicas do Site ---*/
-
-    /* Faz a fonte ser dinâmica, igual no css, porém aqui é possivel arredondar o valor, diminui chance de gliches */
-    calcTamanhoFonte();
-    $(window).resize(function () {
-        calcTamanhoFonte();
+    // Faz a fonte ser dinâmica, igual no css, porém aqui é possivel arredondar o valor, diminui chance de gliches
+    Secundario.calcTamanhoFonte();
+    Secundario.tela.resize(function () {
+        Secundario.calcTamanhoFonte();
     });
 
-    /* Adiciona a classe active aos itens dos dois menus, quando clicar em algum deles, além de levar a página ao local desejado */
-    $('#menu-movel, #menu-fixo').on('click', '.click-scrollspy', function (e) {
-        scrollSpyClick(this, e);
-    });
+    main.ativaScrollSpy(main.scrollSpy);
 
-    /* Muda a classe active de acordo com o scroll da página */
-    $(document).on('scroll', $.debounce(200, function () {
-        scrollSpy();
-    }));
+    main.ativaMenu(main.menu);
 
-    /* Clicar no icone do menu abre ou fecha o menu */
-    $(".btn-menu").click(function () {
-        abreFechaMenuPrincipal();
-    });
+    main.ativaAjuda(main.ajuda);
 
-    /* Fecha o menu e a lista de anos, do painel do calendário, caso clique fora de um deles */
-    $("main").click(function () {
-        fechaMenuPrincipal();
-        fechaListaAnos();
-    });
+    main.ativaNotificacoes(main.notificacoes, main.calendario);
 
-    /* Mostra a ajuda ao clicar no botão de ajuda */
-    $(".ajuda").click(function () {
-        if ($(this).hasClass("inicio")) {
-            $("#link-inicio").click();
-            mostraAjuda(ajudaInicio);
-        } else if ($(this).hasClass("nova-tarefa")) {
-            $("#link-nova").click();
-            mostraAjuda(ajudaNova);
-        } else if ($(this).hasClass("calendario")) {
-            $("#link-calendario").click();
-            mostraAjuda(ajudaCaledario);
-        } else {
-            $("#link-concluir").click();
-            mostraAjuda(ajudaConcluir);
-        }
-    });
+    main.ativaCalendario(main.calendario, main.painel);
 
-    /* Fecha a ajuda quando clica fora dela */
-    $(".overlay-ajuda").click(function () {
-        fechaAjuda();
-    });
+    main.ativaPainel(main.painel, main.calendario);
 
-    /* Previne a ajuda de ser fechada caso clique dentro da mesma */
-    $(".overlay-ajuda div").click(function (e) {
-        e.stopPropagation();
-    });
-
-    /*--- Página Inicial ---*/
-
-    /* Listener para quando clicar na notificação levar para o local desejado */
-    $(".notificacao-item.tarefa").click(function () {
-        diaParaMarcar = hoje.getDate();
-        mesAtual = hoje.getMonth();
-        anoAtual = hoje.getFullYear();
-        mostrarCalendario(mesAtual, anoAtual);
-        $("#link-calendario").click();
-    });
-
-    $(".notificacao-item.concluir").click(function () {
-        $("#link-concluir").click();
-    });
 
     /*--- Nova Terfa ---*/
 
@@ -207,38 +121,9 @@ $(function () {
 
     /*--- Calendário ---*/
 
-    /* Listeners para quando clicar nos botões de voltar e avançar mês */
-    $("#volta-mes").click(function () {
-        voltaMes();
-    });
-    $("#avanca-mes").click(function () {
-        avancaMes();
-    });
-
-    /* Listener para mostrar a lista de anos */
-    $("#mostra-lista-ano").click(function () {
-        abreFechaListaAnos();
-    });
-
-    /* Listener para mudar o ano, e voltar a lista de anos */
-    $(".box-lista-anos").on("click", "span", function () {
-        mudaAno(this);
-        abreFechaListaAnos();
-    });
-
-    /* Impede da lista ser fechada caso clique dentro da mesma */
-    $(".wrapper-ano").click(function (e) {
-        e.stopPropagation();
-    });
-
-    /* Listener para mudar o dia selecionado */
-    $("#corpo-calendario").on("click", ".box-dia", function () {
-        mudaDiaSelecionado(this);
-    });
-
     /* Listener para expandir o evento que for clicado */
     $("#box-painel-eventos").on("click", ".box-painel-eventos-item", function () {
-        abreFechaTarefaPainel(this);
+        abreFechaTarefaPainel($(this));
     });
 
     /* Listener para evitar que o evento seja fechado ao clicar na barra de opções */
@@ -313,114 +198,9 @@ $(function () {
 
 //Secundários
 /*--- Funções Básicas do Site ---*/
-function calcTamanhoFonte() {
-    let tamanho = Math.round(6 + ($(window).width() / 100) * 0.5);
-    $("html").css('font-size', tamanho);
-}
-
-function abreFechaMenuPrincipal() {
-    $(".div-menu-movel").addClass("div-menu-movel--animacao");
-    if (!$(".div-menu-movel").hasClass("div-menu-movel--visivel")) {
-        $(".div-menu-movel").addClass("div-menu-movel--visivel");
-    } else {
-        $(".div-menu-movel").removeClass("div-menu-movel--visivel");
-    }
-    $(".div-menu-movel").one("transitionend", function (e) {
-        $(".div-menu-movel").removeClass("div-menu-movel--animacao");
-    });
-}
-
-function fechaMenuPrincipal() {
-    if ($(".div-menu-movel").hasClass("div-menu-movel--visivel")) {
-        $(".div-menu-movel").addClass("div-menu-movel--animacao");
-        $(".div-menu-movel").removeClass("div-menu-movel--visivel");
-    }
-    $(".div-menu-movel").one("transitionend", function (e) {
-        $(".div-menu-movel").removeClass("div-menu-movel--animacao");
-    });
-}
-
-function scrollSpyClick(item, e) {
-    e.preventDefault();
-    let i = $(item).index();
-
-    if (i > 0 && i < 5) {
-        $('#menu-movel li a, #menu-fixo li a').removeClass("active");
-        $('#menu-fixo ul').children().eq(i).children().addClass("active");
-        $('#menu-movel ul').children().eq(i).children().addClass("active");
-
-        let id = $('#menu-fixo ul').children().eq(i).children().attr('href');
-        let alvo = $(id).offset().top;
-        if ($(window).width() <= 720) {
-            $("html").scrollTop(alvo - transformaRemEmPx(5.5));
-        } else {
-            $("html").scrollTop(alvo);
-        }
-    }
-}
-
-function scrollSpy() {
-    $('.section-principal').each(function () {
-        let id = $(this).attr('id'),
-            areaHeight = $(this).outerHeight(),
-            offset = $(this).offset().top,
-            ajuste = window.innerHeight / 3,
-            maxArea = offset + areaHeight,
-            documentTop = $(document).scrollTop() + ajuste;
-        if (documentTop > offset && documentTop < maxArea) {
-            $('a[href="#' + id + '"]').addClass('active');
-        } else {
-            $('a[href="#' + id + '"]').removeClass('active')
-        }
-    });
-}
-
-function mostraAjuda(texto) {
-    $(".overlay-ajuda div").empty();
-    $(".overlay-ajuda").fadeIn().css('display', 'flex');
-    $(".overlay-ajuda div").append(texto);
-    $(".overlay-ajuda div").css('height', descobreTamanhoElemento - transformaRemEmPx(1));
-}
-
-function fechaAjuda() {
-    $(".overlay-ajuda").fadeOut();
-}
-
-function transformaRemEmPx(valorEmRem) {
-    return valorEmRem * parseInt($("html").css('font-size'));
-}
-
-function transformaPxEmRem(valorEmPx) {
-    return valorEmPx / parseInt($("html").css('font-size'));
-}
-
-// Função retirada da internet, para adicionar 0 ao dia ou mês caso seja menor que 10
-Number.prototype.pad = function (size) {
-    var s = String(this);
-    while (s.length < (size || 2)) {
-        s = "0" + s;
-    }
-    return s;
-}
 
 /*--- Tela Inicial ---*/
-function atualizaNotificacoes() {
-    if ($(".box-concluir-tarefa>div").children().length > 0) {
-        $(".box-concluir-tarefa>div").children().length == 1 ? $(".notificacao-item.concluir").text("Há somente uma tarefa para concluir.") :
-            $(".notificacao-item.concluir").text("Há " + $(".box-concluir-tarefa>div").children().length + " tarefas para concluir.");
-    } else {
-        $(".notificacao-item.concluir").text("Não há nada para concluir.");
-    }
 
-    if ($(".dia-selecionado").text() == hoje.getDate() && hoje.getMonth() == mesAtual && hoje.getFullYear() == anoAtual) {
-        if ($(".box-painel-eventos").find(".box-painel-eventos-item").length > 0) {
-            $(".box-painel-eventos").find(".box-painel-eventos-item").length == 1 ? $(".notificacao-item.tarefa").text("Você tem apenas uma tarefa para fazer hoje!") :
-                $(".notificacao-item.tarefa").text("Você tem " + $(".box-painel-eventos").find(".box-painel-eventos-item").length + " tarefas para fazer hoje!");
-        } else {
-            $(".notificacao-item.tarefa").text("Nenhuma tarefa para fazer hoje!");
-        }
-    }
-}
 /*--- Nova Tarefa ---*/
 function validaDadosNovaTarefa() {
     let tel1 = $("#tel1");
@@ -572,126 +352,9 @@ function cadastraNovaTarefa(tel1, nome, endereco, tel2, data, periodo, problema,
 }
 
 /*--- Calendário ---*/
-function mostrarCalendario(mes, ano) {
-    let primeiroDia = new Date(ano, mes).getDay();
-    let totalDiasMes = new Date(ano, mes + 1, 0).getDate();
-    $("#corpo-calendario").empty();
-    $("#mes").text(meses[mes]);
-    $("#ano").text(ano);
-    let data = 1;
 
-    if (mes == hoje.getMonth()) {
-        diaParaMarcar = hoje.getDate();
-    } else if (diaParaMarcar > totalDiasMes) {
-        diaParaMarcar = 1;
-    }
 
-    for (let i = 0; i < 6; i++) {
-        let linha = "<tr>";
-        for (let j = 0; j < 7; j++) {
-            if ((i === 0 && j < primeiroDia) || (data > totalDiasMes)) {
-                //caso esteja na primeira semana e o dia for menor que o primeiro dia, colocar td vazio
-                //caso esteja na ultima semana, e o mês já tiver acabado, coloca o td vazio para dar o tamanho certo
-                linha += "<td></td>";
-            } else {
-                linha += "<td><span class='box-dia dia-normal ";
-                if (j === 0 || j === 6) {
-                    linha += "dia-final-semana ";
-                }
-                if (data == diaParaMarcar) {
-                    linha += "dia-selecionado ";
-                }
-                linha += "'>" + data + "</span></td>";
-                data++;
-            }
-        }
-        linha += "</tr>"
-        $("#corpo-calendario").append(linha);
-    }
-    $.when(pegaTarefasDoMes()).done(function () { //Só executa a função após o Ajax terminar
-        addOuTiraNovaData();
-        addIndicadorAosDias();
-        verificaSeDiaTemTarefa(diaParaMarcar);
-        atualizaNotificacoes();
-    });
-}
 
-function avancaMes() {
-    anoAtual = (mesAtual === 11) ? anoAtual + 1 : anoAtual;
-    mesAtual = (mesAtual + 1) % 12;
-    mostrarCalendario(mesAtual, anoAtual);
-}
-
-function voltaMes() {
-    anoAtual = (mesAtual === 0) ? anoAtual - 1 : anoAtual;
-    mesAtual = (mesAtual === 0) ? 11 : mesAtual - 1;
-    mostrarCalendario(mesAtual, anoAtual);
-}
-
-function abreFechaListaAnos() {
-    $(".wrapper-lista-anos").addClass("wrapper-lista-anos--animacao");
-    $("#mostra-lista-ano").addClass("ano--animacao");
-
-    if (!$(".wrapper-lista-anos").hasClass("wrapper-lista-anos--visivel")) {
-        $(".wrapper-lista-anos").addClass("wrapper-lista-anos--visivel");
-        $("#mostra-lista-ano").css('transform', 'rotate(-180deg)');
-    } else {
-        $(".wrapper-lista-anos").removeClass("wrapper-lista-anos--visivel");
-        $("#mostra-lista-ano").css('transform', 'none');
-    }
-    $(".wrapper-lista-anos").one("transitionend", function (e) {
-        $(".wrapper-lista-anos").removeClass("wrapper-lista-anos--animacao");
-        $("#mostra-lista-ano").removeClass("ano--animacao");
-    });
-}
-
-function fechaListaAnos() {
-    if ($(".wrapper-lista-anos").hasClass("wrapper-lista-anos--visivel")) {
-        $(".wrapper-lista-anos").addClass("wrapper-lista-anos--animacao");
-        $("#mostra-lista-ano").addClass("ano--animacao");
-        $(".wrapper-lista-anos").removeClass("wrapper-lista-anos--visivel");
-        $("#mostra-lista-ano").css('transform', 'none');
-    }
-    $(".wrapper-lista-anos").one("transitionend", function (e) {
-        $(".wrapper-lista-anos").removeClass("wrapper-lista-anos--animacao");
-        $("#mostra-lista-ano").removeClass("ano--animacao");
-    });
-}
-
-function mudaAno(ano) {
-    anoAtual = parseInt($(ano).text());
-    mostrarCalendario(mesAtual, anoAtual);
-}
-
-function abreFechaTarefaPainel(item) {
-    $(".box-painel-eventos-item").addClass("box-painel-eventos-item--animacao");
-    if (transformaPxEmRem($(item).innerHeight()) == 5) {
-        $(".box-painel-eventos-item").css('height', '5rem');
-        $(item).css('height', transformaPxEmRem(descobreTamanhoElemento(item)) + "rem");
-    } else {
-        $(item).css('height', '5rem');
-    }
-    $(".box-painel-eventos-item").one("transitionend", function (e) {
-        $(".box-painel-eventos-item").removeClass("box-painel-eventos-item--animacao");
-    });
-}
-
-function descobreTamanhoElemento(item) {
-    let tamanho = 0;
-    for (let i = 0; i < $(item).children().length; i++) {
-        tamanho += $(item).children().eq(i).outerHeight(true);
-    }
-    return tamanho + transformaRemEmPx(1);
-}
-
-function mudaDiaSelecionado(item) {
-    $(".box-dia").removeClass("dia-selecionado");
-    $(item).addClass("dia-selecionado");
-    diaParaMarcar = parseInt($(item).text());
-
-    addOuTiraNovaData();
-    verificaSeDiaTemTarefa(parseInt($(item).text()).pad(2));
-}
 
 function pegaTarefasDoMes() {
     tarefasDoMes = 0;

@@ -685,6 +685,9 @@ main section > div .wrapper-section {
 #calendario .box-painel-calendario header .wrapper-ano img.ano--animacao {
   transition: 0.35s;
 }
+#calendario .box-painel-calendario header .wrapper-ano img.ano--girado {
+  transform: rotate(-180deg);
+}
 #calendario .box-painel-calendario header .wrapper-ano #ano {
   font-size: 1.4rem;
 }
