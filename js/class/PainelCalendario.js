@@ -14,7 +14,7 @@ class PainelCalendario {
     }
 
     get div() {
-        return $(".box-concluir-tarefa>div");
+        return $(".box-painel-eventos");
     }
 
     get botaoAvancaMes() {
@@ -25,6 +25,10 @@ class PainelCalendario {
         return $("#volta-mes");
     }
 
+    get divCrud() {
+        return $("#box-painel-crud");
+    }
+
     /*--- Métodos ---*/
     encheListaAnos(calendario) {
         for (let i = calendario.anoAtual - 4; i < calendario.anoAtual + 4; i++) {
@@ -32,7 +36,7 @@ class PainelCalendario {
         }
     }
 
-    abreFechaListaAnos() {
+    abreOuFechaListaAnos() {
         let listaAnos = this.listaAnos;
         let botaoLista = this.botaoLista;
         listaAnos.addClass("wrapper-lista-anos--animacao");
@@ -64,7 +68,7 @@ class PainelCalendario {
         });
     }
 
-    abreFechaTarefa(item) {
+    abreOuFechaTarefa(item) {
         this.todasTarefas.addClass("box-painel-eventos-item--animacao");
         if (Secundario.transformaPxEmRem(item.innerHeight()) == 5) {
             this.todasTarefas.css('height', '');

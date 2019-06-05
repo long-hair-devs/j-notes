@@ -3,6 +3,7 @@ include_once('./lib/process-j-notes.php');
 
 $user = $_SESSION['nome'];
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -13,20 +14,10 @@ $user = $_SESSION['nome'];
     <title>J-Notes</title>
     <link rel="icon" href="../img/agenda.png">
     <link rel="stylesheet" type="text/css" href="../css/style-j-notes.css" />
-    <script type="text/javascript" src="../js/lib/jquery-3.4.0.min.js"></script>
-    <script type="text/javascript" src="../js/lib/jquery.mask.min.js"></script>
-    <script type="text/javascript" src="../js/lib/jquery.ba-throttle-debounce.min.js"></script>
 
-    <script type="text/javascript" src="../js/class/Secundario.js"></script>
-    <script type="text/javascript" src="../js/class/Main.js"></script>
-    <script type="text/javascript" src="../js/class/Menu.js"></script>
-    <script type="text/javascript" src="../js/class/Ajuda.js"></script>
-    <script type="text/javascript" src="../js/class/ScrollSpy.js"></script>
-    <script type="text/javascript" src="../js/class/Notificacoes.js"></script>
-    <script type="text/javascript" src="../js/class/Calendario.js"></script>
-    <script type="text/javascript" src="../js/class/PainelCalendario.js"></script>
-    <script type="text/javascript" src="../js/class/Concluir.js"></script>
-    <script type="text/javascript" src="../js/j-notes.js"></script>
+    <script type="text/javascript" src="../php/lib/js-load-lib.php"></script>
+    <script type="text/javascript" src="../php/lib/js-load-class.php"></script>
+    <script type="text/javascript" src="../js/JNotes.js"></script>
 </head>
 
 <body>

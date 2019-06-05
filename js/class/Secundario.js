@@ -33,12 +33,8 @@ class Secundario {
         return valorEmPx / parseInt(this.html.css('font-size'));
     }
 
-    static pad(valor, tamanho) {
-        var s = valor.toString();
-        while (s.length < (tamanho || 2)) {
-            s = "0" + s;
-        }
-        return parseInt(s);
+    static pad(valor) {
+        return ('0' + valor).substr(-2);
     }
 
     static descobreTamanho(item) {

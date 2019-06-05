@@ -1,7 +1,5 @@
 class ScrollSpy {
-    constructor() {
-
-    }
+    constructor() {}
     /*--- Getters ---*/
     get menus() {
         return $('#menu-movel, #menu-fixo');
@@ -18,7 +16,6 @@ class ScrollSpy {
     get todasSections() {
         return $('.section-principal');
     }
-
     /*--- Métodos ---*/
     clickMenu(item, e) {
         e.preventDefault();
