@@ -109,24 +109,25 @@ class JNotes {
         });
     }
 
-    ativaNovaTarefa(novaTarefa, clientes) {
+    ativaNovaTarefa(novaTarefa, clientes, hoje) {
+        novaTarefa.fezAutoComplete = false;
         // Quando está digitando o telefone, verifica se o telefone já foi cadastrado no banco
         novaTarefa.tel1.keyup($.debounce(250, () => {
-            novaTarefa.autoCompleta(novaTarefa.tel1, clientes);
+            novaTarefa.autoCompleta(novaTarefa.tel1, clientes.pegarDados);
         }));
 
-        /* Listener para o botão concluir do formuláiro */
+        // Listener para o botão concluir do formuláiro 
         novaTarefa.botaoConcluir.click(() => {
-            novaTarefa.acaoConcluir(novaTarefa.botaoConcluir.hasClass("editar") ? 2 : 1);
+            novaTarefa.acaoConcluir(novaTarefa.botaoConcluir.hasClass("editar") ? 2 : 1, clientes, hoje);
         });
 
         /* Listener para o botão cancelar do formuláiro */
-        $("#botao-cancelar").click(function () {
+        $("#botao-cancelar").click(() => {
             fechaEditarTarefa();
         });
 
         /* Listener para levar ao calendário quando clicar na seta do campo da data */
-        $("#desce-para-calendario").click(function () {
+        $("#desce-para-calendario").click(() => {
             $("#link-calendario").click();
         });
     }
@@ -224,7 +225,7 @@ $(function () {
 
     jnotes.ativaNotificacoes(jnotes.notificacoes, jnotes.calendario);
 
-    jnotes.ativaNovaTarefa(jnotes.novaTarefa, jnotes.clientes);
+    jnotes.ativaNovaTarefa(jnotes.novaTarefa, jnotes.clientes, jnotes.calendario.hoje);
 
     jnotes.ativaCalendario(jnotes.calendario, jnotes.painel);
 

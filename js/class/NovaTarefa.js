@@ -68,12 +68,22 @@ class NovaTarefa {
         return $("#botao-concluir");
     }
 
-    autoCompleta(tel1, clientes) {
+    get fezAutoComplete() {
+        return this._fezAutoComplete;
+    }
+
+    set fezAutoComplete(valor) {
+        this._fezAutoComplete = valor;
+    }
+    /*--- Métodos ---*/
+    autoCompleta(tel1, pegarDados) {
         if (tel1.val().length > 13 && tel1.val().length < 16) {
-            clientes.pegarDados(tel1.val(), (saida) => {
+            pegarDados(tel1.val(), (saida) => {
                 this.nome = saida[0];
                 this.endereco = saida[1];
                 this.tel2 = saida[2];
+
+                this.fezAutoComplete = true;
             });
         }
     }
@@ -142,15 +152,15 @@ class NovaTarefa {
         return true;
     }
 
-    acaoConcluir(tipo) {
-        if (this.validaDados()) {
+    acaoConcluir(tipo, clientes, hoje) {
+        if (this.validaDados(hoje)) {
             if (tipo == 1) { // Criar
-                // if (fezAutoComplete) {
-                //     aplicaUpdateNoCliente(tel1, nome, endereco, tel2);
-                //     fezAutoComplete = false;
-                // } else {
-                //     cadastraNovoCliente(tel1, nome, endereco, tel2);
-                // }
+                if (this.fezAutoComplete) {
+                    clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
+                    this.fezAutoComplete = false;
+                } else {
+                    clientes.cadastrar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
+                }
                 // $.when(cadastraNovaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
                 //     diaParaMarcar = parseInt(data.split("/")[0]);
                 //     mesAtual = (parseInt(data.split("/")[1]) - 1);

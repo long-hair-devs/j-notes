@@ -26,7 +26,6 @@ class Menu {
     get botao() {
         return $(".btn-menu");
     }
-
     /*--- Métodos ---*/
     abreOuFecha() {
         this.menuMovel.addClass("div-menu-movel--animacao");

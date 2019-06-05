@@ -42,6 +42,6 @@ class Secundario {
         for (let i = 0; i < item.children().length; i++) {
             tamanho += item.children().eq(i).outerHeight(true);
         }
-        return tamanho;
+        return this.transformaPxEmRem(tamanho);
     }
 }

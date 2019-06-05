@@ -4,7 +4,6 @@ class Calendario {
         this.anoAtual = this.hoje.getFullYear();
         this.diaParaMarcar = this.hoje.getDate();
 
-
         this.construirCalendario();
     }
     /*--- Getters e Setters ---*/
@@ -71,7 +70,6 @@ class Calendario {
     get dataSelecionadaString() {
         return (`${Secundario.pad(this.diaSelecionado)}/${Secundario.pad(this.mesAtual + 1)}/${this.anoAtual}`);
     }
-
     /*--- Métodos ---*/
     construirCalendario() {
         let diaPrimeiro = new Date(this.anoAtual, this.mesAtual).getDay();

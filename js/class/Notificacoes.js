@@ -16,7 +16,6 @@ class Notificacoes {
     set textoTarefa(valor) {
         $(".notificacao-item.tarefa").text(valor);
     }
-
     /*--- Métodos ---*/
     atualizaNotificacoes(concluir, calendario, painel) {
         if (concluir.todasTarefas.length > 0) {

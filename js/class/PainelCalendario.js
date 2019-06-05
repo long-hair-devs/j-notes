@@ -37,21 +37,19 @@ class PainelCalendario {
     }
 
     abreOuFechaListaAnos() {
-        let listaAnos = this.listaAnos;
-        let botaoLista = this.botaoLista;
-        listaAnos.addClass("wrapper-lista-anos--animacao");
-        botaoLista.addClass("ano--animacao");
+        this.listaAnos.addClass("wrapper-lista-anos--animacao");
+        this.botaoLista.addClass("ano--animacao");
 
-        if (!listaAnos.hasClass("wrapper-lista-anos--visivel")) {
-            listaAnos.addClass("wrapper-lista-anos--visivel");
-            botaoLista.addClass("ano--girado");
+        if (!this.listaAnos.hasClass("wrapper-lista-anos--visivel")) {
+            this.listaAnos.addClass("wrapper-lista-anos--visivel");
+            this.botaoLista.addClass("ano--girado");
         } else {
-            listaAnos.removeClass("wrapper-lista-anos--visivel");
-            botaoLista.removeClass("ano--girado");
+            this.listaAnos.removeClass("wrapper-lista-anos--visivel");
+            this.botaoLista.removeClass("ano--girado");
         }
-        listaAnos.one("transitionend", function (e) {
-            listaAnos.removeClass("wrapper-lista-anos--animacao");
-            botaoLista.removeClass("ano--animacao");
+        this.listaAnos.one("transitionend", (e) => {
+            this.listaAnos.removeClass("wrapper-lista-anos--animacao");
+            this.botaoLista.removeClass("ano--animacao");
         });
     }
 
@@ -62,9 +60,9 @@ class PainelCalendario {
             this.listaAnos.removeClass("wrapper-lista-anos--visivel");
             this.botaoLista.removeClass("ano--girado");
         }
-        this.listaAnos.one("transitionend", function (e) {
+        this.listaAnos.one("transitionend", (e) => {
             this.listaAnos.removeClass("wrapper-lista-anos--animacao");
-            this.iconeAno.removeClass("ano--animacao");
+            this.botaoLista.removeClass("ano--animacao");
         });
     }
 
@@ -72,11 +70,11 @@ class PainelCalendario {
         this.todasTarefas.addClass("box-painel-eventos-item--animacao");
         if (Secundario.transformaPxEmRem(item.innerHeight()) == 5) {
             this.todasTarefas.css('height', '');
-            item.css('height', Secundario.transformaPxEmRem(Secundario.descobreTamanho(item)) + "rem");
+            item.css('height', Secundario.descobreTamanho(item) + "rem");
         } else {
             item.css('height', '');
         }
-        this.todasTarefas.one("transitionend", function (e) {
+        this.todasTarefas.one("transitionend", (e) => {
             this.todasTarefas.removeClass("box-painel-eventos-item--animacao");
         });
     }
