@@ -3,11 +3,11 @@ class JNotes {
         this._menu = new Menu();
         this._ajuda = new Ajuda();
         this._scrollSpy = new ScrollSpy();
-        this._notificacoes = new Notificacoes();
-        this._novaTarefa = new NovaTarefa();
-        this._calendario = new Calendario();
-        this._painel = new PainelCalendario();
-        this._concluir = new Concluir();
+        this._notificacoes = new Notificacoes(this);
+        this._novaTarefa = new NovaTarefa(this);
+        this._calendario = new Calendario(this);
+        this._painel = new PainelCalendario(this);
+        this._concluir = new Concluir(this);
     }
     /*--- Getters e Setters ---*/
     get tarefas() {
@@ -92,7 +92,7 @@ class JNotes {
         });
     }
 
-    ativaNotificacoes(notificacoes, calendario) {
+    ativaNotificacoes(notificacoes) {
         // Quando clicar na notificação levar para o local desejado 
         notificacoes.itemTarefa.click(() => {
             calendario.dataAtual(calendario.hoje.getDate(), calendario.hoje.getMonth(), calendario.hoje.getFullYear());
@@ -105,17 +105,16 @@ class JNotes {
         });
     }
 
-    ativaNovaTarefa(novaTarefa, calendario, ajuda) {
+    ativaNovaTarefa(novaTarefa) {
         novaTarefa.fezAutoComplete = false;
         // Quando está digitando o telefone, verifica se o telefone já foi cadastrado no banco
         novaTarefa.tel1.keyup($.debounce(250, () => {
-            novaTarefa.autoCompleta(novaTarefa.tel1);
+            novaTarefa.autoCompleta();
         }));
 
         // Listener para o botão concluir do formuláiro 
         novaTarefa.botaoConcluir.click(() => {
-            novaTarefa.acaoConcluir(novaTarefa.botaoConcluir.hasClass("editar") ? 2 : 1,
-                clientes, calendario, tarefas, ajuda);
+            novaTarefa.acaoConcluir(novaTarefa.botaoConcluir.hasClass("editar") ? 2 : 1);
         });
 
         // Listener para o botão cancelar do formuláiro 
@@ -129,21 +128,7 @@ class JNotes {
         });
     }
 
-    ativaCalendario(calendario, painel) {
-        // Listeners para quando clicar nos botões de voltar e avançar mês 
-        painel.botaoAvancaMes.click(() => {
-            calendario.avancaMes();
-        });
-        painel.botaoVoltaMes.click(() => {
-            calendario.voltaMes();
-        });
-
-        // Listener para mudar o ano, e voltar a lista de anos 
-        painel.listaAnos.children().on("click", "span", function () {
-            calendario.mudaAno($(this).text());
-            painel.abreFechaListaAnos();
-        });
-
+    ativaCalendario(calendario) {
         // Listener para mudar o dia selecionado 
         calendario.corpo.on("click", ".box-dia", function () {
             calendario.mudaDiaSelecionado($(this));
@@ -153,6 +138,14 @@ class JNotes {
     ativaPainel(painel, calendario, novaTarefa, ajuda) {
         painel.encheListaAnos(calendario);
 
+        // Listeners para quando clicar nos botões de voltar e avançar mês 
+        painel.botaoAvancaMes.click(() => {
+            calendario.avancaMes();
+        });
+        painel.botaoVoltaMes.click(() => {
+            calendario.voltaMes();
+        });
+
         // Listener para mostrar a lista de anos 
         painel.botaoLista.click(() => {
             painel.abreOuFechaListaAnos();
@@ -161,6 +154,12 @@ class JNotes {
         // Impede da lista ser fechada caso clique dentro da mesma
         painel.listaAnos.parent().click((e) => {
             e.stopPropagation();
+        });
+
+        // Listener para mudar o ano, e voltar a lista de anos 
+        painel.listaAnos.children().on("click", "span", function () {
+            calendario.mudaAno($(this).text());
+            painel.abreFechaListaAnos();
         });
 
         // Listener para expandir a tarefa que for clicada
@@ -181,8 +180,8 @@ class JNotes {
 
         /* Listeners para o editar tarefa e deletar tarefa da barra de opções */
         painel.div.on("click", ".editar-tarefa", function () {
-            ativaEditarTarefa();
-            passaValoresParaNovaTarefa($(this).parent().parent());
+            novaTarefa.abreModoEditar();
+            painel.passaValores($($(this).parent().parent()));
         });
 
 
@@ -220,11 +219,11 @@ $(function () {
 
     jnotes.ativaAjuda(jnotes.ajuda);
 
-    jnotes.ativaNotificacoes(jnotes.notificacoes, jnotes.calendario);
+    jnotes.ativaNotificacoes(jnotes.notificacoes);
 
-    jnotes.ativaNovaTarefa(jnotes.novaTarefa, jnotes.clientes, jnotes.calendario, jnotes.ajuda);
+    jnotes.ativaNovaTarefa(jnotes.novaTarefa);
 
-    jnotes.ativaCalendario(jnotes.calendario, jnotes.painel, jnotes.tarefas);
+    jnotes.ativaCalendario(jnotes.calendario);
 
     jnotes.ativaPainel(jnotes.painel, jnotes.calendario, jnotes.novaTarefa, jnotes.ajuda);
 });

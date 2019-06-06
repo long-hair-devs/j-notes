@@ -1,11 +1,17 @@
 class Calendario {
-    constructor() {
+    constructor(dono) {
         this.dataAtual(this.hoje.getDate(),
             this.hoje.getMonth(),
             this.hoje.getFullYear());
+
+        this._d = dono;
         this.construir();
     }
     /*--- Getters e Setters ---*/
+    get d() {
+        return this._d;
+    }
+
     get hoje() {
         let hoje = new Date();
         hoje.setHours(0, 0, 0, 0);
@@ -113,8 +119,8 @@ class Calendario {
         }
         Tarefas.atualizarMes(this.mesAtual, this.anoAtual, () => {
             this.colocaIndicadorNosDias();
+            this.d.painel.atualizar(this.diaParaMarcar);
             //     addOuTiraNovaData();
-            //     verificaSeDiaTemTarefa(diaParaMarcar);
             //     atualizaNotificacoes();
         });
     }
@@ -145,8 +151,8 @@ class Calendario {
         item.addClass("dia-selecionado");
         this.diaParaMarcar = item.text();
 
+        this.d.painel.atualizar(this.diaParaMarcar);
         //addOuTiraNovaData();
-        //verificaSeDiaTemTarefa(Secudario.pad(this.diaParaMarcar));
     }
 
     colocaIndicadorNosDias() {
@@ -157,7 +163,7 @@ class Calendario {
                 for (let j = 0; j < Tarefas.mes.length; j++) {
                     if (Secundario.pad($(dias[i]).text()) == Tarefas.pegaDia(j)) {
                         if (new Date(this.anoAtual, this.mesAtual, $(dias[i]).text()).getTime() < this.hoje.getTime()) {
-                            Tarefas.mes[j][9] != null ? $(dias[i]).addClass("dia-evento-concluido") : $(dias[i]).addClass("dia-evento-passado");
+                            Tarefas.pegaTotal(j) != null ? $(dias[i]).addClass("dia-evento-concluido") : $(dias[i]).addClass("dia-evento-passado");
                         } else {
                             $(dias[i]).addClass("dia-evento-ativo");
                             break;

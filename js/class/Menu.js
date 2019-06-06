@@ -1,7 +1,5 @@
 class Menu {
-    constructor() {
-
-    }
+    constructor() {}
     /*--- Getters ---*/
     static get botaoInicio() {
         return $("#link-inicio");

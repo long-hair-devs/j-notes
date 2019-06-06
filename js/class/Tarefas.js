@@ -1,3 +1,16 @@
+const IDTAREFA = 0,
+    DIA = 1,
+    PERIODO = 2,
+    PROBLEMA = 3,
+    INFORMACOES = 4,
+    NOME = 5,
+    TELEFONE1 = 6,
+    TELEFONE2 = 7,
+    ENDERECO = 8,
+    TOTAL = 9,
+    TOTALGASTO = 10,
+    OBSERVACOES = 11;
+
 class Tarefas {
     constructor() {}
     /*--- Getters e Setters ---*/
@@ -7,14 +20,6 @@ class Tarefas {
 
     static set mes(valor) {
         this._mes = valor;
-    }
-
-    get tarefaParaEditar() {
-        return this._tarefaParaEditar;
-    }
-
-    set tarefaParaEditar(valor) {
-        this._tarefaParaEditar = valor;
     }
 
     /*--- Métodos ---*/
@@ -63,7 +68,51 @@ class Tarefas {
         }, "json");
     }
 
+    static pegaId(i) {
+        return this.mes[i][IDTAREFA];
+    }
+
     static pegaDia(i) {
-        return this.mes[i][1].split("-")[2];
+        return this.mes[i][DIA].split("-")[2];
+    }
+
+    static pegaNome(i) {
+        return this.mes[i][NOME];
+    }
+
+    static pegaTel1(i) {
+        return this.mes[i][TELEFONE1];
+    }
+
+    static pegaTel2(i) {
+        return this.mes[i][TELEFONE2];
+    }
+
+    static pegaEndereco(i) {
+        return this.mes[i][ENDERECO];
+    }
+
+    static pegaPeriodo(i) {
+        return this.mes[i][PERIODO];
+    }
+
+    static pegaProblema(i) {
+        return this.mes[i][PROBLEMA];
+    }
+
+    static pegaInfo(i) {
+        return this.mes[i][INFORMACOES];
+    }
+
+    static pegaTotal(i) {
+        return this.mes[i][TOTAL];
+    }
+
+    static pegaObsercacoes(i) {
+        return this.mes[i][OBSERVACOES];
+    }
+
+    static pegaTotalGasto(i) {
+        return this.mes[i][TOTALGASTO];
     }
 }

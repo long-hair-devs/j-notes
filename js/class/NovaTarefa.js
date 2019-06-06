@@ -1,7 +1,7 @@
 const mascara = ['(00) 00000-0000', '(00) 0000-00009'];
 
 class NovaTarefa {
-    constructor() {
+    constructor(dono) {
         $(".data").mask("00/00/0000");
 
         // Retirado da internet
@@ -10,8 +10,13 @@ class NovaTarefa {
                 field.mask(val.length > 14 ? mascara[0] : mascara[1], options);
             }
         });
+        this._d = dono;
     }
     /*--- Getters e Setters ---*/
+    get d() {
+        return this._d;
+    }
+
     get tel1() {
         return $("#tel1");
     }
@@ -88,9 +93,9 @@ class NovaTarefa {
         $("#nova-tarefa").find("h1").text(valor);
     }
     /*--- Métodos ---*/
-    autoCompleta(tel1) {
-        if (tel1.val().length > 13 && tel1.val().length < 16) {
-            Clientes.pegarDados(tel1.val(), (saida) => {
+    autoCompleta() {
+        if (this.tel1.val().length > 13 && this.tel1.val().length < 16) {
+            Clientes.pegarDados(this.tel1.val(), (saida) => {
                 this.nome = saida[0];
                 this.endereco = saida[1];
                 this.tel2 = saida[2];
@@ -100,7 +105,7 @@ class NovaTarefa {
         }
     }
 
-    validaDados(hoje) {
+    validaDados() {
         // Se não satisfazer a condição, mostra erro e cancela a execução do método
         if (!(this.tel1.val().length > 13 && this.tel1.val().length < 16)) {
             this.tel1.parent().addClass("label--erro");
@@ -140,7 +145,7 @@ class NovaTarefa {
         }
         this.data.parent().removeClass();
 
-        if (!(this.dataConvertida.getTime() >= hoje.getTime())) {
+        if (!(this.dataConvertida.getTime() >= this.d.calendario.hoje.getTime())) {
             this.data.parent().addClass("label--erro");
             this.data.focus();
             return false;
@@ -179,8 +184,8 @@ class NovaTarefa {
         this.tel1.prop("readonly", false);
     }
 
-    acaoConcluir(tipo, calendario, ajuda) {
-        if (this.validaDados(calendario.hoje)) {
+    acaoConcluir(tipo) {
+        if (this.validaDados()) {
             if (tipo == 1) { // Criar
                 if (this.fezAutoComplete) {
                     Clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
@@ -193,17 +198,15 @@ class NovaTarefa {
                     this.endereco.val(),
                     this.tel2.val(),
                     this.data.val(),
-                    this.periodo.val(),
+                    this.periodo.text(),
                     this.problema.val(),
                     this.info.val(),
                     () => {
-                        calendario.dataAtual(this.dataConvertida.getDate(),
-                            this.dataConvertida.getMonth(),
-                            this.dataConvertida.getFullYear());
-                        calendario.construir();
+                        this.d.calendario.dataAtual(this.dataConvertida.getDate(), this.dataConvertida.getMonth(), this.dataConvertida.getFullYear());
+                        this.d.calendario.construir();
 
                         this.form.trigger("reset");
-                        ajuda.mostrar("<span>Tarefa cadastrada com sucesso!</span>");
+                        this.d.ajuda.mostrar("<span>Tarefa cadastrada com sucesso!</span>");
                     });
             } else if (tipo == 2) { // Editar
                 clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
@@ -213,18 +216,16 @@ class NovaTarefa {
                     this.endereco.val(),
                     this.tel2.val(),
                     this.data.val(),
-                    this.periodo.val(),
+                    this.periodo.text(),
                     this.problema.val(),
                     this.info.val(),
                     () => {
-                        calendario.dataAtual(this.dataConvertida.getDate(),
-                            this.dataConvertida.getMonth(),
-                            this.dataConvertida.getFullYear());
-                        calendario.construir();
+                        this.d.calendario.dataAtual(this.dataConvertida.getDate(), this.dataConvertida.getMonth(), this.dataConvertida.getFullYear());
+                        this.d.calendario.construir();
 
                         this.fechaModoEditar();
                         this.form.trigger("reset");
-                        ajuda.mostrar("<span>Tarefa editada com sucesso!</span>");
+                        this.d.ajuda.mostrar("<span>Tarefa editada com sucesso!</span>");
                     });
                 //     $.when(pegaTarefasQueFaltaConcluir()).done(function () {
                 //         verificaTarefasConcluir();
