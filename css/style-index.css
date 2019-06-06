@@ -5,7 +5,13 @@ body {
     margin: 0;
     font-family: "Montserrat", sans-serif;
     min-width: 70rem;
-    background-color: #222
+    background-color: #222;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        min-width: 20rem;
+    }
 }
 
 /*-- Scroll da Pagina --*/
@@ -39,6 +45,15 @@ body {
     z-index: 3;
 }
 
+@media screen and (max-width: 768px) {
+    .subir {
+        background-size: 3rem;
+        padding: 3rem;
+        bottom: initial;
+        top: 1rem;
+    }
+}
+
 .subir:hover {
     background-color: #333;
 }
@@ -50,6 +65,12 @@ body {
     height: 100vh;
     min-height: 40rem;
     background-color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+    .apresentacao {
+        min-height: 50rem;
+    }
 }
 
 /*//////////// Cabeçalho /////////////////////////////////*/
@@ -108,6 +129,24 @@ body {
     filter: invert(51%) sepia(54%) saturate(2289%) hue-rotate(175deg) brightness(98%) contrast(94%);
 }
 
+@media screen and (max-width: 768px) {
+    .apresentacao .cabecalho {
+        height: 4rem;
+        padding: 2rem 2rem 2rem 2rem;
+    }
+
+    .apresentacao .cabecalho .icon_empresa {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    .apresentacao .cabecalho .icon_cabecalho {
+        width: 2.4rem;
+        height: 2.4rem;
+        margin: 0 1.25rem 0 1.25rem;
+    }
+}
+
 /*///////////////////////////////// Div titulo //////////////////////////////*/
 .apresentacao .div_titulo {
     height: 10.5rem;
@@ -129,6 +168,16 @@ body {
     font-size: 1.1rem;
     margin: 0;
     flex-shrink: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .apresentacao .div_titulo .titulo {
+        font-size: 5rem;
+    }
+
+    .apresentacao .div_titulo .subtitulo {
+        font-size: 2rem;
+    }
 }
 
 /* /////////////////// Imagens  ////////////////////////////// */
@@ -165,13 +214,24 @@ body {
     background-size: 57.5vh;
 }
 
+@media screen and (max-width: 768px) {
+    .apresentacao .imagens .imagem_monitor {
+        background-size: 47vh 28vh;
+
+    }
+
+    .apresentacao .imagens .imagem_site {
+        background-size: 41.5vh;
+        top: -1.3vh;
+    }
+}
+
 /* /////////////////////////// Botao Entrar ///////////////////////////// */
 .apresentacao .botao_entrar {
     height: 11rem;
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 .apresentacao .botao_entrar .botao {
@@ -189,6 +249,17 @@ body {
     color: #6DA8D6;
     box-shadow: inset 0px 0px 0px 0.125rem rgba(144, 144, 144, 0.5);
     /* box-shadow: (left) (top) (desfoque) (borda) (cor) */
+}
+
+@media screen and (max-width: 768px) {
+    .apresentacao .botao_entrar {
+        height: 15rem;
+    }
+
+    .apresentacao .botao_entrar .botao {
+        font-size: 2rem;
+        padding: 3rem 7rem 3rem 7rem;
+    }
 }
 
 /*////////////////////// Classes em comum //////////////////////////////////////*/
@@ -221,6 +292,28 @@ body {
     height: 54.5rem;
 }
 
+@media screen and (max-width: 768px) {
+
+    .titulo_branco,
+    .titulo_preto {
+        font-size: 4rem;
+        text-align: center;
+        margin: 0 0 2rem 0;
+    }
+
+    .texto_branco,
+    .texto_preto {
+        text-align: justify;
+        text-indent: 3rem;
+        font-size: 2rem;
+        margin: 0 5rem 0 5rem;
+    }
+
+    .fundo {
+        height: 100rem;
+    }
+}
+
 /*////////////// Pagina inicial /////////////////////////////*/
 .fundo_incial {
     background-image: linear-gradient(#6DA8D6, #222);
@@ -229,13 +322,14 @@ body {
     justify-content: center;
     height: 60.5rem;
     flex-shrink: 0;
+    overflow: hidden;
 }
 
 .fundo_incial .imagem_inicial {
     align-self: center;
     overflow: hidden;
     background: url(../img/prints/paginainicial.png) center no-repeat;
-    background-size: 70rem;
+    background-size: 80rem;
     flex-shrink: 0;
     height: 39.25rem;
     width: 70rem;
@@ -257,13 +351,35 @@ body {
     height: 12rem;
 }
 
+@media screen and (max-width: 768px) {
+    .fundo_incial {
+        height: 92rem;
+    }
+
+    .fundo_incial .conteudo {
+        flex-direction: column;
+    }
+
+    .fundo_incial .conteudo div {
+        width: 100vw;
+        height: 22rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .fundo_incial .imagem_inicial {
+        width: 90vw;
+        height: 34rem;
+    }
+}
+
 /* ////////////////////////// Nova tarefa ///////////////////////// */
 .fundo_nova {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    overflow: hidden;
     background-color: #fff;
+    overflow: hidden;
 }
 
 .fundo_nova .conteudo {
@@ -274,7 +390,6 @@ body {
     flex-shrink: 0;
     width: 25.5rem;
     z-index: 1;
-
 }
 
 .fundo_nova .conteudo div {
@@ -285,7 +400,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-
 }
 
 .fundo_nova .imagem {
@@ -305,6 +419,31 @@ body {
     background: url(../img/prints/novatarefa.png) center no-repeat;
     background-size: 80rem;
     border-radius: 0.75rem;
+}
+
+@media screen and (max-width: 768px) {
+    .fundo_nova {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .fundo_nova .conteudo {
+        width: 100vw;
+        align-items: center;
+    }
+
+    .fundo_nova .conteudo div {
+        height: 25rem;
+        width: 90vw;
+        margin: 1rem 0 0 0;
+    }
+
+    .fundo_nova .imagem_calendario {
+        height: 36rem;
+        width: 90vw;
+    }
 }
 
 /* ////////////////////////// Linha preta ///////////////////////// */
@@ -337,11 +476,34 @@ body {
     text-indent: 0;
 }
 
+@media screen and (max-width: 768px) {
+    .linha_preta {
+        height: 25rem;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .linha_preta .gif-mobile {
+        height: 0rem;
+        width: 0rem;
+        border: 0;
+        margin: 0rem;
+    }
+
+    .linha_preta .texto_branco {
+        width: 40vw;
+        margin: 0 5vw;
+    }
+}
+
 /* ////////////////////////// Calendario ///////////////////////// */
 .fundo_calendario {
     display: flex;
+    flex-direction: row;
     justify-content: space-around;
     background-color: #fff;
+    overflow: hidden;
 }
 
 .fundo_calendario .div_texto {
@@ -367,7 +529,7 @@ body {
     justify-content: center;
     display: flex;
     height: 32rem;
-    width: 32vw;
+    width: 53rem;
     min-width: 32rem;
     z-index: 0;
 }
@@ -378,7 +540,7 @@ body {
     min-width: 50rem;
     min-height: 100%;
     background: url(../img/prints/calendario.png) center no-repeat;
-    background-size: 54rem;
+    background-size: 64rem;
     border-radius: 0.75rem;
 
 }
@@ -388,12 +550,37 @@ body {
     justify-content: flex-end;
 }
 
+@media screen and (max-width: 768px) {
+    .fundo_calendario {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 92rem;
+    }
+
+    .fundo_calendario .div_texto {
+        align-self: center;
+        justify-content: center;
+        height: 27rem;
+        width: 90vw;
+        padding: 0;
+    }
+
+    .fundo_calendario .div2 {
+        height: 24.2rem;
+        width: 90vw;
+        overflow: hidden;
+        border-radius: 0.75rem;
+    }
+}
+
 /* ////////////////////////// Concluir Tarefa ///////////////////////// */
 .fundo_concluir {
-    background-color: #333;
+    background-color: #222;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    overflow: hidden;
 }
 
 .fundo_concluir .conteudo {
@@ -426,6 +613,29 @@ body {
     margin-bottom: 1rem;
 }
 
+@media screen and (max-width: 768px) {
+    .fundo_concluir {
+        height: 92rem;
+    }
+
+    .fundo_concluir .conteudo {
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .fundo_concluir .conteudo div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100vw;
+        height: 27rem;
+    }
+
+    .fundo_concluir .imagem_concluir {
+        background-size: 80rem;
+    }
+}
+
 /* ////////////////////////// Devs ///////////////////////// */
 .devs {
     height: 58vh;
@@ -433,11 +643,12 @@ body {
     background-image: linear-gradient(#6DA8D6, #222);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .devs .cabecalho {
     align-self: center;
-    margin-top: 1.5rem;
+    margin-top: 3rem;
     border-bottom: 0.125rem solid #DDD;
     width: 66vw;
     min-width: 46.5rem;
@@ -472,7 +683,7 @@ body {
 .devs .texto_cinza {
     text-indent: 0;
     margin: 0.6rem 0;
-    color: #999;
+    color: #bbb;
     font-size: 1.2rem;
     font-weight: normal;
     white-space: nowrap;
@@ -486,6 +697,43 @@ body {
     border-radius: 10rem;
 }
 
+@media screen and (max-width: 768px) {
+    .devs {
+        height: 47rem;
+    }
+
+    .devs .cabecalho {
+        width: 90vw;
+        min-width: initial;
+        margin-top: 1rem;
+    }
+
+    .devs .titulo_branco {
+        font-size: 2.5rem;
+    }
+
+    .devs .conteudo {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .devs .conteudo .dev {
+        width: 38rem;
+        flex-direction: row;
+        justify-content: left;
+        margin: 1rem 0;
+    }
+
+    .devs .texto_branco {
+        margin: 0rem 2rem;
+        font-size: 1.8rem;
+    }
+
+    .devs .texto_cinza {
+        font-size: 1.5rem;
+    }
+}
+
 /* ////////////////////////// Rodapé ///////////////////////// */
 .rodape {
     background-color: #222;
@@ -495,6 +743,7 @@ body {
     justify-content: center;
     height: 45vh;
     min-height: 15rem;
+    overflow: hidden;
 }
 
 .rodape .escrita {
@@ -523,4 +772,23 @@ body {
     color: #777;
     font-size: 1.2rem;
     margin: 0.6rem 0;
+}
+
+@media screen and (max-width: 768px) {
+    .rodape {
+        height: calc(100vh - 47rem);
+        min-height: 20rem;
+    }
+
+    .rodape .escrita .texto {
+        font-size: 1.7rem;
+    }
+
+    .rodape .escrita .link {
+        font-size: 1.7rem;
+    }
+
+    .rodape .direitos p {
+        font-size: 1.5rem;
+    }
 }

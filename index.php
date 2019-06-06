@@ -118,37 +118,36 @@
 		<div class="conteudo">
 			<div class="dev">
 				<img src="img/perfil/boer.jpg">
-				<h2 class="texto_branco">Tiago Boer Casagrande</h2>
-				<h3 class="texto_branco texto_cinza">tiago.casao@gmail.com</h3>
+				<div>
+					<h2 class="texto_branco">Tiago Boer Casagrande</h2>
+					<h3 class="texto_branco texto_cinza">tiago.casao@gmail.com</h3>
+				</div>
 			</div>
 
 			<div class="dev">
 				<img src="img/perfil/lino.jpeg">
-				<h2 class="texto_branco">Lino Eduardo Perez</h2>
-				<h3 class="texto_branco texto_cinza">scofield@gmail.com</h3>
+				<div>
+					<h2 class="texto_branco">Lino Eduardo Perez</h2>
+					<h3 class="texto_branco texto_cinza">scofield@gmail.com</h3>
+				</div>
 			</div>
 
 			<div class="dev">
 				<img src="img/perfil/vitor.jpg">
-				<h2 class="texto_branco">Vitor Luis Fernandes</h2>
-				<h3 class="texto_branco texto_cinza">vfvfernandes55@gmail.com</h3>
+				<div>
+					<h2 class="texto_branco">Vitor Luis Fernandes</h2>
+					<h3 class="texto_branco texto_cinza">vfvfernandes55@gmail.com</h3>
+				</div>
 			</div>
 		</div>
 	</section>
 	<!-- Rodapé -->
 	<section class="rodape">
 		<div class="escrita">
-			<p class="texto">Icones feitos pelos autores: <br><a
-					href="https://www.flaticon.com/authors/stephen-hutchings" class="link" target="_blank">Stephen
-					Hutchings</a><br><a href="https://www.flaticon.com/authors/elegant-themes" class="link"
-					target="_blank">Elegant Themes</a><br><a href="https://www.flaticon.com/authors/dave-gandy"
-					class="link" target="_blank">Dave Gandy</a><br><a
-					href="https://www.flaticon.com/authors/those-icons" class="link" target="_blank">Those
-					Icons</a><br><a href="https://www.flaticon.com/authors/freepik" class="link"
-					target="_blank">Freepik</a><br><a href="https://www.flaticon.com/authors/hanan" class="link"
-					target="_blank">Hanan</a><br>
-				Encontrados no site <a href="https://www.flaticon.com/" class="link"
-					target="_blank">www.flaticon.com</a>.</p>
+			<p class="texto">Icones feitos pelos autores: <br><a href="https://www.flaticon.com/authors/stephen-hutchings" class="link" target="_blank">Stephen
+					Hutchings</a><br><a href="https://www.flaticon.com/authors/elegant-themes" class="link" target="_blank">Elegant Themes</a><br><a href="https://www.flaticon.com/authors/dave-gandy" class="link" target="_blank">Dave Gandy</a><br><a href="https://www.flaticon.com/authors/those-icons" class="link" target="_blank">Those
+					Icons</a><br><a href="https://www.flaticon.com/authors/freepik" class="link" target="_blank">Freepik</a><br><a href="https://www.flaticon.com/authors/hanan" class="link" target="_blank">Hanan</a><br>
+				Encontrados no site <a href="https://www.flaticon.com/" class="link" target="_blank">www.flaticon.com</a>.</p>
 		</div>
 		<footer class="direitos">
 			<p>&#169; 2019 Long Hair Devs, Alguns Direitos Reservados.</p>
@@ -157,9 +156,12 @@
 </body>
 
 <script>
-	$(function () {
+	$(function() {
 		calcTamanhoFonte();
-		$(window).scroll(function () {
+		$(window).resize(function() {
+			calcTamanhoFonte();
+		});
+		$(window).scroll(function() {
 
 			if ($("html").scrollTop() > 200) {
 				$("a.subir").fadeIn(500);
@@ -167,21 +169,18 @@
 				$("a.subir").fadeOut(500);
 			}
 		});
-		$("a.scrollLink").click(function (event) {
+		$("a.scrollLink").click(function(event) {
 			event.preventDefault();
 			$("html, body").animate({
 				scrollTop: $($(this).attr("href")).offset().top
 			}, 400);
 		});
-		$(window).resize(function () {
-			calcTamanhoFonte();
-		});
 	});
 
 
 	function calcTamanhoFonte() {
-		let tamanho = Math.round(6 + ($(window).width() / 100) * 0.5);
-		$("html").css("font-size", tamanho);
+		$("html").css("font-size", Math.round(6 + ($(window).width() / 100) * 0.5));
+		console.log("sadasdasd");
 	}
 </script>
 
