@@ -49,7 +49,7 @@ class Ajuda {
         this.div.empty();
         this.overlay.fadeIn().css('display', 'flex');
         this.div.append(texto);
-        this.div.css('height', Secundario.descobreTamanho(this.div.innerHeight()) + "rem");
+        this.div.css('height', (Secundario.descobreTamanho(this.div) + 2) + "rem");
     }
 
     fechar() {

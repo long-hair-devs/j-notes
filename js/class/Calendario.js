@@ -1,10 +1,9 @@
 class Calendario {
     constructor() {
-        this.mesAtual = this.hoje.getMonth();
-        this.anoAtual = this.hoje.getFullYear();
-        this.diaParaMarcar = this.hoje.getDate();
-
-        this.construirCalendario();
+        this.dataAtual(this.hoje.getDate(),
+            this.hoje.getMonth(),
+            this.hoje.getFullYear());
+        this.construir();
     }
     /*--- Getters e Setters ---*/
     get hoje() {
@@ -71,7 +70,13 @@ class Calendario {
         return (`${Secundario.pad(this.diaSelecionado)}/${Secundario.pad(this.mesAtual + 1)}/${this.anoAtual}`);
     }
     /*--- Métodos ---*/
-    construirCalendario() {
+    dataAtual(dia, mes, ano) {
+        this.diaParaMarcar = dia;
+        this.mesAtual = mes;
+        this.anoAtual = ano;
+    }
+
+    construir() {
         let diaPrimeiro = new Date(this.anoAtual, this.mesAtual).getDay();
         let diaUltimo = new Date(this.anoAtual, this.mesAtual + 1, 0).getDate();
         let diaAtual = 1;
@@ -80,9 +85,7 @@ class Calendario {
         this.textoMes = this.meses[this.mesAtual];
         this.textoAno = this.anoAtual;
 
-        if (this.mesAtual == this.hoje.getMonth()) {
-            this.diaParaMarcar = this.hoje.getDate();
-        } else if (this.diaParaMarcar > diaUltimo) {
+        if (this.diaParaMarcar > diaUltimo) {
             this.diaParaMarcar = 1;
         }
 
@@ -108,29 +111,33 @@ class Calendario {
             comando += "</tr>"
             this.corpo.append(comando);
         }
-        // $.when(pegaTarefasDoMes()).done(function () { //Só executa a função após o Ajax terminar
-        //     addOuTiraNovaData();
-        //     addIndicadorAosDias();
-        //     verificaSeDiaTemTarefa(diaParaMarcar);
-        //     atualizaNotificacoes();
-        // });
+        Tarefas.atualizarMes(this.mesAtual, this.anoAtual, () => {
+            this.colocaIndicadorNosDias();
+            //     addOuTiraNovaData();
+            //     verificaSeDiaTemTarefa(diaParaMarcar);
+            //     atualizaNotificacoes();
+        });
     }
 
     avancaMes() {
         this.anoAtual = (this.mesAtual == 11) ? this.anoAtual + 1 : this.anoAtual;
         this.mesAtual = (this.mesAtual + 1) % 12;
-        this.construirCalendario(this.mesAtual, this.anoAtual);
+
+        this.mesAtual == this.hoje.getMonth() ? this.diaParaMarcar = this.hoje.getDate() : "";
+        this.construir(this.mesAtual, this.anoAtual);
     }
 
     voltaMes() {
         this.anoAtual = (this.mesAtual == 0) ? this.anoAtual - 1 : this.anoAtual;
         this.mesAtual = (this.mesAtual == 0) ? 11 : this.mesAtual - 1;
-        this.construirCalendario(this.mesAtual, this.anoAtual);
+
+        this.mesAtual == this.hoje.getMonth() ? this.diaParaMarcar = this.hoje.getDate() : "";
+        this.construir(this.mesAtual, this.anoAtual);
     }
 
     mudaAno(valor) {
         this.anoAtual = valor;
-        this.construirCalendario(this.mesAtual, this.anoAtual);
+        this.construir(this.mesAtual, this.anoAtual);
     }
 
     mudaDiaSelecionado(item) {
@@ -139,6 +146,25 @@ class Calendario {
         this.diaParaMarcar = item.text();
 
         //addOuTiraNovaData();
-        //verificaSeDiaTemTarefa(parseInt($(item).text()).pad(2));
+        //verificaSeDiaTemTarefa(Secudario.pad(this.diaParaMarcar));
+    }
+
+    colocaIndicadorNosDias() {
+        this.todosDias.removeClass("dia-evento-ativo dia-evento-passado");
+        if (Tarefas.mes != 0) {
+            let dias = this.corpo.find("span");
+            for (let i = 0; i < dias.length; i++) {
+                for (let j = 0; j < Tarefas.mes.length; j++) {
+                    if (Secundario.pad($(dias[i]).text()) == Tarefas.pegaDia(j)) {
+                        if (new Date(this.anoAtual, this.mesAtual, $(dias[i]).text()).getTime() < this.hoje.getTime()) {
+                            Tarefas.mes[j][9] != null ? $(dias[i]).addClass("dia-evento-concluido") : $(dias[i]).addClass("dia-evento-passado");
+                        } else {
+                            $(dias[i]).addClass("dia-evento-ativo");
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

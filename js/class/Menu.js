@@ -34,7 +34,7 @@ class Menu {
         } else {
             this.menuMovel.removeClass("div-menu-movel--visivel");
         }
-        this.menuMovel.one("transitionend", function (e) {
+        this.menuMovel.one("transitionend", (e) => {
             this.menuMovel.removeClass("div-menu-movel--animacao");
         });
     }
@@ -44,7 +44,7 @@ class Menu {
             this.menuMovel.addClass("div-menu-movel--animacao");
             this.menuMovel.removeClass("div-menu-movel--visivel");
         }
-        this.menuMovel.one("transitionend", function (e) {
+        this.menuMovel.one("transitionend", (e) => {
             this.menuMovel.removeClass("div-menu-movel--animacao");
         });
     }

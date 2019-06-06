@@ -78,4 +78,8 @@ class PainelCalendario {
             this.todasTarefas.removeClass("box-painel-eventos-item--animacao");
         });
     }
+
+    atualizar() {
+        this.todasTarefas.remove();
+    }
 }

@@ -1,7 +1,5 @@
 class JNotes {
     constructor() {
-        this._tarefas = new Tarefas();
-        this._clientes = new Clientes();
         this._menu = new Menu();
         this._ajuda = new Ajuda();
         this._scrollSpy = new ScrollSpy();
@@ -97,11 +95,9 @@ class JNotes {
     ativaNotificacoes(notificacoes, calendario) {
         // Quando clicar na notificação levar para o local desejado 
         notificacoes.itemTarefa.click(() => {
-            calendario.diaParaMarcar = calendario.hoje.getDate();
-            calendario.mesAtual = calendario.hoje.getMonth();
-            calendario.anoAtual = calendario.hoje.getFullYear();
+            calendario.dataAtual(calendario.hoje.getDate(), calendario.hoje.getMonth(), calendario.hoje.getFullYear());
 
-            calendario.construirCalendario();
+            calendario.construir();
             Menu.botaoCalendario.click();
         });
         notificacoes.itemConcluir.click(() => {
@@ -109,26 +105,27 @@ class JNotes {
         });
     }
 
-    ativaNovaTarefa(novaTarefa, clientes, hoje) {
+    ativaNovaTarefa(novaTarefa, calendario, ajuda) {
         novaTarefa.fezAutoComplete = false;
         // Quando está digitando o telefone, verifica se o telefone já foi cadastrado no banco
         novaTarefa.tel1.keyup($.debounce(250, () => {
-            novaTarefa.autoCompleta(novaTarefa.tel1, clientes.pegarDados);
+            novaTarefa.autoCompleta(novaTarefa.tel1);
         }));
 
         // Listener para o botão concluir do formuláiro 
         novaTarefa.botaoConcluir.click(() => {
-            novaTarefa.acaoConcluir(novaTarefa.botaoConcluir.hasClass("editar") ? 2 : 1, clientes, hoje);
+            novaTarefa.acaoConcluir(novaTarefa.botaoConcluir.hasClass("editar") ? 2 : 1,
+                clientes, calendario, tarefas, ajuda);
         });
 
-        /* Listener para o botão cancelar do formuláiro */
-        $("#botao-cancelar").click(() => {
-            fechaEditarTarefa();
+        // Listener para o botão cancelar do formuláiro 
+        novaTarefa.botaoCancelar.click(() => {
+            novaTarefa.fechaModoEditar();
         });
 
-        /* Listener para levar ao calendário quando clicar na seta do campo da data */
-        $("#desce-para-calendario").click(() => {
-            $("#link-calendario").click();
+        // Listener para levar ao calendário quando clicar na seta do campo da data 
+        novaTarefa.data.siblings("img").click(() => {
+            Menu.botaoCalendario.click();
         });
     }
 
@@ -225,9 +222,9 @@ $(function () {
 
     jnotes.ativaNotificacoes(jnotes.notificacoes, jnotes.calendario);
 
-    jnotes.ativaNovaTarefa(jnotes.novaTarefa, jnotes.clientes, jnotes.calendario.hoje);
+    jnotes.ativaNovaTarefa(jnotes.novaTarefa, jnotes.clientes, jnotes.calendario, jnotes.ajuda);
 
-    jnotes.ativaCalendario(jnotes.calendario, jnotes.painel);
+    jnotes.ativaCalendario(jnotes.calendario, jnotes.painel, jnotes.tarefas);
 
     jnotes.ativaPainel(jnotes.painel, jnotes.calendario, jnotes.novaTarefa, jnotes.ajuda);
 });

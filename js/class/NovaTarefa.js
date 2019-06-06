@@ -6,7 +6,7 @@ class NovaTarefa {
 
         // Retirado da internet
         $(".telefone").mask(mascara[1], {
-            onKeyPress: function (val, e, field, options) {
+            onKeyPress: (val, e, field, options) => {
                 field.mask(val.length > 14 ? mascara[0] : mascara[1], options);
             }
         });
@@ -68,6 +68,10 @@ class NovaTarefa {
         return $("#botao-concluir");
     }
 
+    get botaoCancelar() {
+        return $("#botao-cancelar");
+    }
+
     get fezAutoComplete() {
         return this._fezAutoComplete;
     }
@@ -75,10 +79,18 @@ class NovaTarefa {
     set fezAutoComplete(valor) {
         this._fezAutoComplete = valor;
     }
+
+    get form() {
+        return $("#box-nova-tarefa");
+    }
+
+    set titulo(valor) {
+        $("#nova-tarefa").find("h1").text(valor);
+    }
     /*--- Métodos ---*/
-    autoCompleta(tel1, pegarDados) {
+    autoCompleta(tel1) {
         if (tel1.val().length > 13 && tel1.val().length < 16) {
-            pegarDados(tel1.val(), (saida) => {
+            Clientes.pegarDados(tel1.val(), (saida) => {
                 this.nome = saida[0];
                 this.endereco = saida[1];
                 this.tel2 = saida[2];
@@ -152,26 +164,68 @@ class NovaTarefa {
         return true;
     }
 
-    acaoConcluir(tipo, clientes, hoje) {
-        if (this.validaDados(hoje)) {
+    abreModoEditar() {
+        this.titulo = "Editar Tarefa";
+        this.botaoCancelar.css('display', 'block');
+        this.botaoConcluir.addClass("editar");
+        Menu.botaoNova.click();
+        this.tel1.prop("readonly", true);
+    }
+
+    fechaModoEditar() {
+        this.titulo = "Nova Tarefa";
+        this.botaoCancelar.css('display', 'none');
+        this.botaoConcluir.removeClass("editar");
+        this.tel1.prop("readonly", false);
+    }
+
+    acaoConcluir(tipo, calendario, ajuda) {
+        if (this.validaDados(calendario.hoje)) {
             if (tipo == 1) { // Criar
                 if (this.fezAutoComplete) {
-                    clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
+                    Clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
                     this.fezAutoComplete = false;
                 } else {
-                    clientes.cadastrar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
+                    Clientes.cadastrar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
                 }
-                // $.when(cadastraNovaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
-                //     diaParaMarcar = parseInt(data.split("/")[0]);
-                //     mesAtual = (parseInt(data.split("/")[1]) - 1);
-                //     anoAtual = parseInt(data.split("/")[2]);
-                //     mostrarCalendario(mesAtual, anoAtual);
-                // });
+                Tarefas.cadastrar(this.tel1.val(),
+                    this.nome.val(),
+                    this.endereco.val(),
+                    this.tel2.val(),
+                    this.data.val(),
+                    this.periodo.val(),
+                    this.problema.val(),
+                    this.info.val(),
+                    () => {
+                        calendario.dataAtual(this.dataConvertida.getDate(),
+                            this.dataConvertida.getMonth(),
+                            this.dataConvertida.getFullYear());
+                        calendario.construir();
+
+                        this.form.trigger("reset");
+                        ajuda.mostrar("<span>Tarefa cadastrada com sucesso!</span>");
+                    });
             } else if (tipo == 2) { // Editar
-                // aplicaUpdateNoCliente(tel1, nome, endereco, tel2);
-                // $.when(atualizaTarefa(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional)).done(function () {
-                //     fechaEditarTarefa();
-                //     mostrarCalendario(mesAtual, anoAtual);
+                clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
+
+                Tarefas.atualizar(this.tel1.val(),
+                    this.nome.val(),
+                    this.endereco.val(),
+                    this.tel2.val(),
+                    this.data.val(),
+                    this.periodo.val(),
+                    this.problema.val(),
+                    this.info.val(),
+                    () => {
+                        calendario.dataAtual(this.dataConvertida.getDate(),
+                            this.dataConvertida.getMonth(),
+                            this.dataConvertida.getFullYear());
+                        calendario.construir();
+
+                        this.fechaModoEditar();
+                        this.form.trigger("reset");
+                        ajuda.mostrar("<span>Tarefa editada com sucesso!</span>");
+                    });
                 //     $.when(pegaTarefasQueFaltaConcluir()).done(function () {
                 //         verificaTarefasConcluir();
                 //         atualizaNotificacoes();
