@@ -21,6 +21,10 @@ class NovaTarefa {
         return $("#tel1");
     }
 
+    set tel1(valor) {
+        $("#tel1").val(valor);
+    }
+
     get nome() {
         return $("#nome");
     }
@@ -61,12 +65,30 @@ class NovaTarefa {
         return $("input[name=periodo]:checked").siblings(".radio-texto");
     }
 
+    set periodo(valor) {
+        if (valor == "Manhã") {
+            $("input[name=periodo][value='M']").prop("checked", true);
+        } else if (valor == "Tarde") {
+            $("input[name=periodo][value='T']").prop("checked", true);
+        } else {
+            $("input[name=periodo][value='N']").prop("checked", true);
+        }
+    }
+
     get problema() {
         return $("#problema");
     }
 
+    set problema(valor) {
+        $("#problema").val(valor);
+    }
+
     get info() {
         return $("#info");
+    }
+
+    set info(valor) {
+        $("#info").val(valor);
     }
 
     get botaoConcluir() {
@@ -91,6 +113,10 @@ class NovaTarefa {
 
     set titulo(valor) {
         $("#nova-tarefa").find("h1").text(valor);
+    }
+
+    get section() {
+        return $("#nova-tarefa");
     }
     /*--- Métodos ---*/
     autoCompleta() {
@@ -169,19 +195,39 @@ class NovaTarefa {
         return true;
     }
 
+    verificaSeTemDados() {
+        return this.tel1.val() == "" &&
+            this.nome.val() == "" &&
+            this.tel2.val() == "" &&
+            this.endereco.val() == "" &&
+            this.problema.val() == "" &&
+            this.info.val() == "";
+    }
+
     abreModoEditar() {
-        this.titulo = "Editar Tarefa";
-        this.botaoCancelar.css('display', 'block');
-        this.botaoConcluir.addClass("editar");
-        Menu.botaoNova.click();
-        this.tel1.prop("readonly", true);
+        if (!this.section.hasClass("modo-editar")) {
+            this.titulo = "Editar Tarefa";
+            this.section.addClass("modo-editar");
+            this.botaoCancelar.css('display', 'block');
+            this.botaoConcluir.addClass("editar");
+            this.tel1.prop("readonly", true);
+            return true;
+        } else {
+            this.d.ajuda.mostrar("<span>Você já está editando uma tarefa, termine ou cancele antes de continuar</span>");
+            return false;
+        }
     }
 
     fechaModoEditar() {
-        this.titulo = "Nova Tarefa";
-        this.botaoCancelar.css('display', 'none');
-        this.botaoConcluir.removeClass("editar");
-        this.tel1.prop("readonly", false);
+        Tarefas.id = undefined;
+        if (this.section.hasClass("modo-editar")) {
+            this.titulo = "Nova Tarefa";
+            this.section.removeClass("modo-editar");
+            this.botaoCancelar.css('display', 'none');
+            this.botaoConcluir.removeClass("editar");
+            this.tel1.prop("readonly", false);
+            this.form.trigger("reset");
+        }
     }
 
     acaoConcluir(tipo) {
@@ -209,7 +255,7 @@ class NovaTarefa {
                         this.d.ajuda.mostrar("<span>Tarefa cadastrada com sucesso!</span>");
                     });
             } else if (tipo == 2) { // Editar
-                clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
+                Clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
 
                 Tarefas.atualizar(this.tel1.val(),
                     this.nome.val(),
@@ -224,14 +270,11 @@ class NovaTarefa {
                         this.d.calendario.construir();
 
                         this.fechaModoEditar();
-                        this.form.trigger("reset");
                         this.d.ajuda.mostrar("<span>Tarefa editada com sucesso!</span>");
                     });
-                //     $.when(pegaTarefasQueFaltaConcluir()).done(function () {
-                //         verificaTarefasConcluir();
-                //         atualizaNotificacoes();
-                //     });
-                // });
+                Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
+                    // verifica concluir 
+                });
             }
         }
     }

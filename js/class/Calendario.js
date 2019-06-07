@@ -72,14 +72,15 @@ class Calendario {
         return new Date(this.anoAtual, this.mesAtual, this.diaSelecionado);
     }
 
-    get dataSelecionadaString() {
-        return (`${Secundario.pad(this.diaSelecionado)}/${Secundario.pad(this.mesAtual + 1)}/${this.anoAtual}`);
-    }
     /*--- Métodos ---*/
     dataAtual(dia, mes, ano) {
         this.diaParaMarcar = dia;
         this.mesAtual = mes;
         this.anoAtual = ano;
+    }
+
+    dataSelecionadaString(separador) {
+        return (`${Secundario.pad(this.diaSelecionado)}${separador}${Secundario.pad(this.mesAtual + 1)}${separador}${this.anoAtual}`);
     }
 
     construir() {
@@ -120,8 +121,7 @@ class Calendario {
         Tarefas.atualizarMes(this.mesAtual, this.anoAtual, () => {
             this.colocaIndicadorNosDias();
             this.d.painel.atualizar(this.diaParaMarcar);
-            //     addOuTiraNovaData();
-            //     atualizaNotificacoes();
+            this.d.notificacoes.atualizar();
         });
     }
 
@@ -152,7 +152,6 @@ class Calendario {
         this.diaParaMarcar = item.text();
 
         this.d.painel.atualizar(this.diaParaMarcar);
-        //addOuTiraNovaData();
     }
 
     colocaIndicadorNosDias() {

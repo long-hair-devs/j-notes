@@ -35,6 +35,17 @@ class PainelCalendario {
         return $("#box-painel-crud");
     }
 
+    get divData() {
+        return $(".box-nova-data");
+    }
+
+    get divDeletar() {
+        return this._divDeletar;
+    }
+
+    set divDeletar(valor) {
+        this._divDeletar = valor;
+    }
     /*--- Métodos ---*/
     encheListaAnos(calendario) {
         for (let i = calendario.anoAtual - 4; i < calendario.anoAtual + 4; i++) {
@@ -96,20 +107,21 @@ class PainelCalendario {
                 }
             }
         }
+        this.addOuRemoveDivData();
     }
 
     addTarefa(tipo, i) {
         let comando;
         if (tipo == 1) {
             comando = `<div class="box-painel-eventos-item">
-            <span>${Tarefas.pegaId(i)}</span>
-            <span>${Tarefas.pegaNome(i)}</span>
-            <span>${Tarefas.pegaTel1(i)}</span>
-            ${Tarefas.pegaTel2(i) != "" ? `<span>${Tarefas.pegaTel2(i)}</span>` : ``}
-            <span>${Tarefas.pegaEndereco(i)}</span>
-            <span>${Tarefas.pegaPeriodo(i)}</span>
-            ${Tarefas.pegaProblema(i) != "" ? `<span>${Tarefas.pegaProblema(i)}</span>` : ``}
-            ${Tarefas.pegaInfo(i) != "" ? `<span>${Tarefas.pegaInfo(i)}</span>` : ``}
+            <span class="id">${Tarefas.pegaId(i)}</span>
+            <span class="nome">${Tarefas.pegaNome(i)}</span>
+            <span class="tel1">${Tarefas.pegaTel1(i)}</span>
+            ${Tarefas.pegaTel2(i) != "" ? `<span class="tel2">${Tarefas.pegaTel2(i)}</span>` : ``}
+            <span class="endereco">${Tarefas.pegaEndereco(i)}</span>
+            <span class="periodo">${Tarefas.pegaPeriodo(i)}</span>
+            ${Tarefas.pegaProblema(i) != "" ? `<span class="problema">${Tarefas.pegaProblema(i)}</span>` : ``}
+            ${Tarefas.pegaInfo(i) != "" ? `<span class="info">${Tarefas.pegaInfo(i)}</span>` : ``}
             <div id="box-painel-crud">
             <div class="wrapper-painel-crud editar-tarefa">
             <img src="../img/svg/edit.svg" alt="botao-editar"><span>Editar</span></div>
@@ -130,5 +142,41 @@ class PainelCalendario {
             ${Tarefas.pegaObsercacoes(i) != "" ? `<span>${Tarefas.pegaObsercacoes(i)}</span>` : ``}`;
         }
         this.div.prepend(comando);
+    }
+
+    addOuRemoveDivData() {
+        if (this.d.calendario.dataSelecionada.getTime() < this.d.calendario.hoje.getTime()) {
+            this.divData.removeClass("box-nova-data--visivel");
+        } else {
+            this.divData.addClass("box-nova-data--visivel");
+        }
+    }
+
+    passaValores(item) {
+        Tarefas.id = item.find(".id").text();
+        this.d.novaTarefa.tel1 = item.find(".tel1").text();
+        this.d.novaTarefa.nome = item.find(".nome").text();
+        this.d.novaTarefa.tel2 = item.find(".tel2").text();
+        this.d.novaTarefa.endereco = item.find(".endereco").text();
+        this.d.novaTarefa.periodo = item.find(".periodo").text();
+        this.d.novaTarefa.problema = item.find(".problema").text();
+        this.d.novaTarefa.info = item.find(".info").text();
+    }
+
+    deletarTarefa() {
+        Tarefas.id = this.divDeletar.find(".id").text();
+
+        Tarefas.deletar((dados) => {
+            if (dados == 1) {
+                this.divDeletar.fadeOut(() => {
+                    this.divDeletar.remove();
+                });
+                Tarefas.atualizarMes(this.d.calendario.mesAtual, this.d.calendario.anoAtual, () => {
+                    Tarefas.id = undefined
+                    this.d.calendario.colocaIndicadorNosDias();
+                    this.d.notificacoes.atualizar();
+                });
+            }
+        });
     }
 }

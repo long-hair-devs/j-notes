@@ -92,7 +92,7 @@ class JNotes {
         });
     }
 
-    ativaNotificacoes(notificacoes) {
+    ativaNotificacoes(notificacoes, calendario) {
         // Quando clicar na notificação levar para o local desejado 
         notificacoes.itemTarefa.click(() => {
             calendario.dataAtual(calendario.hoje.getDate(), calendario.hoje.getMonth(), calendario.hoje.getFullYear());
@@ -174,27 +174,47 @@ class JNotes {
 
         // Listener para colocar data selecionada no formulário 
         painel.div.on("click", ".box-nova-data", () => {
-            novaTarefa.data = calendario.dataSelecionadaString;
+            novaTarefa.data = calendario.dataSelecionadaString("/");
             Menu.botaoNova.click();
         });
 
-        /* Listeners para o editar tarefa e deletar tarefa da barra de opções */
+        let temp;
+        // Listeners para chamar o editar tarefa 
         painel.div.on("click", ".editar-tarefa", function () {
-            novaTarefa.abreModoEditar();
-            painel.passaValores($($(this).parent().parent()));
-        });
-
-
-        painel.div.on("click", ".deletar-tarefa", function () {
-            ajuda.mostar(ajuda.textoConfirmar);
-            divTarefaDeletar = $(this).parent().parent();
-        });
-
-        /* Listener que confirma se vai ou não deletar a tarefa */
-        ajuda.div.on('click', '.confirmacao', function () {
-            if ($(this).text() == "Sim") {
-                deletarTarefa(divTarefaDeletar);
+            if (!novaTarefa.verificaSeTemDados() && !novaTarefa.section.hasClass("modo-editar")) {
+                temp = $(this);
+                ajuda.mostrar(ajuda.textoLimparForm);
+            } else if (novaTarefa.abreModoEditar()) {
+                painel.passaValores($($(this).parent().parent()));
+                painel.divData.click();
             }
+        });
+
+        // Listeners para chamar o deletar tarefa 
+        painel.div.on("click", ".deletar-tarefa", function () {
+            if (novaTarefa.section.hasClass("modo-editar")) {
+                ajuda.mostrar("<span>Você está editando uma tarefa, termine ou cancele antes de continuar</span>");
+            } else {
+                ajuda.mostrar(ajuda.textoConfirmar);
+                painel.divDeletar = $(this).parent().parent();
+            }
+        });
+
+        // Listener que confirma se vai ou não deletar a tarefa 
+        ajuda.div.on('click', '.confirmacao-deletar', function () {
+            if ($(this).find("span").text() == "Sim") {
+                painel.deletarTarefa();
+            }
+            ajuda.fechar();
+        });
+
+        // Listener que confirma se vai ou não limpar o formulário 
+        ajuda.div.on('click', '.confirmacao-limpar', function () {
+            if ($(this).find("span").text() == "Sim") {
+                novaTarefa.form.trigger("reset");
+                temp.click();
+            }
+            temp = undefined;
             ajuda.fechar();
         });
     }
@@ -219,7 +239,7 @@ $(function () {
 
     jnotes.ativaAjuda(jnotes.ajuda);
 
-    jnotes.ativaNotificacoes(jnotes.notificacoes);
+    jnotes.ativaNotificacoes(jnotes.notificacoes, jnotes.calendario);
 
     jnotes.ativaNovaTarefa(jnotes.novaTarefa);
 

@@ -23,7 +23,7 @@ class Notificacoes {
         $(".notificacao-item.tarefa").text(valor);
     }
     /*--- Métodos ---*/
-    atualizaNotificacoes() {
+    atualizar() {
         if (this.d.concluir.todasTarefas.length > 0) {
             this.d.concluir.todasTarefas.length == 1 ?
                 this.textoConcluir = "Há somente uma tarefa para concluir." :
@@ -31,14 +31,22 @@ class Notificacoes {
         } else {
             this.textoConcluir = "Não há nada para concluir.";
         }
-        if (this.d.calendario.dataSelecionada.getTime() == this.d.calendario.hoje.getTime()) {
-            if (this.d.painel.todasTarefas.length > 0) {
-                this.d.painel.todasTarefas.length == 1 ?
-                    this.textoTarefa = "Você tem apenas uma tarefa para fazer hoje!" :
-                    this.textoTarefa = "Você tem " + this.d.painel.todasTarefas.length + " tarefas para fazer hoje!";
+
+        let tarefasAFazer = 0;
+        for (let i = 0; i < Tarefas.mes.length; i++) {
+            if (Tarefas.mes[i][1] != this.d.calendario.hoje.toISOString().slice(0, 10)) {
+                continue;
             } else {
-                this.textoTarefa = "Nenhuma tarefa para fazer hoje!";
+                tarefasAFazer++;
             }
+        }
+
+        if (tarefasAFazer != 0) {
+            tarefasAFazer == 1 ?
+                this.textoTarefa = "Você tem apenas uma tarefa para fazer hoje!" :
+                this.textoTarefa = "Você tem " + tarefasAFazer + " tarefas para fazer hoje!";
+        } else {
+            this.textoTarefa = "Nenhuma tarefa para fazer hoje!";
         }
     }
 }

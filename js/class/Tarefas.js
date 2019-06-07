@@ -12,7 +12,6 @@ const IDTAREFA = 0,
     OBSERVACOES = 11;
 
 class Tarefas {
-    constructor() {}
     /*--- Getters e Setters ---*/
     static get mes() {
         return this._mes;
@@ -20,6 +19,22 @@ class Tarefas {
 
     static set mes(valor) {
         this._mes = valor;
+    }
+
+    static get naoConcluidas() {
+        return this._naoConcluidas;
+    }
+
+    static set naoConcluidas(valor) {
+        this._naoConcluidas = valor;
+    }
+
+    static get id() {
+        return this._id;
+    }
+
+    static set id(valor) {
+        this._id = parseInt(valor);
     }
 
     /*--- Métodos ---*/
@@ -41,8 +56,8 @@ class Tarefas {
 
     static atualizar(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional, callback) {
         $.post('j-notes.php', {
-            'cadastra-nova-tarefa': 1,
-            'id': this.tarefaParaEditar,
+            'atualiza-tarefa': 1,
+            'id': this.id,
             'tel1': tel1,
             'nome': nome,
             'endereco': endereco,
@@ -56,14 +71,37 @@ class Tarefas {
         });
     }
 
+    static deletar(callback) {
+        $.post('j-notes.php', {
+            'deleta-tarefa': 1,
+            'id': this.id,
+        }, (dados) => {
+            callback(dados);
+
+        });
+        // $.when(pegaTarefasQueFaltaConcluir()).done(function () {
+        //     verificaTarefasConcluir();
+        //     atualizaNotificacoes();
+        // });
+    }
+
     static atualizarMes(mesAtual, anoAtual, callback) {
-        Tarefas.mes = 0;
         $.post('j-notes.php', {
             'pega-eventos-mes': 1,
             'mes': mesAtual,
             'ano': anoAtual,
         }, (dados) => {
-            Tarefas.mes = dados;
+            this.mes = dados;
+            callback();
+        }, "json");
+    }
+
+    static atualizarNaoConcluidas(hoje, callback) {
+        $.post('j-notes.php', {
+            'pega-nao-concluidas': 1,
+            'hoje': hoje,
+        }, (dados) => {
+            this.naoConcluidas = dados;
             callback();
         }, "json");
     }

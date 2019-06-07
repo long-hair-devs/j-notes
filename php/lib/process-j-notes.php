@@ -73,9 +73,9 @@ if (isset($_POST['pega-eventos-mes'])) {
     if (mysqli_num_rows($results) > 0) {
         $results = mysqli_fetch_all($results, MYSQLI_NUM);
         echo json_encode($results);
-    } else {
-        echo "";
+        exit();
     }
+    echo 0;
     exit();
 }
 
@@ -106,7 +106,8 @@ if (isset($_POST['deleta-tarefa'])) {
         if (mysqli_num_rows($results) > 0) {
             $sql = "DELETE FROM tarefas WHERE id_tarefa='$id'";
             mysqli_query($db, $sql) or die($db->error);
-            echo "certo";
+
+            echo 1;
         }
     }
     exit();
@@ -122,9 +123,9 @@ if (isset($_POST['pega-nao-concluidas'])) {
     if (mysqli_num_rows($results) > 0) {
         $results = mysqli_fetch_all($results, MYSQLI_NUM);
         echo json_encode($results);
-    } else {
-        echo "";
+        exit();
     }
+    echo 0;
     exit();
 }
 

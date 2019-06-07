@@ -28,9 +28,24 @@ class Ajuda {
         <span>Os itens com o indicador * são de preenchimento obrigatório.</span>`;
     }
 
+    get textoLimparForm() {
+        return `<span>Você possui dados preenchidos no formulário, deseja continuar ?</span>
+        <div class="box-confirmacao"><div class="wrapper confirmacao-limpar">
+            <img src="../img/svg/check-white.svg" alt="icone para confirmacao sim">        
+            <span>Sim</span></div>
+        <div class="wrapper confirmacao-limpar">
+            <img src="../img/svg/close-cross.svg" alt="icone para confirmacao sim">        
+            <span>Não</span></div></div>`;
+    }
+
     get textoConfirmar() {
-        return `<span>Você realmente deseja deletar esse item ?</span>
-        <div><span class='confirmacao'>Sim</span><span class='confirmacao'>Não</span></div>`;
+        return `<span>Você realmente deseja deletar esta tarefa ?</span>
+        <div class="box-confirmacao"><div class="wrapper confirmacao-deletar">
+            <img src="../img/svg/check-white.svg" alt="icone para confirmacao sim">        
+            <span>Sim</span></div>
+        <div class="wrapper confirmacao-deletar">
+            <img src="../img/svg/close-cross.svg" alt="icone para confirmacao sim">        
+            <span>Não</span></div></div>`;
     }
 
     get overlay() {
@@ -38,7 +53,7 @@ class Ajuda {
     }
 
     get div() {
-        return $(".overlay-ajuda div");
+        return $(".overlay-ajuda>div");
     }
 
     get botaoAjuda() {
