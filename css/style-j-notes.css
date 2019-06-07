@@ -30,7 +30,6 @@ h2 {
   font-size: 1.6rem;
   font-weight: normal;
 }
-/* Básico - Mobile */
 /* Menu Fixo - Desktop */
 .menu-fixo {
   position: fixed;
@@ -365,6 +364,15 @@ main section > div .wrapper-section {
 }
 /*--- NOVA TAREFA ---*/
 /* Desktop */
+#nova-tarefa.modo-editar {
+  background: #444;
+}
+#nova-tarefa.modo-editar .box-nova-tarefa .box-argolas span {
+  border-color: #444;
+}
+#nova-tarefa.modo-editar .box-nova-tarefa #wrapper-botao .botao:first-child {
+  background: #444;
+}
 #nova-tarefa .box-nova-tarefa {
   height: 48.6rem;
   margin: 3rem 0 1rem 0;
@@ -601,12 +609,21 @@ main section > div .wrapper-section {
 #calendario .box-calendario tbody .dia-normal {
   background: #444;
 }
+#calendario .box-calendario tbody .dia-normal.dia-evento-concluido::before {
+  background: #222;
+}
 #calendario .box-calendario tbody .dia-final-semana {
   background: #222;
+}
+#calendario .box-calendario tbody .dia-final-semana.dia-evento-concluido::before {
+  background: #444;
 }
 #calendario .box-calendario tbody .dia-selecionado {
   background: #6DA8D6;
   color: #000;
+}
+#calendario .box-calendario tbody .dia-selecionado.dia-evento-concluido::before {
+  background: #222;
 }
 #calendario .box-calendario tbody .dia-evento-ativo::after,
 #calendario .box-calendario tbody .dia-evento-passado::after {
@@ -631,7 +648,6 @@ main section > div .wrapper-section {
   left: 50%;
   width: 1rem;
   height: 0.4rem;
-  background: #333;
   border-radius: 0.75rem;
   transform: translate(-50%, -50%);
 }
@@ -768,7 +784,7 @@ main section > div .wrapper-section {
   display: none;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div,
-.overlay-ajuda > div div {
+.overlay-ajuda > div .box-confirmacao {
   align-self: center;
   width: 100%;
   height: 1.8rem;
@@ -782,18 +798,21 @@ main section > div .wrapper-section {
   justify-content: space-evenly;
   cursor: default;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud {
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud,
+.overlay-ajuda > div .box-confirmacao .wrapper {
   margin: -1rem;
   padding: 1rem;
   display: flex;
   align-items: center;
   cursor: pointer;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud img {
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud img,
+.overlay-ajuda > div .box-confirmacao .wrapper img {
   width: 1.8rem;
   height: 1.8rem;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud span {
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud span,
+.overlay-ajuda > div .box-confirmacao .wrapper span {
   margin: 0 0 0 0.5rem;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item--animacao {
@@ -806,7 +825,7 @@ main section > div .wrapper-section {
   margin: 0 auto;
   background: #6DA8D6;
   border-radius: 0.75rem;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -823,6 +842,9 @@ main section > div .wrapper-section {
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data span {
   margin-left: 0.25rem;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data.box-nova-data--visivel {
+  display: flex;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
@@ -1025,22 +1047,27 @@ main section > div .wrapper-section {
   font-size: 1.2rem;
   text-align: center;
 }
-.overlay-ajuda > div div {
+.overlay-ajuda > div .box-confirmacao {
   margin: 0;
 }
-.overlay-ajuda > div div span {
-  padding: 1rem;
-  margin: -1rem;
+.overlay-ajuda > div .box-confirmacao .wrapper img {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.overlay-ajuda > div .box-confirmacao .wrapper span {
   font-size: 1.2rem;
   color: #FFF;
-  cursor: pointer;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
   .overlay-ajuda {
     padding: 0;
   }
-  .overlay-ajuda div span {
+  .overlay-ajuda .box-confirmacao .wrapper img {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+  .overlay-ajuda .box-confirmacao .wrapper span {
     font-size: 1.5rem;
   }
 }

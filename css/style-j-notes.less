@@ -455,6 +455,26 @@ main {
 /*--- NOVA TAREFA ---*/
 /* Desktop */
 #nova-tarefa {
+    &.modo-editar {
+        background: @cinza-mais-claro;
+
+        .box-nova-tarefa {
+            .box-argolas {
+                span {
+                    border-color: @cinza-mais-claro
+                }
+            }
+
+            #wrapper-botao {
+                .botao {
+                    &:first-child {
+                        background: @cinza-mais-claro;
+                    }
+                }
+            }
+        }
+    }
+
     .box-nova-tarefa {
         &:extend(#inicio .box-inicio);
         height: 48.6rem;
@@ -725,15 +745,27 @@ main {
 
             .dia-normal {
                 background: @cinza-mais-claro;
+
+                &.dia-evento-concluido::before {
+                    background: @cinza-escuro;
+                }
             }
 
             .dia-final-semana {
                 background: @cinza-escuro;
+
+                &.dia-evento-concluido::before {
+                    background: @cinza-mais-claro;
+                }
             }
 
             .dia-selecionado {
                 background: @azul;
                 color: @preto-fonte;
+
+                &.dia-evento-concluido::before {
+                    background: @cinza-escuro;
+                }
             }
 
             .dia-evento-ativo::after {
@@ -761,7 +793,6 @@ main {
                 left: 50%;
                 width: 1rem;
                 height: 0.4rem;
-                background: @cinza-claro;
                 border-radius: @borda-padrao;
                 transform: translate(-50%, -50%);
             }
@@ -968,7 +999,7 @@ main {
                     margin: 0 auto;
                     background: @azul;
                     border-radius: @borda-padrao;
-                    display: flex;
+                    display: none;
                     align-items: center;
                     justify-content: center;
                     cursor: pointer;
@@ -988,6 +1019,10 @@ main {
 
                     span {
                         margin-left: 0.25rem;
+                    }
+
+                    &.box-nova-data--visivel {
+                        display: flex;
                     }
                 }
             }
@@ -1273,16 +1308,24 @@ main {
             text-align: center;
         }
 
-        div {
+        .box-confirmacao {
             &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>div);
             margin: 0;
 
-            span {
-                padding: 1rem;
-                margin: -1rem;
-                font-size: 1.2rem;
-                color: @branco-fonte;
-                cursor: pointer;
+            .wrapper {
+                &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>div .wrapper-painel-crud);
+
+                img {
+                    &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>div .wrapper-painel-crud img);
+                    width: 1.6rem;
+                    height: 1.6rem;
+                }
+
+                span {
+                    &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>div .wrapper-painel-crud span);
+                    font-size: 1.2rem;
+                    color: @branco-fonte;
+                }
             }
         }
     }
@@ -1293,9 +1336,16 @@ main {
     .overlay-ajuda {
         padding: 0;
 
-        div {
-            span {
-                font-size: 1.5rem;
+        .box-confirmacao {
+            .wrapper {
+                img {
+                    width: 1.9rem;
+                    height: 1.9rem;
+                }
+
+                span {
+                    font-size: 1.5rem;
+                }
             }
         }
     }
