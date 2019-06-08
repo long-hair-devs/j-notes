@@ -3,21 +3,26 @@
 /* Básico - Desktop */
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 html {
   scroll-behavior: smooth;
 }
 body {
   width: 100%;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
   line-height: 1;
-  display: flex;
-  flex-flow: row nowrap;
 }
 a {
+  box-sizing: unset;
+  outline: 0;
   cursor: pointer;
   text-decoration: none;
 }
@@ -32,15 +37,18 @@ h2 {
 }
 /* Menu Fixo - Desktop */
 .menu-fixo {
+  z-index: 20;
   position: fixed;
   top: 0;
   left: 0;
+  bottom: unset;
+  right: unset;
   width: 3.7rem;
   height: 100%;
   padding: 1.5rem 0;
+  margin: 0;
   background: #111;
   color: #FFF;
-  z-index: 20;
   user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -50,11 +58,13 @@ h2 {
 .div-menu-movel nav ul {
   width: 1.8rem;
   height: 100%;
+  padding: 0;
   margin: 0 auto;
   list-style: none;
   display: flex;
-  flex-direction: column;
+  flex-flow: column nowrap;
   align-items: flex-start;
+  justify-content: flex-start;
 }
 .menu-fixo li,
 .div-menu-movel nav li {
@@ -72,10 +82,10 @@ h2 {
 .div-menu-movel nav li a {
   margin: -1rem;
   padding: 1rem;
-  outline: 0;
   display: flex;
-  flex-wrap: nowrap;
+  flex-flow: row nowrap;
   align-items: center;
+  justify-content: flex-start;
   color: #FFF;
 }
 .menu-fixo li a.active img {
@@ -84,6 +94,8 @@ h2 {
 .menu-fixo img {
   width: 1.8rem;
   height: 1.8rem;
+  padding: 0;
+  margin: 0;
   filter: invert(75%) sepia(96%) saturate(1%) hue-rotate(327deg) brightness(97%) contrast(97%);
 }
 .menu-fixo span {
@@ -95,18 +107,21 @@ h2 {
     width: 100%;
     height: 5.5rem;
     padding: 0 1.5rem;
+    margin: 0;
   }
   .menu-fixo ul,
   .div-menu-movel nav ul {
     width: 100%;
+    height: 100%;
+    padding: 0;
     margin: 0;
     flex-direction: row;
     align-items: center;
   }
   .menu-fixo li,
   .div-menu-movel nav li {
-    margin: 0;
     display: none;
+    margin: 0;
   }
   .menu-fixo li:first-child,
   .menu-fixo li.final,
@@ -124,27 +139,31 @@ h2 {
   .menu-fixo img {
     width: 2rem;
     height: 2rem;
+    padding: 0;
+    margin: 0;
   }
   .menu-fixo span {
     display: block;
-    font-size: 1.6rem;
     margin-left: 1rem;
+    font-size: 1.6rem;
   }
 }
 /* Menu Móvel - Desktop */
 .div-menu-movel {
+  z-index: 10;
   position: fixed;
   top: 0;
-  bottom: 0;
   left: 3.7rem;
-  overflow: hidden;
+  bottom: unset;
+  right: unset;
   pointer-events: none;
-  z-index: 10;
+  overflow: hidden;
 }
 .div-menu-movel nav {
   width: 18rem;
   height: 100%;
-  padding: 1.5rem 0 1.5rem 0;
+  padding: 1.5rem 0;
+  margin: 0;
   background: #111;
   transform: translateX(-20rem);
   will-change: transform;
@@ -158,14 +177,13 @@ h2 {
 }
 .div-menu-movel nav li a {
   height: 1.8rem;
-  box-sizing: unset;
 }
 .div-menu-movel nav li a.active {
   color: #6DA8D6;
 }
 .div-menu-movel nav span {
-  font-size: 1.4rem;
   margin-left: 1rem;
+  font-size: 1.4rem;
 }
 /* Menu Móvel - Mobile */
 @media only screen and (max-width: 720px) {
@@ -184,9 +202,9 @@ h2 {
     align-items: flex-start;
   }
   .div-menu-movel nav li {
+    display: block;
     margin-bottom: 2rem;
     pointer-events: auto;
-    display: block;
   }
   .div-menu-movel nav li:first-child {
     display: none;
@@ -210,9 +228,9 @@ h2 {
 }
 /* Main - Desktop */
 main {
-  margin: 0 0 0 3.7rem;
-  flex: 1;
   z-index: 0;
+  flex: 1;
+  margin: 0 0 0 3.7rem;
 }
 main section {
   user-select: none;
@@ -228,19 +246,23 @@ main section.escuro {
 }
 main section > div {
   width: 70vw;
+  height: auto;
+  padding: 0;
+  margin: auto;
   min-width: 38rem;
   min-height: 100vh;
-  margin: auto;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+  justify-content: flex-start;
 }
 main section > div > header {
   width: inherit;
   border-bottom: 0.15rem solid #FFF;
   display: flex;
-  justify-content: space-between;
+  flex-flow: row nowrap;
   align-items: center;
+  justify-content: space-between;
   user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -253,30 +275,35 @@ main section > div > header span {
   position: relative;
   width: 3rem;
   height: 3rem;
+  padding: 0;
+  margin: 0;
   background: #6DA8D6;
   border-radius: 0.75rem;
-  font-size: 1.4rem;
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
+  font-size: 1.4rem;
   cursor: pointer;
 }
 main section > div > header span::after {
-  content: "";
+  content: '';
   position: absolute;
   top: -1rem;
-  right: -1rem;
-  bottom: -1rem;
   left: -1rem;
+  bottom: -1rem;
+  right: -1rem;
 }
 main section > div .wrapper-section {
   flex: 1;
   width: 100%;
+  height: auto;
+  padding: 0;
+  margin: auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-  margin: auto;
   overflow: hidden;
 }
 /* Main - Mobile */
@@ -293,52 +320,66 @@ main section > div .wrapper-section {
 }
 /*--- PÁGINA INICIAL ---*/
 /* Desktop */
-#inicio .box-inicio,
-#nova-tarefa .box-nova-tarefa {
+#inicio .box-inicio {
   position: relative;
   width: 38rem;
   height: 37rem;
+  padding: 0;
   margin: 1rem 0;
 }
 #inicio .box-inicio .tira {
   z-index: 2;
   position: absolute;
-  left: 95%;
+  top: calc(-50vh + 0.6rem);
+  left: calc(95% - 0.075rem);
+  bottom: unset;
+  right: unset;
   width: 0.15rem;
   height: 50vh;
+  padding: 0;
+  margin: 0;
   background: #DDD;
-  transform: translate(-0.0625rem, calc(-50vh + .6rem));
 }
 #inicio .box-inicio .tira:first-child {
-  left: 5%;
+  left: calc(5% - 0.075rem);
 }
 #inicio .box-inicio .bolinha {
   z-index: 1;
   position: absolute;
-  top: .3rem;
-  left: 5%;
+  top: 0.3rem;
+  left: calc(5% - 0.5rem);
+  bottom: unset;
+  right: unset;
   width: 1rem;
   height: 1rem;
+  padding: 0;
+  margin: 0;
   background: #333;
   border-radius: 1rem;
-  transform: translateX(-0.5rem);
 }
 #inicio .box-inicio .bolinha:last-of-type {
-  left: 95%;
+  left: calc(95% - 0.5rem);
 }
 #inicio .box-inicio header,
 #calendario .box-painel-calendario header {
   width: inherit;
   height: 5rem;
+  padding: 0;
+  margin: 0;
   background: #DDD;
   border-radius: 0.75rem 0.75rem 0 0;
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
+  justify-content: flex-start;
 }
 #inicio .box-inicio > div,
 #calendario .box-painel-calendario > div {
+  position: relative;
+  width: auto;
   height: calc(100% - 5rem);
   padding: 1rem;
+  margin: 0;
   box-shadow: inset 0 0 0 0.15rem #DDD;
   border-radius: 0 0 0.75rem 0.75rem;
   overflow: hidden;
@@ -347,36 +388,60 @@ main section > div .wrapper-section {
   width: 100%;
   height: 5rem;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
   background: #444;
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
+  justify-content: flex-start;
   border-radius: 0.75rem;
-  cursor: pointer;
   color: #FFF;
+  cursor: pointer;
+}
+#inicio .box-inicio > div .wrapper {
+  position: absolute;
+  top: 87%;
+  left: 10rem;
+  bottom: unset;
+  right: unset;
+  width: 20rem;
+  height: auto;
+  padding: 1rem;
+  margin: -1rem;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+#inicio .box-inicio > div .wrapper img {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  margin: 0;
+}
+#inicio .box-inicio > div .wrapper span {
+  margin-left: 0.5rem;
+  font-size: 1.3rem;
+  color: #6DA8D6;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
-  #inicio .box-inicio,
-  #nova-tarefa .box-nova-tarefa {
+  #inicio .box-inicio {
     height: 45rem;
+  }
+  #inicio .box-inicio > div .wrapper {
+    top: 92%;
   }
 }
 /*--- NOVA TAREFA ---*/
 /* Desktop */
-#nova-tarefa.modo-editar {
-  background: #444;
-}
-#nova-tarefa.modo-editar .box-nova-tarefa .box-argolas span {
-  border-color: #444;
-}
-#nova-tarefa.modo-editar .box-nova-tarefa #wrapper-botao .botao:first-child {
-  background: #444;
-}
 #nova-tarefa .box-nova-tarefa {
+  position: relative;
+  width: 38rem;
   height: 48.6rem;
-  margin: 3rem 0 1rem 0;
   padding: 3rem 1rem 1rem 1rem;
+  margin: 3rem 0 1rem 0;
   border: 0.15rem solid #DDD;
   border-radius: 0.75rem;
   display: grid;
@@ -392,16 +457,23 @@ main section > div .wrapper-section {
   position: absolute;
   top: -1.6rem;
   left: 0;
+  bottom: unset;
+  right: unset;
   width: 100%;
   height: 3.5rem;
+  padding: 0;
+  margin: 0;
   display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
   justify-content: center;
 }
 #nova-tarefa .box-nova-tarefa .box-argolas span {
-  width: .5rem;
+  width: 0.5rem;
   height: 3rem;
+  padding: 0;
+  margin: 0 0.75rem;
   box-sizing: unset;
-  margin: 0 .75rem;
   background: #DDD;
   border: 0.25rem solid #222;
   border-radius: 0.75rem;
@@ -410,30 +482,20 @@ main section > div .wrapper-section {
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label {
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 #nova-tarefa .box-nova-tarefa label > span,
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label > span {
+  margin: 1rem 0 0.5rem 0;
   font-size: 1.2rem;
   color: #FFF;
-  margin: 1rem 0 0.5rem 0;
 }
 #nova-tarefa .box-nova-tarefa label > span.required::after,
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label > span.required::after {
   content: ' *';
   color: #6DA8D6;
-}
-#nova-tarefa .box-nova-tarefa label #desce-para-calendario {
-  position: absolute;
-  right: -5%;
-  top: 95%;
-  width: 1rem;
-  height: 1rem;
-  box-sizing: initial;
-  margin: -1rem;
-  padding: 1rem;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
 }
 #nova-tarefa .box-nova-tarefa label input[type="text"],
 #nova-tarefa .box-nova-tarefa label textarea,
@@ -442,10 +504,11 @@ main section > div .wrapper-section {
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label textarea {
   width: 17rem;
   height: 2.5rem;
-  padding-left: 0.25rem;
-  border: none;
-  border-radius: .25rem;
+  padding: 0 0 0 0.25rem;
+  margin: 0;
   outline: 0;
+  border: none;
+  border-radius: 0.25rem;
   font-family: inherit;
   font-size: 1.2rem;
 }
@@ -453,11 +516,26 @@ main section > div .wrapper-section {
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label textarea {
   width: 100%;
   height: 100%;
-  padding-top: 0.25rem;
+  padding: 0.25rem 0 0 0.25rem;
+  margin: 0;
   resize: none;
 }
 #nova-tarefa .box-nova-tarefa label textarea.textarea--grande {
   height: 8rem;
+}
+#nova-tarefa .box-nova-tarefa label #seta-calendario {
+  position: absolute;
+  top: 95%;
+  left: 100%;
+  bottom: unset;
+  right: unset;
+  width: 1rem;
+  height: 1rem;
+  padding: 1rem;
+  margin: -1rem;
+  box-sizing: initial;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 }
 #nova-tarefa .box-nova-tarefa label.box-radio {
   flex-direction: row;
@@ -470,8 +548,10 @@ main section > div .wrapper-section {
   pointer-events: none;
 }
 #nova-tarefa .box-nova-tarefa label.box-radio .radio-novo {
+  position: relative;
   width: 1rem;
   height: 1rem;
+  padding: 0;
   margin: 0;
   border-radius: 100%;
   background: #DDD;
@@ -488,37 +568,48 @@ main section > div .wrapper-section {
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.label--erro textarea {
   border: 0.15rem solid red;
 }
-#nova-tarefa .box-nova-tarefa label#l-nome {
+#nova-tarefa .box-nova-tarefa #l-nome {
   grid-area: nome;
 }
-#nova-tarefa .box-nova-tarefa label#l-tel1 {
+#nova-tarefa .box-nova-tarefa #l-tel1 {
   grid-area: tel1;
 }
-#nova-tarefa .box-nova-tarefa label#l-tel2 {
+#nova-tarefa .box-nova-tarefa #l-tel2 {
   grid-area: tel2;
 }
-#nova-tarefa .box-nova-tarefa label#l-endereco {
+#nova-tarefa .box-nova-tarefa #l-endereco {
   grid-area: endereco;
 }
-#nova-tarefa .box-nova-tarefa label#l-data {
+#nova-tarefa .box-nova-tarefa #l-data {
   grid-area: data;
 }
-#nova-tarefa .box-nova-tarefa label#l-problema {
+#nova-tarefa .box-nova-tarefa #l-problema {
   grid-area: problema;
 }
-#nova-tarefa .box-nova-tarefa label#l-info-adicional {
+#nova-tarefa .box-nova-tarefa #l-info-adicional {
   grid-area: info;
+}
+#nova-tarefa .box-nova-tarefa #wrapper-radio {
+  grid-area: radio;
+  margin-top: 1rem;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: space-evenly;
 }
 #nova-tarefa .box-nova-tarefa #wrapper-botao {
   grid-area: botao;
   margin-top: 1.4rem;
   display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
   justify-content: space-evenly;
 }
 #nova-tarefa .box-nova-tarefa #wrapper-botao .botao {
   width: 10rem;
   height: 3.5rem;
   padding: 0;
+  margin: 0;
   background: #6DA8D6;
   border-radius: 0.75rem;
   cursor: pointer;
@@ -529,11 +620,14 @@ main section > div .wrapper-section {
   border: 0.15rem solid #6DA8D6;
   background: #222;
 }
-#nova-tarefa .box-nova-tarefa #wrapper-radio {
-  grid-area: radio;
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-evenly;
+#nova-tarefa.modo-editar {
+  background: #444;
+}
+#nova-tarefa.modo-editar .box-nova-tarefa .box-argolas span {
+  border-color: #444;
+}
+#nova-tarefa.modo-editar .box-nova-tarefa #wrapper-botao .botao:first-child {
+  background: #444;
 }
 /*--- Calendário ---*/
 /* Desktop */
@@ -543,9 +637,10 @@ main section > div .wrapper-section {
 #calendario .box-calendario {
   width: 34rem;
   height: 37rem;
+  padding: 0;
+  margin: 3.2rem 0.5rem 1rem 0;
   table-layout: fixed;
   border-spacing: 0;
-  margin: 3.2rem .5rem 1rem 0;
   user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -555,6 +650,8 @@ main section > div .wrapper-section {
   position: relative;
   width: 2rem;
   height: 5rem;
+  padding: 0;
+  margin: 0;
 }
 #calendario .box-calendario thead td {
   background: #DDD;
@@ -565,13 +662,18 @@ main section > div .wrapper-section {
 #calendario .box-painel-calendario header .argola {
   z-index: 1;
   position: absolute;
+  top: -2.8rem;
+  left: unset;
+  bottom: unset;
+  right: -20%;
   width: 2rem;
   height: 3rem;
+  padding: 0;
+  margin: 0;
   box-sizing: unset;
   background: #DDD;
   border: 0.5rem solid #333;
   border-radius: 0.75rem;
-  transform: translate(0, -4.7rem);
 }
 #calendario .box-calendario thead td:first-child {
   border-radius: 0.75rem 0 0 0;
@@ -580,7 +682,8 @@ main section > div .wrapper-section {
   border-radius: 0 0.75rem 0 0;
 }
 #calendario .box-calendario thead td:last-child .argola {
-  transform: translate(-205%, -4.7rem);
+  right: unset;
+  left: -20%;
 }
 #calendario .box-calendario tbody {
   box-shadow: inset 0 0 0 0.15rem #DDD;
@@ -588,23 +691,25 @@ main section > div .wrapper-section {
 }
 #calendario .box-calendario tbody .box-dia {
   position: relative;
-  height: 3.5rem;
   width: 3.5rem;
+  height: 3.5rem;
+  padding: 0;
   margin: auto;
   border-radius: 0.75rem;
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   color: #FFF;
+  cursor: pointer;
 }
 #calendario .box-calendario tbody .box-dia::after {
-  content: "";
+  content: '';
   position: absolute;
   top: -0.5rem;
-  right: -0.5rem;
-  bottom: -0.5rem;
   left: -0.5rem;
+  bottom: -0.5rem;
+  right: -0.5rem;
 }
 #calendario .box-calendario tbody .dia-normal {
   background: #444;
@@ -627,13 +732,17 @@ main section > div .wrapper-section {
 }
 #calendario .box-calendario tbody .dia-evento-ativo::after,
 #calendario .box-calendario tbody .dia-evento-passado::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 18%;
   left: 82%;
+  bottom: unset;
+  right: unset;
   width: 0.7rem;
   height: 0.7rem;
-  background: #FFAA00;
+  padding: 0;
+  margin: 0;
+  background: #FED23F;
   border: 0.07rem solid #000;
   border-radius: 100%;
   transform: translate(-50%, -50%);
@@ -642,19 +751,24 @@ main section > div .wrapper-section {
   background: #444;
 }
 #calendario .box-calendario tbody .dia-evento-concluido::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 76%;
   left: 50%;
+  bottom: unset;
+  right: unset;
   width: 1rem;
   height: 0.4rem;
+  padding: 0;
+  margin: 0;
   border-radius: 0.75rem;
   transform: translate(-50%, -50%);
 }
 #calendario .box-painel-calendario {
   width: 25rem;
   height: 37rem;
-  margin: 3.2rem 0 1rem .5rem;
+  padding: 0;
+  margin: 3.2rem 0 1rem 0.5rem;
   user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -662,29 +776,29 @@ main section > div .wrapper-section {
 }
 #calendario .box-painel-calendario header {
   position: relative;
-  display: flex;
   justify-content: space-between;
 }
 #calendario .box-painel-calendario header .argola {
-  top: 0;
-  left: 18%;
-  transform: translate(-50%, -2.85rem);
+  left: 12%;
 }
 #calendario .box-painel-calendario header .argola:last-of-type {
-  left: 82%;
+  right: 12%;
+  left: unset;
 }
 #calendario .box-painel-calendario header .wrapper-mes,
 #calendario .box-painel-calendario header .wrapper-ano {
-  height: inherit;
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
+  justify-content: flex-start;
 }
 #calendario .box-painel-calendario header .wrapper-mes img,
 #calendario .box-painel-calendario header .wrapper-ano img {
   width: 1.4rem;
   height: 1.4rem;
-  box-sizing: unset;
   padding: 1rem;
+  margin: 0;
+  box-sizing: unset;
   cursor: pointer;
 }
 #calendario .box-painel-calendario header .wrapper-mes #mes {
@@ -708,23 +822,27 @@ main section > div .wrapper-section {
   font-size: 1.4rem;
 }
 #calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos {
+  z-index: 1;
   position: absolute;
+  top: unset;
   left: -1.6rem;
   bottom: 0;
+  right: unset;
   width: 100%;
   overflow: hidden;
   pointer-events: none;
   transform: translateY(100%);
-  z-index: 1;
 }
 #calendario .box-painel-calendario header .wrapper-ano .wrapper-lista-anos .box-lista-anos {
   width: inherit;
   height: 24rem;
+  padding: 0;
+  margin: 0;
   background: #DDD;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
   border-radius: 0 0 0.75rem 0.75rem;
   transform: translateY(-103%);
   will-change: transform;
@@ -748,12 +866,13 @@ main section > div .wrapper-section {
   transition: all 0.5s ease-out;
 }
 #calendario .box-painel-calendario > div {
-  padding: 0;
+  padding: 0.15rem;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos {
-  height: calc(100% - 0.3rem);
-  margin: 0.15rem;
+  width: auto;
+  height: 100%;
   padding: 1rem;
+  margin: 0;
   overflow: auto;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item,
@@ -761,10 +880,12 @@ main section > div .wrapper-section {
   width: 100%;
   height: 5rem;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
   background: #444;
   display: flex;
   flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
   border-radius: 0.75rem;
   will-change: height;
   overflow: hidden;
@@ -773,12 +894,11 @@ main section > div .wrapper-section {
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item.concluida {
   background: #222;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item span {
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > span {
   margin-bottom: 1rem;
   color: #FFF;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item span:first-child,
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info span:first-child {
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > span:first-child {
   height: 0;
   margin: 0;
   display: none;
@@ -788,12 +908,13 @@ main section > div .wrapper-section {
   align-self: center;
   width: 100%;
   height: 1.8rem;
-  box-sizing: initial;
   padding: 1rem 0;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
+  box-sizing: initial;
   background: #222;
   border-radius: 0.75rem;
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: space-evenly;
   cursor: default;
@@ -803,17 +924,22 @@ main section > div .wrapper-section {
   margin: -1rem;
   padding: 1rem;
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
+  justify-content: flex-start;
   cursor: pointer;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud img,
 .overlay-ajuda > div .box-confirmacao .wrapper img {
   width: 1.8rem;
   height: 1.8rem;
+  padding: 0;
+  margin: 0;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div .wrapper-painel-crud span,
 .overlay-ajuda > div .box-confirmacao .wrapper span {
-  margin: 0 0 0 0.5rem;
+  margin-left: 0.5rem;
+  color: #FFF;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item--animacao {
   transition: height 0.25s;
@@ -825,7 +951,8 @@ main section > div .wrapper-section {
   margin: 0 auto;
   background: #6DA8D6;
   border-radius: 0.75rem;
-  display: none;
+  display: flex;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -838,13 +965,14 @@ main section > div .wrapper-section {
 #calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data img {
   width: 1.5rem;
   height: 1.5rem;
-  margin-right: 0.25rem;
+  padding: 0;
+  margin: 0 0.25rem 0 0;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data span {
   margin-left: 0.25rem;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data.box-nova-data--visivel {
-  display: flex;
+#calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data.box-nova-data--invisivel {
+  display: none;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
@@ -858,25 +986,14 @@ main section > div .wrapper-section {
     height: 34rem;
     margin: 4rem 0 1rem 0;
   }
-  #calendario .box-calendario header .argola {
-    left: 5.7rem;
-  }
-  #calendario .box-calendario header .argola:last-child {
-    left: calc(100% - 5.7rem);
-  }
   #calendario .box-painel-calendario {
     width: 34rem;
     height: 30rem;
+    padding: 0;
     margin: 1rem 0 2rem 0;
   }
   #calendario .box-painel-calendario header .argola {
     display: none;
-  }
-  #calendario .box-painel-calendario header .wrapper-mes img:first-child {
-    margin-left: 1rem;
-  }
-  #calendario .box-painel-calendario header .wrapper-ano img {
-    margin-right: 1rem;
   }
 }
 /*--- Concluir Tarefa ---*/
@@ -892,11 +1009,16 @@ main section > div .wrapper-section {
   position: absolute;
   top: 50%;
   left: 50%;
+  bottom: unset;
+  right: unset;
   width: 5rem;
-  height: 7rem;
+  height: 8rem;
+  padding: 0;
+  margin: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: space-between;
   transform: translate(-28.5rem, -12rem);
 }
 #concluir-tarefa .box-bolinhas span {
@@ -907,9 +1029,8 @@ main section > div .wrapper-section {
   align-self: flex-start;
 }
 #concluir-tarefa .box-bolinhas span:first-child {
-  width: .6rem;
-  height: .6rem;
-  margin: 0 1.5rem 1rem 0;
+  width: 0.6rem;
+  height: 0.6rem;
   align-self: center;
 }
 #concluir-tarefa .box-bolinhas span:last-child {
@@ -921,6 +1042,7 @@ main section > div .wrapper-section {
   z-index: 1;
   width: 50rem;
   height: 35rem;
+  padding: 0;
   margin: 1rem 3.5rem;
   background: #222;
   border: 0.15rem solid #DDD;
@@ -931,41 +1053,24 @@ main section > div .wrapper-section {
   width: 100%;
   height: 100%;
   padding: 1rem;
+  margin: 0;
   overflow: auto;
 }
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item {
   position: relative;
-  height: 10rem;
+  height: 9rem;
   background: #333;
   display: block;
 }
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item--animacao {
-  transition: 0.25s;
-}
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item:last-child {
-  margin: 0;
-}
-@-moz-document url-prefix() {
-  #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item:last-child {
-    margin-bottom: 1rem;
-  }
-}
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info {
-  width: calc(100% - 5rem);
-  height: 8rem;
+  width: calc(100% - 4rem);
   display: flex;
   flex-flow: column nowrap;
-  overflow: hidden;
-}
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info span {
-  margin: 0.4rem 0;
-  color: #FFF;
-  font-size: 1.2rem;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form {
-  width: calc(100% - 5rem);
-  height: auto;
-  margin-top: 1rem;
+  width: calc(100% - 4rem);
   border-top: 0.15rem solid #DDD;
   display: grid;
   grid-auto-rows: min-content;
@@ -979,25 +1084,50 @@ main section > div .wrapper-section {
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label input[type="text"] {
   width: auto;
 }
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form #l-total-recebido {
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.tem-valor::after {
+  content: 'R$';
+  position: absolute;
+  top: 65%;
+  left: 1%;
+  bottom: unset;
+  right: unset;
+  font-size: 1.2rem;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.tem-valor input[type="text"] {
+  padding-left: 2rem;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form .l-total-recebido {
   grid-area: tRecebido;
 }
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form #l-total-gasto {
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form .l-total-gasto {
   grid-area: tGasto;
 }
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form #l-observacoes {
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form .l-observacoes {
   grid-area: obs;
 }
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .botao-concluir-tarefa {
   position: absolute;
   top: 50%;
+  left: unset;
+  bottom: unset;
   right: 1rem;
   width: 3rem;
   height: 3rem;
-  box-sizing: initial;
   padding: 1rem;
   margin: -1rem;
+  box-sizing: initial;
   transform: translateY(calc(-50% + 1rem));
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item--animacao {
+  transition: 0.25s;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item:last-child {
+  margin: 0;
+}
+@-moz-document url-prefix() {
+  #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item:last-child {
+    margin-bottom: 1rem;
+  }
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
@@ -1006,6 +1136,7 @@ main section > div .wrapper-section {
   }
   #concluir-tarefa .box-bolinhas {
     width: 4rem;
+    height: 7rem;
     transform: translate(-18rem, -28rem);
   }
   #concluir-tarefa .box-concluir-tarefa {
@@ -1017,15 +1148,18 @@ main section > div .wrapper-section {
 /*--- Ajuda ---*/
 /* Desktop */
 .overlay-ajuda {
-  display: none;
   z-index: 30;
   position: fixed;
   top: 0;
   left: 0;
+  bottom: unset;
+  right: unset;
   width: 100%;
   height: 100vh;
-  padding-left: 3.7rem;
+  padding: 0 0 0 3.7rem;
+  margin: 0;
   background: rgba(0, 0, 0, 0.8);
+  display: none;
   align-items: center;
   justify-content: center;
   user-select: none;
@@ -1035,11 +1169,14 @@ main section > div .wrapper-section {
 }
 .overlay-ajuda > div {
   width: 36rem;
+  height: auto;
   padding: 1rem;
+  margin: 0;
   background: #6DA8D6;
   border-radius: 0.75rem;
   display: flex;
-  flex-direction: column;
+  flex-flow: column nowrap;
+  align-items: stretch;
   justify-content: center;
 }
 .overlay-ajuda > div > span {
