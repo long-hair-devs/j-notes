@@ -130,13 +130,13 @@ if (isset($_POST['pega-nao-concluidas'])) {
 
 if (isset($_POST['concluir-tarefa'])) {
     $id = $_POST['id'];
-    $tRecebido = $_POST['tRecebido'];
-    $tGasto = $_POST['tGasto'];
+    $total = $_POST['tRecebido'];
+    $totalGasto = $_POST['tGasto'];
     $obs = $_POST['obs'];
 
     if (is_numeric($id)) {
-        $sql = "UPDATE tarefas SET total_recebido='$tRecebido', total_gasto='$tGasto', observacoes_servico='$obs'
-                WHERE id_tarefa='$id' AND id_user ='$user_id'";
+        $sql = "UPDATE tarefas SET total_recebido=CAST($total as DECIMAL(8,2)), total_gasto=CAST($totalGasto as DECIMAL(8,2)), observacoes_servico='$obs'
+                WHERE id_tarefa='$id' AND id_user='$user_id'";
         mysqli_query($_conexao, $sql) or die($_conexao->error);
         echo 1;
     }
