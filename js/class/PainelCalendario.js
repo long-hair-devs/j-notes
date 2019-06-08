@@ -143,9 +143,9 @@ class PainelCalendario {
 
     addOuRemoveDivData() {
         if (this.d.calendario.dataSelecionada.getTime() < this.d.calendario.hoje.getTime()) {
-            this.divData.removeClass("box-nova-data--visivel");
+            this.divData.addClass("box-nova-data--invisivel");
         } else {
-            this.divData.addClass("box-nova-data--visivel");
+            this.divData.removeClass("box-nova-data--invisivel");
         }
     }
 
