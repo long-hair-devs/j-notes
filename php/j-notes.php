@@ -108,10 +108,14 @@ $user = $_SESSION['nome'];
                         </header>
                         <div>
                             <div class="notificacao-item tarefa">
-
+                                <!-- Código gerado via javaScript -->
                             </div>
                             <div class="notificacao-item concluir">
-
+                                <!-- Código gerado via javaScript -->
+                            </div>
+                            <div class="wrapper">
+                                <img src="../img/svg/pdf-file.svg" alt="icone pdf">
+                                <span>Gerar Relatório</span>
                             </div>
                         </div>
                     </div>
@@ -252,7 +256,7 @@ $user = $_SESSION['nome'];
                     </div>
                     <div class="box-concluir-tarefa">
                         <div>
-
+                            <!-- Código gerado via javaScript -->
                         </div>
                     </div>
                 </div>
@@ -261,7 +265,9 @@ $user = $_SESSION['nome'];
     </main>
 
     <section class="overlay-ajuda">
-        <div></div>
+        <div>
+            <!-- Código gerado via javaScript -->
+        </div>
     </section>
 </body>
 

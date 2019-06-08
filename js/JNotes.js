@@ -168,7 +168,7 @@ class JNotes {
         });
 
         // Listener para evitar que o evento seja fechado ao clicar na barra de opções
-        painel.divCrud.click((e) => {
+        painel.div.on("click", ".box-painel-crud", (e) => {
             e.stopPropagation();
         });
 
@@ -183,6 +183,7 @@ class JNotes {
         painel.div.on("click", ".editar-tarefa", function () {
             if (!novaTarefa.verificaSeTemDados() && !novaTarefa.section.hasClass("modo-editar")) {
                 temp = $(this);
+                Menu.botaoNova.click();
                 ajuda.mostrar(ajuda.textoLimparForm);
             } else if (novaTarefa.abreModoEditar()) {
                 painel.passaValores($($(this).parent().parent()));
@@ -193,6 +194,7 @@ class JNotes {
         // Listeners para chamar o deletar tarefa 
         painel.div.on("click", ".deletar-tarefa", function () {
             if (novaTarefa.section.hasClass("modo-editar")) {
+                Menu.botaoNova.click();
                 ajuda.mostrar("<span>Você está editando uma tarefa, termine ou cancele antes de continuar</span>");
             } else {
                 ajuda.mostrar(ajuda.textoConfirmar);
@@ -218,11 +220,41 @@ class JNotes {
             ajuda.fechar();
         });
     }
+
+    ativaConcluir(concluir) {
+        // Listener para expandir a tarefa que for clicada
+        concluir.div.on('click', '.box-concluir-tarefa-item', function () {
+            concluir.abreOuFechaTarefa($(this));
+        });
+
+        // Listener para impedir que a tarefa seja fechada quando clicar dentro do formulário
+        concluir.div.on('click', 'form', (e) => {
+            e.stopPropagation();
+        });
+
+        // Listener para impedir que a tarefa seja fechada quando clicar no botão de concluir
+        concluir.div.on('click', 'img', function handler(e) {
+            if (Secundario.transformaPxEmRem($(this).parent().height()) > 9) {
+                e.stopPropagation();
+                concluir.acaoConcluir($(this).siblings("form"));
+            }
+        });
+
+        // Coloca ou remove o "R$" quando digitar num campo que use máscara de dinheiro 
+        concluir.div.on('keydown', '.dinheiro', function (e) {
+            if (e.originalEvent.keyCode == 8 || e.originalEvent.keyCode == 46) {
+                $(this).val().length == 1 ? $(this).parent().removeClass("tem-valor") : "";
+            } else {
+                $(this).val().length == 0 ? $(this).parent().addClass("tem-valor") : "";
+            }
+        });
+    }
 }
 
 $(function () {
     jnotes = new JNotes();
-
+    Tarefas.mes = 0;
+    Tarefas.naoConcluidas = 0;
     // Variável vh para mobile, problema do autohide da barra de pesquisa solucionado 
     let vh = Secundario.tela.innerHeight() * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -246,4 +278,12 @@ $(function () {
     jnotes.ativaCalendario(jnotes.calendario);
 
     jnotes.ativaPainel(jnotes.painel, jnotes.calendario, jnotes.novaTarefa, jnotes.ajuda);
+
+    jnotes.ativaConcluir(jnotes.concluir, jnotes.calendario);
+
+    // Pega as tarefas que precisam concluir no banco
+    Tarefas.atualizarNaoConcluidas(jnotes.calendario.dataSelecionadaString("-"), () => {
+        jnotes.notificacoes.atualizar();
+        jnotes.concluir.atualizar();
+    });
 });

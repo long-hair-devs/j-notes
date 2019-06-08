@@ -24,10 +24,10 @@ class Notificacoes {
     }
     /*--- Métodos ---*/
     atualizar() {
-        if (this.d.concluir.todasTarefas.length > 0) {
-            this.d.concluir.todasTarefas.length == 1 ?
+        if (Tarefas.naoConcluidas.length > 0) {
+            Tarefas.naoConcluidas.length == 1 ?
                 this.textoConcluir = "Há somente uma tarefa para concluir." :
-                this.textoConcluir = "Há " + this.d.concluir.todasTarefas.length + " tarefas para concluir.";
+                this.textoConcluir = "Há " + Tarefas.naoConcluidas.length + " tarefas para concluir.";
         } else {
             this.textoConcluir = "Não há nada para concluir.";
         }

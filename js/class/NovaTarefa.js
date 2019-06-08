@@ -213,6 +213,7 @@ class NovaTarefa {
             this.tel1.prop("readonly", true);
             return true;
         } else {
+            Menu.botaoNova.click();
             this.d.ajuda.mostrar("<span>Você já está editando uma tarefa, termine ou cancele antes de continuar</span>");
             return false;
         }
@@ -232,6 +233,7 @@ class NovaTarefa {
 
     acaoConcluir(tipo) {
         if (this.validaDados()) {
+            this.botaoConcluir.prop("disabled", true);
             if (tipo == 1) { // Criar
                 if (this.fezAutoComplete) {
                     Clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
@@ -252,6 +254,7 @@ class NovaTarefa {
                         this.d.calendario.construir();
 
                         this.form.trigger("reset");
+                        this.botaoConcluir.prop("disabled", false);
                         this.d.ajuda.mostrar("<span>Tarefa cadastrada com sucesso!</span>");
                     });
             } else if (tipo == 2) { // Editar
@@ -270,10 +273,12 @@ class NovaTarefa {
                         this.d.calendario.construir();
 
                         this.fechaModoEditar();
+                        this.botaoConcluir.prop("disabled", false);
                         this.d.ajuda.mostrar("<span>Tarefa editada com sucesso!</span>");
                     });
                 Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
-                    // verifica concluir 
+                    this.d.notificacoes.atualizar();
+                    this.d.concluir.atualizar();
                 });
             }
         }

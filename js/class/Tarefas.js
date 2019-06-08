@@ -77,12 +77,19 @@ class Tarefas {
             'id': this.id,
         }, (dados) => {
             callback(dados);
-
         });
-        // $.when(pegaTarefasQueFaltaConcluir()).done(function () {
-        //     verificaTarefasConcluir();
-        //     atualizaNotificacoes();
-        // });
+    }
+
+    static concluir(total, totalGasto, obs, callback) {
+        $.post('j-notes.php', {
+            'concluir-tarefa': 1,
+            'id': this.id,
+            'tRecebido': total,
+            'tGasto': totalGasto,
+            'obs': obs,
+        }, (dados) => {
+            callback(dados);
+        });
     }
 
     static atualizarMes(mesAtual, anoAtual, callback) {
@@ -99,47 +106,51 @@ class Tarefas {
     static atualizarNaoConcluidas(hoje, callback) {
         $.post('j-notes.php', {
             'pega-nao-concluidas': 1,
-            'hoje': hoje,
+            'hoje': hoje.split("-").reverse().join("-"),
         }, (dados) => {
             this.naoConcluidas = dados;
             callback();
         }, "json");
     }
 
-    static pegaId(i) {
-        return this.mes[i][IDTAREFA];
+    static pegaId(tipo, i) {
+        return tipo == 1 ? this.mes[i][IDTAREFA] : this.naoConcluidas[i][IDTAREFA];
     }
 
-    static pegaDia(i) {
-        return this.mes[i][DIA].split("-")[2];
+    static pegaDia(tipo, i) {
+        return tipo == 1 ? this.mes[i][DIA].split("-")[2] : this.naoConcluidas[i][DIA].split("-")[2];
     }
 
-    static pegaNome(i) {
-        return this.mes[i][NOME];
+    static pegaData(tipo, i) {
+        return tipo == 1 ? this.mes[i][DIA].split("-").reverse().join("/") : this.naoConcluidas[i][DIA].split("-").reverse().join("/");
     }
 
-    static pegaTel1(i) {
-        return this.mes[i][TELEFONE1];
+    static pegaNome(tipo, i) {
+        return tipo == 1 ? this.mes[i][NOME] : this.naoConcluidas[i][NOME];
     }
 
-    static pegaTel2(i) {
-        return this.mes[i][TELEFONE2];
+    static pegaTel1(tipo, i) {
+        return tipo == 1 ? this.mes[i][TELEFONE1] : this.naoConcluidas[i][TELEFONE1];
     }
 
-    static pegaEndereco(i) {
-        return this.mes[i][ENDERECO];
+    static pegaTel2(tipo, i) {
+        return tipo == 1 ? this.mes[i][TELEFONE2] : this.naoConcluidas[i][TELEFONE2];
     }
 
-    static pegaPeriodo(i) {
-        return this.mes[i][PERIODO];
+    static pegaEndereco(tipo, i) {
+        return tipo == 1 ? this.mes[i][ENDERECO] : this.naoConcluidas[i][ENDERECO];
     }
 
-    static pegaProblema(i) {
-        return this.mes[i][PROBLEMA];
+    static pegaPeriodo(tipo, i) {
+        return tipo == 1 ? this.mes[i][PERIODO] : this.naoConcluidas[i][PERIODO];
     }
 
-    static pegaInfo(i) {
-        return this.mes[i][INFORMACOES];
+    static pegaProblema(tipo, i) {
+        return tipo == 1 ? this.mes[i][PROBLEMA] : this.naoConcluidas[i][PROBLEMA];
+    }
+
+    static pegaInfo(tipo, i) {
+        return tipo == 1 ? this.mes[i][INFORMACOES] : this.naoConcluidas[i][INFORMACOES];
     }
 
     static pegaTotal(i) {

@@ -160,7 +160,7 @@ class Calendario {
             let dias = this.corpo.find("span");
             for (let i = 0; i < dias.length; i++) {
                 for (let j = 0; j < Tarefas.mes.length; j++) {
-                    if (Secundario.pad($(dias[i]).text()) == Tarefas.pegaDia(j)) {
+                    if (Secundario.pad($(dias[i]).text()) == Tarefas.pegaDia(1, j)) {
                         if (new Date(this.anoAtual, this.mesAtual, $(dias[i]).text()).getTime() < this.hoje.getTime()) {
                             Tarefas.pegaTotal(j) != null ? $(dias[i]).addClass("dia-evento-concluido") : $(dias[i]).addClass("dia-evento-passado");
                         } else {

@@ -31,10 +31,6 @@ class PainelCalendario {
         return $("#volta-mes");
     }
 
-    get divCrud() {
-        return $("#box-painel-crud");
-    }
-
     get divData() {
         return $(".box-nova-data");
     }
@@ -99,7 +95,7 @@ class PainelCalendario {
     atualizar(dia) {
         this.todasTarefas.remove();
         for (let i = 0; i < Tarefas.mes.length; i++) {
-            if (dia == Tarefas.pegaDia(i)) {
+            if (dia == Tarefas.pegaDia(1, i)) {
                 if (Tarefas.pegaTotal(i) != null) {
                     this.addTarefa(2, i);
                 } else {
@@ -114,31 +110,32 @@ class PainelCalendario {
         let comando;
         if (tipo == 1) {
             comando = `<div class="box-painel-eventos-item">
-            <span class="id">${Tarefas.pegaId(i)}</span>
-            <span class="nome">${Tarefas.pegaNome(i)}</span>
-            <span class="tel1">${Tarefas.pegaTel1(i)}</span>
-            ${Tarefas.pegaTel2(i) != "" ? `<span class="tel2">${Tarefas.pegaTel2(i)}</span>` : ``}
-            <span class="endereco">${Tarefas.pegaEndereco(i)}</span>
-            <span class="periodo">${Tarefas.pegaPeriodo(i)}</span>
-            ${Tarefas.pegaProblema(i) != "" ? `<span class="problema">${Tarefas.pegaProblema(i)}</span>` : ``}
-            ${Tarefas.pegaInfo(i) != "" ? `<span class="info">${Tarefas.pegaInfo(i)}</span>` : ``}
-            <div id="box-painel-crud">
-            <div class="wrapper-painel-crud editar-tarefa">
-            <img src="../img/svg/edit.svg" alt="botao-editar"><span>Editar</span></div>
-            <div class="wrapper-painel-crud deletar-tarefa">
-            <img src="../img/svg/delete.svg" alt="botao-deletar"><span>Deletar</span></div></div></div>`;
+            <span class="id">${Tarefas.pegaId(1, i)}</span>
+            <span class="nome">${Tarefas.pegaNome(1, i)}</span>
+            <span class="tel1">${Tarefas.pegaTel1(1, i)}</span>
+            ${Tarefas.pegaTel2(1, i) != "" ? `<span class="tel2">${Tarefas.pegaTel2(1, i)}</span>` : ``}
+            <span class="endereco">${Tarefas.pegaEndereco(1, i)}</span>
+            <span class="periodo">${Tarefas.pegaPeriodo(1, i)}</span>
+            ${Tarefas.pegaProblema(1, i) != "" ? `<span class="problema">${Tarefas.pegaProblema(1, i)}</span>` : ``}
+            ${Tarefas.pegaInfo(1, i) != "" ? `<span class="info">${Tarefas.pegaInfo(1, i)}</span>` : ``}
+            <div class="box-painel-crud">
+                <div class="wrapper-painel-crud editar-tarefa">
+                    <img src="../img/svg/edit.svg" alt="botao-editar"><span>Editar</span></div>
+                <div class="wrapper-painel-crud deletar-tarefa">
+                    <img src="../img/svg/delete.svg" alt="botao-deletar"><span>Deletar</span>
+            </div></div></div>`;
         } else if (tipo = 2) {
             comando = `<div class="box-painel-eventos-item concluida">
             <span></span>
-            <span>${Tarefas.pegaNome(i)}</span>
-            <span>${Tarefas.pegaTel1(i)}</span>
-            ${Tarefas.pegaTel2(i) != "" ? `<span>${Tarefas.pegaTel2(i)}</span>` : ``}
-            <span>${Tarefas.pegaEndereco(i)}</span>
-            <span>${Tarefas.pegaPeriodo(i)}</span>
-            ${Tarefas.pegaProblema(i) != "" ? `<span>${Tarefas.pegaProblema(i)}</span>` : ``}
-            ${Tarefas.pegaInfo(i) != "" ? `<span>${Tarefas.pegaInfo(i)}</span>` : ``}
+            <span>${Tarefas.pegaNome(1, i)}</span>
+            <span>${Tarefas.pegaTel1(1, i)}</span>
+            ${Tarefas.pegaTel2(1, i) != "" ? `<span>${Tarefas.pegaTel2(1, i)}</span>` : ``}
+            <span>${Tarefas.pegaEndereco(1, i)}</span>
+            <span>${Tarefas.pegaPeriodo(1, i)}</span>
+            ${Tarefas.pegaProblema(1, i) != "" ? `<span>${Tarefas.pegaProblema(1, i)}</span>` : ``}
+            ${Tarefas.pegaInfo(1, i) != "" ? `<span>${Tarefas.pegaInfo(1, i)}</span>` : ``}
             <span>Total Recebido: R$ ${Tarefas.pegaTotal(i)}</span>
-            ${Tarefas.pegaTotalGasto(i) != "" ? `<span>${Tarefas.pegaTotalGasto(i)}</span>` : ``}
+            ${Tarefas.pegaTotalGasto(i) != 0.00 ? `<span>${Tarefas.pegaTotalGasto(i)}</span>` : ``}
             ${Tarefas.pegaObsercacoes(i) != "" ? `<span>${Tarefas.pegaObsercacoes(i)}</span>` : ``}`;
         }
         this.div.prepend(comando);
@@ -175,6 +172,10 @@ class PainelCalendario {
                     Tarefas.id = undefined
                     this.d.calendario.colocaIndicadorNosDias();
                     this.d.notificacoes.atualizar();
+                });
+                Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
+                    this.d.notificacoes.atualizar();
+                    this.d.concluir.atualizar();
                 });
             }
         });
