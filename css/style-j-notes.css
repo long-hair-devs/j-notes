@@ -154,7 +154,7 @@ h2 {
   position: fixed;
   top: 0;
   left: 3.7rem;
-  bottom: unset;
+  bottom: 0;
   right: unset;
   pointer-events: none;
   overflow: hidden;
@@ -173,6 +173,9 @@ h2 {
   -webkit-user-select: none;
 }
 .div-menu-movel nav ul {
+  width: 100%;
+}
+.div-menu-movel nav li {
   width: 100%;
 }
 .div-menu-movel nav li a {
@@ -400,7 +403,7 @@ main section > div .wrapper-section {
 }
 #inicio .box-inicio > div .wrapper {
   position: absolute;
-  top: 87%;
+  top: 90%;
   left: 10rem;
   bottom: unset;
   right: unset;
@@ -894,11 +897,13 @@ main section > div .wrapper-section {
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item.concluida {
   background: #222;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > span {
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > span,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info span {
   margin-bottom: 1rem;
   color: #FFF;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > span:first-child {
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > span:first-child,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info span:first-child {
   height: 0;
   margin: 0;
   display: none;
@@ -1142,7 +1147,7 @@ main section > div .wrapper-section {
   #concluir-tarefa .box-concluir-tarefa {
     width: 38rem;
     height: 50rem;
-    margin: 6rem 0 1rem 0;
+    margin: 7rem 0 1rem 0;
   }
 }
 /*--- Ajuda ---*/
@@ -1176,7 +1181,7 @@ main section > div .wrapper-section {
   border-radius: 0.75rem;
   display: flex;
   flex-flow: column nowrap;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
 }
 .overlay-ajuda > div > span {
@@ -1194,6 +1199,25 @@ main section > div .wrapper-section {
 .overlay-ajuda > div .box-confirmacao .wrapper span {
   font-size: 1.2rem;
   color: #FFF;
+}
+.overlay-ajuda > div .loading {
+  width: 5rem;
+  height: 5rem;
+  padding: 0;
+  margin: 0;
+  border: 0.75rem solid #111;
+  border-radius: 50%;
+  border-top: 0.75rem solid #444;
+  text-align: center;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {

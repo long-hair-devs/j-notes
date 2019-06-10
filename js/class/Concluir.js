@@ -109,12 +109,15 @@ class Concluir {
         if (this.validaDados(form)) {
             form.siblings("img").prop("disabled", true);
             Tarefas.id = form.siblings(".info").find(".id").text();
+            this.d.ajuda.mostrar(this.d.ajuda.loading);
 
             Tarefas.concluir(this.pegaDinheiro(form, 0), this.pegaDinheiro(form, 1), form.find("textarea").val(), (dados) => {
                 if (dados == 1) {
                     form.parent().fadeOut(() => {
                         form.parent().remove();
                     });
+                    this.d.ajuda.mostrar("<span>Tarefa deletada com sucesso!</span>");
+
                     Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
                         this.d.notificacoes.atualizar();
                         this.d.calendario.construir();

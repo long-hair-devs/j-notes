@@ -48,6 +48,10 @@ class Ajuda {
             <span>Não</span></div></div>`;
     }
 
+    get loading() {
+        return "<div class='loading'></div>"
+    }
+
     get overlay() {
         return $(".overlay-ajuda");
     }

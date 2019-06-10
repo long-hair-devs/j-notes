@@ -163,11 +163,14 @@ class PainelCalendario {
     deletarTarefa() {
         Tarefas.id = this.divDeletar.find(".id").text();
 
+        this.d.ajuda.mostrar(this.d.ajuda.loading);
         Tarefas.deletar((dados) => {
             if (dados == 1) {
                 this.divDeletar.fadeOut(() => {
                     this.divDeletar.remove();
                 });
+                this.d.ajuda.mostrar("<span>Tarefa deletada com sucesso!</span>");
+
                 Tarefas.atualizarMes(this.d.calendario.mesAtual, this.d.calendario.anoAtual, () => {
                     Tarefas.id = undefined
                     this.d.calendario.colocaIndicadorNosDias();

@@ -193,7 +193,7 @@ h2 {
 /* Menu Móvel - Desktop */
 .div-menu-movel {
     z-index: 10;
-    .positions(fixed, 0, 3.7rem);
+    .positions(fixed, 0, 3.7rem, 0, unset);
     pointer-events: none; //previne que ocorra clique por cima dessa div
     overflow: hidden;
 
@@ -211,6 +211,7 @@ h2 {
 
         li {
             &:extend(.menu-fixo li);
+            width: 100%;
 
             &.final {
                 &:extend(.menu-fixo li.final);
@@ -420,7 +421,7 @@ main {
             }
 
             .wrapper {
-                .positions(absolute, 87%, 10rem);
+                .positions(absolute, 90%, 10rem);
                 .tamanhos(20rem, auto, 1rem, -1rem);
                 .flex(row nowrap, center, center);
                 cursor: pointer;
@@ -1045,10 +1046,10 @@ main {
                     .flex(column nowrap);
 
                     span {
-                        &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item span);
+                        &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>span);
 
                         &:first-child {
-                            &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item span:first-child);
+                            &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>span:first-child);
                         }
                     }
                 }
@@ -1159,7 +1160,7 @@ main {
         .box-concluir-tarefa {
             width: @min-mobile-width;
             height: 50rem;
-            margin: 6rem 0 1rem 0;
+            margin: 7rem 0 1rem 0;
         }
     }
 }
@@ -1180,7 +1181,7 @@ main {
         .tamanhos(@min-mobile-width - 2rem, auto, 1rem);
         background: @azul;
         border-radius: @borda-padrao;
-        .flex(column nowrap, stretch, center);
+        .flex(column nowrap, center, center);
 
         &>span {
             margin: 1rem 0;
@@ -1208,6 +1209,25 @@ main {
                 }
             }
         }
+
+        .loading {
+            .tamanhos(5rem, 5rem);
+            border: @borda-padrao solid @preto-fundo; // círculo
+            border-radius: 50%; // faz ser cirular
+            border-top: @borda-padrao solid @cinza-mais-claro; // parte que "gira"
+            text-align: center;
+            animation: spin 1s linear infinite; // usa o keyframe spin
+        }
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }
 

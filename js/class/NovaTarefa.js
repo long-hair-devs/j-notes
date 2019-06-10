@@ -234,6 +234,7 @@ class NovaTarefa {
     acaoConcluir(tipo) {
         if (this.validaDados()) {
             this.botaoConcluir.prop("disabled", true);
+            this.d.ajuda.mostrar(this.d.ajuda.loading);
             if (tipo == 1) { // Criar
                 if (this.fezAutoComplete) {
                     Clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
