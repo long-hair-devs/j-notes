@@ -81,11 +81,6 @@ class JNotes {
             ajuda.escolheTextoCerto($(this));
         });
 
-        // Fecha a ajuda quando clica fora dela 
-        ajuda.overlay.click(() => {
-            ajuda.fechar();
-        });
-
         // Previne a ajuda de ser fechada caso clique dentro da mesma 
         ajuda.div.click((e) => {
             e.stopPropagation();
@@ -206,8 +201,9 @@ class JNotes {
         ajuda.div.on('click', '.confirmacao-deletar', function () {
             if ($(this).find("span").text() == "Sim") {
                 painel.deletarTarefa();
+            } else {
+                ajuda.fechar();
             }
-            ajuda.fechar();
         });
 
         // Listener que confirma se vai ou não limpar o formulário 
@@ -232,7 +228,7 @@ class JNotes {
             e.stopPropagation();
         });
 
-        // Listener para impedir que a tarefa seja fechada quando clicar no botão de concluir
+        // Listener para impedir que a tarefa seja fechada, se expandida, quando clicar no botão de concluir. Em vez disso roda o método de concluir
         concluir.div.on('click', 'img', function handler(e) {
             if (Secundario.transformaPxEmRem($(this).parent().height()) > 9) {
                 e.stopPropagation();

@@ -897,6 +897,12 @@ main section > div .wrapper-section {
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item.concluida {
   background: #222;
 }
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item--animacao {
+  transition: height 0.25s;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item--animacao-deletar {
+  animation: fechar 0.25s linear;
+}
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > span,
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info span {
   margin-bottom: 1rem;
@@ -945,9 +951,6 @@ main section > div .wrapper-section {
 .overlay-ajuda > div .box-confirmacao .wrapper span {
   margin-left: 0.5rem;
   color: #FFF;
-}
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item--animacao {
-  transition: height 0.25s;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-nova-data {
   width: 100%;
@@ -1201,8 +1204,8 @@ main section > div .wrapper-section {
   color: #FFF;
 }
 .overlay-ajuda > div .loading {
-  width: 5rem;
-  height: 5rem;
+  width: 5.2rem;
+  height: 5.2rem;
   padding: 0;
   margin: 0;
   border: 0.75rem solid #111;
@@ -1210,14 +1213,6 @@ main section > div .wrapper-section {
   border-top: 0.75rem solid #444;
   text-align: center;
   animation: spin 1s linear infinite;
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
@@ -1230,5 +1225,22 @@ main section > div .wrapper-section {
   }
   .overlay-ajuda .box-confirmacao .wrapper span {
     font-size: 1.5rem;
+  }
+}
+/*--- Keyframes --- */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fechar {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(110%);
   }
 }

@@ -882,6 +882,14 @@ main {
                         background: @cinza-escuro;
                     }
 
+                    &--animacao {
+                        transition: height 0.25s;
+                    }
+
+                    &--animacao-deletar {
+                        animation: fechar 0.25s linear;
+                    }
+
                     &>span {
                         margin-bottom: 1rem;
                         color: @branco-fonte;
@@ -918,10 +926,6 @@ main {
                             }
                         }
                     }
-                }
-
-                .box-painel-eventos-item--animacao {
-                    transition: height 0.25s;
                 }
 
                 .box-nova-data {
@@ -1211,23 +1215,13 @@ main {
         }
 
         .loading {
-            .tamanhos(5rem, 5rem);
+            .tamanhos(5.2rem, 5.2rem);
             border: @borda-padrao solid @preto-fundo; // círculo
             border-radius: 50%; // faz ser cirular
             border-top: @borda-padrao solid @cinza-mais-claro; // parte que "gira"
             text-align: center;
             animation: spin 1s linear infinite; // usa o keyframe spin
         }
-    }
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
     }
 }
 
@@ -1248,5 +1242,26 @@ main {
                 }
             }
         }
+    }
+}
+
+/*--- Keyframes --- */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fechar {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(110%);
     }
 }

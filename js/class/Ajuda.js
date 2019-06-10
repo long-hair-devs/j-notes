@@ -65,9 +65,16 @@ class Ajuda {
     }
     /*--- Métodos ---*/
     mostrar(texto) {
+        if (texto == this.loading) {
+            this.overlay.off("click");
+        } else {
+            this.overlay.click(() => {
+                this.fechar();
+            });
+        }
         this.div.empty();
         this.overlay.fadeIn().css('display', 'flex');
-        this.div.append(texto);
+        this.div.append(texto)
     }
 
     fechar() {

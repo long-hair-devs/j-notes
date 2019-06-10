@@ -166,9 +166,12 @@ class PainelCalendario {
         this.d.ajuda.mostrar(this.d.ajuda.loading);
         Tarefas.deletar((dados) => {
             if (dados == 1) {
-                this.divDeletar.fadeOut(() => {
+                this.divDeletar.addClass("box-painel-eventos-item--animacao-deletar");
+                this.divDeletar.one("transitionend", (e) => {
+                    this.divDeletar.css('display', 'none')
                     this.divDeletar.remove();
                 });
+
                 this.d.ajuda.mostrar("<span>Tarefa deletada com sucesso!</span>");
 
                 Tarefas.atualizarMes(this.d.calendario.mesAtual, this.d.calendario.anoAtual, () => {
