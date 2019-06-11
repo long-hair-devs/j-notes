@@ -17,8 +17,6 @@ if (isset($_POST['verifica_tel_no_banco'])) {
     if (mysqli_num_rows($results) > 0) {
         $results = mysqli_fetch_array($results, MYSQLI_NUM);
         echo json_encode($results);
-    } else {
-        echo "";
     }
     exit();
 }

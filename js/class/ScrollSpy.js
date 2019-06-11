@@ -23,10 +23,10 @@ class ScrollSpy {
 
         if (i > 0 && i < 5) {
             this.linkMenus.removeClass("active");
-            this.listaMenus.eq(0).children().eq(i).children().addClass("active");
-            this.listaMenus.eq(1).children().eq(i).children().addClass("active");
+            this.listaMenus.eq(0).find("a").eq(i).addClass("active");
+            this.listaMenus.eq(1).find("a").eq(i).addClass("active");
 
-            let alvo = $(this.listaMenus.eq(0).children().eq(i).children().attr('href')).offset().top;
+            let alvo = $(this.listaMenus.eq(0).find("a").eq(i).attr('href')).offset().top;
             if (Secundario.tela.width() <= 720) {
                 Secundario.html.scrollTop(alvo - Secundario.transformaRemEmPx(5.5));
             } else {

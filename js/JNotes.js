@@ -162,7 +162,7 @@ class JNotes {
             painel.abreOuFechaTarefa($(this));
         });
 
-        // Listener para evitar que o evento seja fechado ao clicar na barra de opções
+        // Listener para evitar que a tarefa seja fechada ao clicar na barra de opções
         painel.div.on("click", ".box-painel-crud", (e) => {
             e.stopPropagation();
         });
@@ -181,7 +181,7 @@ class JNotes {
                 Menu.botaoNova.click();
                 ajuda.mostrar(ajuda.textoLimparForm);
             } else if (novaTarefa.abreModoEditar()) {
-                painel.passaValores($($(this).parent().parent()));
+                painel.passaValores($(this).parent().parent());
                 painel.divData.click();
             }
         });
@@ -201,9 +201,8 @@ class JNotes {
         ajuda.div.on('click', '.confirmacao-deletar', function () {
             if ($(this).find("span").text() == "Sim") {
                 painel.deletarTarefa();
-            } else {
-                ajuda.fechar();
             }
+            ajuda.fechar();
         });
 
         // Listener que confirma se vai ou não limpar o formulário 
@@ -217,7 +216,13 @@ class JNotes {
         });
     }
 
-    ativaConcluir(concluir) {
+    ativaConcluir(concluir, notificacoes) {
+        // Pega as tarefas que precisam concluir no banco
+        Tarefas.atualizarNaoConcluidas(jnotes.calendario.dataSelecionadaString("-"), () => {
+            notificacoes.atualizar();
+            concluir.atualizar();
+        });
+
         // Listener para expandir a tarefa que for clicada
         concluir.div.on('click', '.box-concluir-tarefa-item', function () {
             concluir.abreOuFechaTarefa($(this));
@@ -232,6 +237,7 @@ class JNotes {
         concluir.div.on('click', 'img', function handler(e) {
             if (Secundario.transformaPxEmRem($(this).parent().height()) > 9) {
                 e.stopPropagation();
+
                 concluir.acaoConcluir($(this).siblings("form"));
             }
         });
@@ -249,8 +255,11 @@ class JNotes {
 
 $(function () {
     jnotes = new JNotes();
+
+    // Zerando os vetores
     Tarefas.mes = 0;
     Tarefas.naoConcluidas = 0;
+
     // Variável vh para mobile, problema do autohide da barra de pesquisa solucionado 
     let vh = Secundario.tela.innerHeight() * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -275,11 +284,5 @@ $(function () {
 
     jnotes.ativaPainel(jnotes.painel, jnotes.calendario, jnotes.novaTarefa, jnotes.ajuda);
 
-    jnotes.ativaConcluir(jnotes.concluir, jnotes.calendario);
-
-    // Pega as tarefas que precisam concluir no banco
-    Tarefas.atualizarNaoConcluidas(jnotes.calendario.dataSelecionadaString("-"), () => {
-        jnotes.notificacoes.atualizar();
-        jnotes.concluir.atualizar();
-    });
+    jnotes.ativaConcluir(jnotes.concluir, jnotes.notificacoes);
 });

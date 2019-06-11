@@ -27,6 +27,8 @@ class Clientes {
             'tel1': tel1,
         }, (dados) => {
             callback(dados);
-        }, "json");
+        }, "json").fail(() => {
+            callback(1);
+        });
     }
 }
