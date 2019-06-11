@@ -109,7 +109,7 @@ class JNotes {
 
         // Listener para o botão concluir do formuláiro 
         novaTarefa.botaoConcluir.click(() => {
-            novaTarefa.acaoConcluir(novaTarefa.botaoConcluir.hasClass("editar") ? 2 : 1);
+            novaTarefa.acaoConcluir(novaTarefa.section.hasClass("modo-editar") ? 2 : 1);
         });
 
         // Listener para o botão cancelar do formuláiro 

@@ -214,7 +214,6 @@ class NovaTarefa {
             this.titulo = "Editar Tarefa";
             this.section.addClass("modo-editar");
             this.botaoCancelar.css('display', 'block');
-            // this.botaoConcluir.addClass("editar");
             this.tel1.prop("readonly", true);
             return true;
         } else {
@@ -230,7 +229,6 @@ class NovaTarefa {
             this.titulo = "Nova Tarefa";
             this.section.removeClass("modo-editar");
             this.botaoCancelar.css('display', 'none');
-            // this.botaoConcluir.removeClass("editar");
             this.tel1.prop("readonly", false);
             this.form.trigger("reset");
         }
