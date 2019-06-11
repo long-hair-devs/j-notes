@@ -54,15 +54,15 @@ class Concluir {
 
     addTarefa(i) {
         let comando = `<div class="box-concluir-tarefa-item"><div class="info">
-        <span class="id">${Tarefas.pegaId(2, i)}</span>
-        <span>${Tarefas.pegaNome(2, i)}</span>
-        <span>${Tarefas.pegaData(2, i)}</span>
-        <span>${Tarefas.pegaPeriodo(2, i)}</span>
-        <span>${Tarefas.pegaTel1(2, i)}</span>
-        ${Tarefas.pegaTel2(2, i) != "" ? `<span class="tel2">${Tarefas.pegaTel2(2, i)}</span>` : ``}
-        <span>${Tarefas.pegaEndereco(2, i)}</span>
-        ${Tarefas.pegaProblema(2, i) != "" ? `<span class="problema">${Tarefas.pegaProblema(2, i)}</span>` : ``}
-        ${Tarefas.pegaInfo(2, i) != "" ? `<span class="info">${Tarefas.pegaInfo(2, i)}</span>` : ``}
+        <span class="id texto">${Tarefas.pegaId(2, i)}</span>
+        <span class="texto">${Tarefas.pegaNome(2, i)}</span>
+        <span class="texto">${Tarefas.pegaData(2, i)}</span>
+        <span class="texto">${Tarefas.pegaPeriodo(2, i)}</span>
+        <span class="texto">${Tarefas.pegaTel1(2, i)}</span>
+        ${Tarefas.pegaTel2(2, i) != "" ? `<span class="tel2 texto">${Tarefas.pegaTel2(2, i)}</span>` : ``}
+        <span class="texto">${Tarefas.pegaEndereco(2, i)}</span>
+        ${Tarefas.pegaProblema(2, i) != "" ? `<span class="problema texto">${Tarefas.pegaProblema(2, i)}</span>` : ``}
+        ${Tarefas.pegaInfo(2, i) != "" ? `<span class="info texto">${Tarefas.pegaInfo(2, i)}</span>` : ``}
         </div><form><label class="l-total-recebido"><span class="required">Total Recebido:</span>
         <input class="dinheiro" name="total-recebido" type="text" placeholder="Ex: R$ 000,00" autocomplete="off">
         </label><label class="l-total-gasto"><span>Total Gasto:</span>
@@ -109,14 +109,17 @@ class Concluir {
         if (this.validaDados(form)) {
             form.siblings("img").prop("disabled", true);
             Tarefas.id = form.siblings(".info").find(".id").text();
-            this.d.ajuda.mostrar(this.d.ajuda.loading);
+
+            form.parent().append(this.d.ajuda.loading);
 
             Tarefas.concluir(this.pegaDinheiro(form, 0), this.pegaDinheiro(form, 1), form.find("textarea").val(), (dados) => {
                 if (dados == 1) {
-                    form.parent().fadeOut(() => {
+                    form.parent().find(".loading").remove();
+
+                    form.parent().addClass("box-concluir-tarefa-item--animacao-deletar");
+                    form.parent().one("animationend", (e) => {
                         form.parent().remove();
                     });
-                    this.d.ajuda.mostrar("<span>Tarefa deletada com sucesso!</span>");
 
                     Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
                         this.d.notificacoes.atualizar();

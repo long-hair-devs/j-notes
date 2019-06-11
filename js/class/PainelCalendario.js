@@ -110,14 +110,14 @@ class PainelCalendario {
         let comando;
         if (tipo == 1) {
             comando = `<div class="box-painel-eventos-item">
-            <span class="id">${Tarefas.pegaId(1, i)}</span>
-            <span class="nome">${Tarefas.pegaNome(1, i)}</span>
-            <span class="tel1">${Tarefas.pegaTel1(1, i)}</span>
-            ${Tarefas.pegaTel2(1, i) != "" ? `<span class="tel2">${Tarefas.pegaTel2(1, i)}</span>` : ``}
-            <span class="endereco">${Tarefas.pegaEndereco(1, i)}</span>
-            <span class="periodo">${Tarefas.pegaPeriodo(1, i)}</span>
-            ${Tarefas.pegaProblema(1, i) != "" ? `<span class="problema">${Tarefas.pegaProblema(1, i)}</span>` : ``}
-            ${Tarefas.pegaInfo(1, i) != "" ? `<span class="info">${Tarefas.pegaInfo(1, i)}</span>` : ``}
+            <span class="id texto">${Tarefas.pegaId(1, i)}</span>
+            <span class="nome texto">${Tarefas.pegaNome(1, i)}</span>
+            <span class="tel1 texto">${Tarefas.pegaTel1(1, i)}</span>
+            ${Tarefas.pegaTel2(1, i) != "" ? `<span class="tel2 texto">${Tarefas.pegaTel2(1, i)}</span>` : ``}
+            <span class="endereco texto">${Tarefas.pegaEndereco(1, i)}</span>
+            <span class="periodo texto">${Tarefas.pegaPeriodo(1, i)}</span>
+            ${Tarefas.pegaProblema(1, i) != "" ? `<span class="problema texto">${Tarefas.pegaProblema(1, i)}</span>` : ``}
+            ${Tarefas.pegaInfo(1, i) != "" ? `<span class="info texto">${Tarefas.pegaInfo(1, i)}</span>` : ``}
             <div class="box-painel-crud">
                 <div class="wrapper-painel-crud editar-tarefa">
                     <img src="../img/svg/edit.svg" alt="botao-editar"><span>Editar</span></div>
@@ -127,16 +127,16 @@ class PainelCalendario {
         } else if (tipo = 2) {
             comando = `<div class="box-painel-eventos-item concluida">
             <span></span>
-            <span>${Tarefas.pegaNome(1, i)}</span>
-            <span>${Tarefas.pegaTel1(1, i)}</span>
-            ${Tarefas.pegaTel2(1, i) != "" ? `<span>${Tarefas.pegaTel2(1, i)}</span>` : ``}
-            <span>${Tarefas.pegaEndereco(1, i)}</span>
-            <span>${Tarefas.pegaPeriodo(1, i)}</span>
-            ${Tarefas.pegaProblema(1, i) != "" ? `<span>${Tarefas.pegaProblema(1, i)}</span>` : ``}
-            ${Tarefas.pegaInfo(1, i) != "" ? `<span>${Tarefas.pegaInfo(1, i)}</span>` : ``}
-            <span>Total Recebido: R$ ${Tarefas.pegaTotal(i)}</span>
-            ${Tarefas.pegaTotalGasto(i) != 0.00 ? `<span>${Tarefas.pegaTotalGasto(i)}</span>` : ``}
-            ${Tarefas.pegaObsercacoes(i) != "" ? `<span>${Tarefas.pegaObsercacoes(i)}</span>` : ``}`;
+            <span class="texto">${Tarefas.pegaNome(1, i)}</span>
+            <span class="texto">${Tarefas.pegaTel1(1, i)}</span>
+            ${Tarefas.pegaTel2(1, i) != "" ? `<span class="texto">${Tarefas.pegaTel2(1, i)}</span>` : ``}
+            <span class="texto">${Tarefas.pegaEndereco(1, i)}</span>
+            <span class="texto">${Tarefas.pegaPeriodo(1, i)}</span>
+            ${Tarefas.pegaProblema(1, i) != "" ? `<span class="texto">${Tarefas.pegaProblema(1, i)}</span>` : ``}
+            ${Tarefas.pegaInfo(1, i) != "" ? `<span class="texto">${Tarefas.pegaInfo(1, i)}</span>` : ``}
+            <span class="texto">Total Recebido: R$ ${Tarefas.pegaTotal(i)}</span>
+            ${Tarefas.pegaTotalGasto(i) != 0.00 ? `<span class="texto">${Tarefas.pegaTotalGasto(i)}</span>` : ``}
+            ${Tarefas.pegaObsercacoes(i) != "" ? `<span class="texto">${Tarefas.pegaObsercacoes(i)}</span>` : ``}`;
         }
         this.div.prepend(comando);
     }
@@ -163,16 +163,16 @@ class PainelCalendario {
     deletarTarefa() {
         Tarefas.id = this.divDeletar.find(".id").text();
 
-        this.d.ajuda.mostrar(this.d.ajuda.loading);
+        this.divDeletar.append(this.d.ajuda.loading);
+
         Tarefas.deletar((dados) => {
             if (dados == 1) {
+                this.divDeletar.find(".loading").remove();
+
                 this.divDeletar.addClass("box-painel-eventos-item--animacao-deletar");
-                this.divDeletar.one("transitionend", (e) => {
-                    this.divDeletar.css('display', 'none')
+                this.divDeletar.one("animationend", (e) => {
                     this.divDeletar.remove();
                 });
-
-                this.d.ajuda.mostrar("<span>Tarefa deletada com sucesso!</span>");
 
                 Tarefas.atualizarMes(this.d.calendario.mesAtual, this.d.calendario.anoAtual, () => {
                     Tarefas.id = undefined

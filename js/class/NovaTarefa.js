@@ -121,12 +121,17 @@ class NovaTarefa {
     /*--- Métodos ---*/
     autoCompleta() {
         if (this.tel1.val().length > 13 && this.tel1.val().length < 16) {
+            this.tel1.parent().append(this.d.ajuda.loading);
             Clientes.pegarDados(this.tel1.val(), (saida) => {
-                this.nome = saida[0];
-                this.endereco = saida[1];
-                this.tel2 = saida[2];
+                this.tel1.parent().find(".loading").remove();
 
-                this.fezAutoComplete = true;
+                if (saida != 1) {
+                    this.nome = saida[0];
+                    this.endereco = saida[1];
+                    this.tel2 = saida[2];
+
+                    this.fezAutoComplete = true;
+                }
             });
         }
     }
@@ -209,7 +214,7 @@ class NovaTarefa {
             this.titulo = "Editar Tarefa";
             this.section.addClass("modo-editar");
             this.botaoCancelar.css('display', 'block');
-            this.botaoConcluir.addClass("editar");
+            // this.botaoConcluir.addClass("editar");
             this.tel1.prop("readonly", true);
             return true;
         } else {
@@ -225,7 +230,7 @@ class NovaTarefa {
             this.titulo = "Nova Tarefa";
             this.section.removeClass("modo-editar");
             this.botaoCancelar.css('display', 'none');
-            this.botaoConcluir.removeClass("editar");
+            // this.botaoConcluir.removeClass("editar");
             this.tel1.prop("readonly", false);
             this.form.trigger("reset");
         }
@@ -256,7 +261,7 @@ class NovaTarefa {
 
                         this.form.trigger("reset");
                         this.botaoConcluir.prop("disabled", false);
-                        this.d.ajuda.mostrar("<span>Tarefa cadastrada com sucesso!</span>");
+                        this.d.ajuda.mostrar("<span class='texto'>Tarefa cadastrada com sucesso!</span>");
                     });
             } else if (tipo == 2) { // Editar
                 Clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
@@ -275,7 +280,7 @@ class NovaTarefa {
 
                         this.fechaModoEditar();
                         this.botaoConcluir.prop("disabled", false);
-                        this.d.ajuda.mostrar("<span>Tarefa editada com sucesso!</span>");
+                        this.d.ajuda.mostrar("<span class='texto'>Tarefa editada com sucesso!</span>");
                     });
                 Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
                     this.d.notificacoes.atualizar();

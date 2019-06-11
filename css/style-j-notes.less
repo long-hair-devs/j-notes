@@ -565,6 +565,13 @@ main {
                 }
             }
 
+            .loading {
+                .positions(absolute, 62%, 87%);
+                .tamanhos(1.5rem, 1.5rem);
+                border-width: 0.4rem;
+                border-top-width: 0.4rem;
+                border-top-color: @azul;
+            }
         }
 
         #l-nome {
@@ -867,9 +874,11 @@ main {
 
             .box-painel-eventos {
                 .tamanhos(auto, 100%, 1rem);
-                overflow: auto;
+                overflow-x: hidden;
+                overflow-y: auto;
 
                 .box-painel-eventos-item {
+                    position: relative;
                     .tamanhos(100%, 5rem, 1rem, 0 0 1rem 0);
                     background: @cinza-mais-claro;
                     .flex(column nowrap);
@@ -887,10 +896,17 @@ main {
                     }
 
                     &--animacao-deletar {
-                        animation: fechar 0.25s linear;
+                        animation: fechar 0.25s ease-in forwards;
                     }
 
-                    &>span {
+                    .loading {
+                        .positions(absolute, calc(~"50% - 1.5rem"), calc(~"50% - 1.5rem"));
+                        width: 3rem;
+                        height: 3rem;
+                        border-top-color: @cinza-claro;
+                    }
+
+                    .texto {
                         margin-bottom: 1rem;
                         color: @branco-fonte;
 
@@ -1036,7 +1052,8 @@ main {
 
         &>div {
             .tamanhos(100%, 100%, 1rem);
-            overflow: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
 
             .box-concluir-tarefa-item {
                 position: relative;
@@ -1049,11 +1066,11 @@ main {
                     width: calc(~"100% - 4rem");
                     .flex(column nowrap);
 
-                    span {
-                        &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>span);
+                    .texto {
+                        &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item .texto);
 
                         &:first-child {
-                            &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>span:first-child);
+                            &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item .texto:first-child);
                         }
                     }
                 }
@@ -1130,7 +1147,16 @@ main {
                 }
 
                 &--animacao {
-                    transition: 0.25s;
+                    transition: height 0.25s;
+                }
+
+                &--animacao-deletar {
+                    animation: fechar 0.25s ease-in forwards;
+                }
+
+                .loading {
+                    &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item .loading);
+                    border-top-color: @cinza-mais-claro;
                 }
 
                 &:last-child {
@@ -1187,7 +1213,7 @@ main {
         border-radius: @borda-padrao;
         .flex(column nowrap, center, center);
 
-        &>span {
+        .texto {
             margin: 1rem 0;
             font-size: 1.2rem;
             text-align: center;
@@ -1215,12 +1241,8 @@ main {
         }
 
         .loading {
-            .tamanhos(5.2rem, 5.2rem);
-            border: @borda-padrao solid @preto-fundo; // círculo
-            border-radius: 50%; // faz ser cirular
-            border-top: @borda-padrao solid @cinza-mais-claro; // parte que "gira"
+            .tamanhos(3.7rem, 3.7rem);
             text-align: center;
-            animation: spin 1s linear infinite; // usa o keyframe spin
         }
     }
 }
@@ -1245,6 +1267,13 @@ main {
     }
 }
 
+.loading {
+    border: @borda-padrao solid @preto-fundo; // círculo
+    border-radius: 50%; // faz ser cirular
+    border-top: @borda-padrao solid @cinza-mais-claro; // parte que "gira"
+    animation: spin 0.75s linear infinite; // usa o keyframe spin
+}
+
 /*--- Keyframes --- */
 @keyframes spin {
     from {
@@ -1257,11 +1286,19 @@ main {
 }
 
 @keyframes fechar {
-    from {
+    0% {
         transform: translateX(0);
     }
 
-    to {
+    50% {
+        transform: translateX(110%);
+    }
+
+    100% {
+        height: 0;
+        padding: 0;
+        margin: 0;
+        display: none;
         transform: translateX(110%);
     }
 }

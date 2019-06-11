@@ -571,6 +571,20 @@ main section > div .wrapper-section {
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.label--erro textarea {
   border: 0.15rem solid red;
 }
+#nova-tarefa .box-nova-tarefa label .loading {
+  position: absolute;
+  top: 62%;
+  left: 87%;
+  bottom: unset;
+  right: unset;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  margin: 0;
+  border-width: 0.4rem;
+  border-top-width: 0.4rem;
+  border-top-color: #6DA8D6;
+}
 #nova-tarefa .box-nova-tarefa #l-nome {
   grid-area: nome;
 }
@@ -876,10 +890,12 @@ main section > div .wrapper-section {
   height: 100%;
   padding: 1rem;
   margin: 0;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item,
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item {
+  position: relative;
   width: 100%;
   height: 5rem;
   padding: 1rem;
@@ -901,15 +917,26 @@ main section > div .wrapper-section {
   transition: height 0.25s;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item--animacao-deletar {
-  animation: fechar 0.25s linear;
+  animation: fechar 0.25s ease-in forwards;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > span,
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info span {
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item .loading,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .loading {
+  position: absolute;
+  top: calc(50% - 1.5rem);
+  left: calc(50% - 1.5rem);
+  bottom: unset;
+  right: unset;
+  width: 3rem;
+  height: 3rem;
+  border-top-color: #333;
+}
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item .texto,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info .texto {
   margin-bottom: 1rem;
   color: #FFF;
 }
-#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > span:first-child,
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info span:first-child {
+#calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item .texto:first-child,
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .info .texto:first-child {
   height: 0;
   margin: 0;
   display: none;
@@ -1062,7 +1089,8 @@ main section > div .wrapper-section {
   height: 100%;
   padding: 1rem;
   margin: 0;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item {
   position: relative;
@@ -1127,7 +1155,13 @@ main section > div .wrapper-section {
   transform: translateY(calc(-50% + 1rem));
 }
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item--animacao {
-  transition: 0.25s;
+  transition: height 0.25s;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item--animacao-deletar {
+  animation: fechar 0.25s ease-in forwards;
+}
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item .loading {
+  border-top-color: #444;
 }
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item:last-child {
   margin: 0;
@@ -1187,7 +1221,7 @@ main section > div .wrapper-section {
   align-items: center;
   justify-content: center;
 }
-.overlay-ajuda > div > span {
+.overlay-ajuda > div .texto {
   margin: 1rem 0;
   font-size: 1.2rem;
   text-align: center;
@@ -1204,15 +1238,11 @@ main section > div .wrapper-section {
   color: #FFF;
 }
 .overlay-ajuda > div .loading {
-  width: 5.2rem;
-  height: 5.2rem;
+  width: 3.7rem;
+  height: 3.7rem;
   padding: 0;
   margin: 0;
-  border: 0.75rem solid #111;
-  border-radius: 50%;
-  border-top: 0.75rem solid #444;
   text-align: center;
-  animation: spin 1s linear infinite;
 }
 /* Mobile */
 @media only screen and (max-width: 720px) {
@@ -1227,6 +1257,12 @@ main section > div .wrapper-section {
     font-size: 1.5rem;
   }
 }
+.loading {
+  border: 0.75rem solid #111;
+  border-radius: 50%;
+  border-top: 0.75rem solid #444;
+  animation: spin 0.75s linear infinite;
+}
 /*--- Keyframes --- */
 @keyframes spin {
   from {
@@ -1237,10 +1273,17 @@ main section > div .wrapper-section {
   }
 }
 @keyframes fechar {
-  from {
+  0% {
     transform: translateX(0);
   }
-  to {
+  50% {
+    transform: translateX(110%);
+  }
+  100% {
+    height: 0;
+    padding: 0;
+    margin: 0;
+    display: none;
     transform: translateX(110%);
   }
 }
