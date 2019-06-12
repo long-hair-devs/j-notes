@@ -15,11 +15,11 @@ body {
 
 /*///////////////// Fundo que corta a visão /////////////*/
 .fundo {
-    height: 17rem;
+    height: 18rem;
     width: 20rem;
     background-color: #222;
     overflow: hidden;
-    border: 1rem solid #222;
+    border: 1.5rem solid #222;
     border-radius: 0.75rem;
     display: flex;
     flex-direction: column;
@@ -106,9 +106,7 @@ body {
 
 }
 
-.txtlogin {
-    margin-bottom: 1.5rem;
-}
+
 
 label {
     cursor: pointer;

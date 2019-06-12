@@ -16,11 +16,13 @@
         <div id="interno" class="interno">
             <form id="login" class="box login" method="post" action="./lib/concluir-login.php">
                 <div>
-                    <span class="texto">Nome de Usuário ou E-mail</span>
+                    <span class="texto">Nome de Usuário</span>
                     <input name="nome" type="text" class="textoinput txtlogin" autocomplete="off" id="id-login-user">
+                    <span id="ajuda-login-user" class="ajuda"></span>
 
                     <span class="texto">Senha</span>
                     <input name="senha" type="password" class="textoinput txtlogin" autocomplete="off" id="id-login-senha">
+                    <span id="ajuda-login-senha" class="ajuda"></span>
                 </div>
                 <span class="flex-box-salvar">
                     <label><input type="checkbox" name="salvar" value="salvar" class="save">
