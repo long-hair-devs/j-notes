@@ -12,15 +12,18 @@
 </head>
 
 <body>
-    <div class="fundo">
+    <div id="fundo" class="fundo">
         <div id="interno" class="interno">
-            <form id="login" class="box login" method="post" action="./lib/autenticar-login.php">
-                <span class="texto">Nome de Usuário ou E-mail</span>
-                <input name="nome" type="text" class="textoinput" autocomplete="off">
+            <form id="login" class="box login" method="post" action="./lib/concluir-login.php">
+                <div>
+                    <span class="texto">Nome de Usuário</span>
+                    <input name="nome" type="text" class="textoinput txtlogin" autocomplete="off" id="id-login-user">
+                    <span id="ajuda-login-user" class="ajuda"></span>
 
-                <span class="texto">Senha</span>
-                <input name="senha" type="password" class="textoinput" autocomplete="off">
-
+                    <span class="texto">Senha</span>
+                    <input name="senha" type="password" class="textoinput txtlogin" autocomplete="off" id="id-login-senha">
+                    <span id="ajuda-login-senha" class="ajuda"></span>
+                </div>
                 <span class="flex-box-salvar">
                     <label><input type="checkbox" name="salvar" value="salvar" class="save">
                         <span class="texto">Lembrar-me</span></label>
@@ -28,22 +31,26 @@
 
                 <span class="flex-box-botoes">
                     <a href="#" class="texto link">Registrar</a>
-                    <input name="entrar" type="submit" class="botao" value="entrar">
+                    <input name="entrar" type="submit" class="botao" value="entrar" id="id-entrar">
                 </span>
             </form>
-            <form id="registrar" class="box registrar" method="post" action="./lib/autenticar-login.php">
+            <form id="registrar" class="box registrar" method="post" action="./lib/concluir-login.php">
 
                 <span class="texto" id="id-texto-user">Nome de Usuário</span>
-                <input name="nome" type="text" class="textoinput" id="id-user" required autocomplete="off">
+                <input name="nome" type="text" class="textoinput" id="id-user" required autocomplete="off" maxlength="20">
+                <span id="ajuda-user" class="ajuda"></span>
 
                 <span class="texto" id="id-texto-mail">E-Mail</span>
                 <input name="mail" type="email" class="textoinput" id="id-mail" required autocomplete="off">
+                <span id="ajuda-mail" class="ajuda"></span>
 
                 <span class="texto">Senha</span>
                 <input name="senha" type="password" class="textoinput" id="id-senha" required autocomplete="off">
+                <span id="ajuda-senha" class="ajuda"></span>
 
                 <span class="texto">Verificar Senha</span>
                 <input name="senha-verificada" type="password" class="textoinput" id="id-senha-verificada" required autocomplete="off">
+                <span id="ajuda-senha-verificada" class="ajuda"></span>
 
                 <span class="flex-box-botoes ">
                     <a href="#" class="texto link">Voltar</a>
@@ -52,9 +59,6 @@
             </form>
         </div>
     </div>
-    <a href="../index.php" class="xis">X</a>
-    <span class="xis bolinha"></span>
-    <span class="xis bolinha"></span>
 </body>
 
 </html>

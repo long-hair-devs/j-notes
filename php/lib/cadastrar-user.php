@@ -32,28 +32,6 @@ if (isset($_POST['save'])) {
   $_mail = $_POST['mail'];
   $_senha = md5($_POST['senha']);
 
-  //verifica se o usuario esta disponivel
-  $_sql = "SELECT * FROM usuarios WHERE usuario = '$_user'";
-  $_query = mysqli_query($_conexao, $_sql);
-  if (mysqli_num_rows($_query) > 0) {
-    echo ("Nome de usuario não está disponível");
-    exit();
-  }
-
-  //Verifica se o email é valido
-  if (strpos($_mail, '@') == NULL || strpos($_mail, '.') == NULL) {
-    echo ("Email inválido");
-    exit();
-  }
-
-  //verifica se o email esta disponivel
-  $_sql = "SELECT * FROM usuarios WHERE email = '$_mail'";
-  $_query = mysqli_query($_conexao, $_sql);
-  if (mysqli_num_rows($_query) > 0) {
-    echo ("Email ja está sendo utilizado");
-    exit();
-  }
-
   $_sql = "INSERT INTO usuarios(usuario, email, senha) VALUES ('$_user', '$_mail', '$_senha')";
   mysqli_query($_conexao, $_sql);
   echo ("sucesso");
