@@ -25,7 +25,7 @@
                     <span id="ajuda-login-senha" class="ajuda"></span>
                 </div>
                 <span class="flex-box-salvar">
-                    <label><input type="checkbox" name="salvar" value="salvar" class="save">
+                    <label><input type="checkbox" name="salvar" value="salvar" class="save" id="lembrar">
                         <span class="texto">Lembrar-me</span></label>
                 </span>
 

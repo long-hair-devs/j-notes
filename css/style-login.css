@@ -15,15 +15,14 @@ body {
 
 /*///////////////// Fundo que corta a visão /////////////*/
 .fundo {
-    height: 18rem;
-    width: 20rem;
+    height: 19.5rem;
+    width: 20.2rem;
     background-color: #222;
     overflow: hidden;
     border: 1.5rem solid #222;
     border-radius: 0.75rem;
     display: flex;
     flex-direction: column;
-    transition: 0.25s ease-in;
     flex-shrink: 0;
 }
 
@@ -34,7 +33,6 @@ body {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
-    transition: 0.25s ease-in;
 }
 
 /*////////////////// Classes em comum //////////////////////*/
@@ -55,6 +53,7 @@ body {
     font-size: 1.2rem;
     font-family: inherit;
     font-weight: bold;
+    height: 2.5rem;
 }
 
 .flex-box-botoes {
@@ -90,14 +89,19 @@ body {
     color: #6DA8D6;
 }
 
+.animacao {
+    transition: 0.25s ease-in;
+}
+
 
 /*/////////////////////// Classes referentes ao login //////////////////////*/
 .login {
     width: 20rem;
-    height: 25rem;
+    height: 19.5rem;
     display: flex;
     flex-direction: column;
-    transition: 0.25s ease-in;
+    margin: 0;
+
 }
 
 .login div {
@@ -124,10 +128,9 @@ label {
 /*/////////////////////// Classes referentes ao registrar //////////////////////*/
 .registrar {
     width: 20rem;
-    height: 25rem;
     display: flex;
     flex-direction: column;
-    transition: 0.25s ease-in;
+    margin: 0;
 }
 
 .botao-desabilitado {

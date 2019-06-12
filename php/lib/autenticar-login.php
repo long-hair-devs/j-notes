@@ -16,8 +16,8 @@ if (isset($_POST['save'])) {
     if ($_rows > 0) {
         echo 'sucesso';
     } else if ($_rowsUser > 0) {
-        echo 'Senha incorreta';
+        echo 'Usuario ou senha incorreta';
     } else {
-        echo 'Usuario não cadastrado';
+        echo 'Usuario incorreto';
     }
 }

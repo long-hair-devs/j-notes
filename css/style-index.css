@@ -14,22 +14,6 @@ body {
     }
 }
 
-/*-- Scroll da Pagina --*/
-::-webkit-scrollbar {
-    width: 0.6vw;
-}
-
-::-webkit-scrollbar-track {
-    background-color: #DDD;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #111;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
 
 .subir {
     background: url(../img/svg/previous-white.svg) center no-repeat;
@@ -210,7 +194,7 @@ body {
     left: 50%;
     top: -1.8vh;
     transform: translateX(-50%);
-    background: url(../img/prints/exemplo.png) center no-repeat;
+    background: url(../img/gif/monitor.gif) center no-repeat;
     background-size: 57.5vh;
 }
 

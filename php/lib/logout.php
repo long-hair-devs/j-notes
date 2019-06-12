@@ -1,7 +1,6 @@
 <?php
 session_start();
-unset( $_SESSION['nome'] );
-unset( $_SESSION['id'] );
+unset($_SESSION['nome']);
+unset($_SESSION['id']);
 session_destroy();
-header( "location:./../../index.php" );
-?>
+header("location:./../../index.php");
