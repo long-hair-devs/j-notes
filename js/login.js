@@ -1,36 +1,142 @@
 $(function () {
     let contador = 0;
     $(".link").click(function () {
-        $("#registrar #id-texto-user").removeClass("form-user-erro");
-        $("#registrar #id-texto-user").removeClass("form-user-sucesso");
-        $("#registrar #id-texto-mail").removeClass("form-mail-erro");
-        $("#registrar #id-texto-mail").removeClass("form-mail-sucesso");
+        removerClasses("#id-user", "#ajuda-user");
+        removerClasses("#id-mail", "#ajuda-mail");
+        removerClasses("#id-senha", "#ajuda-senha");
+        removerClasses("#id-senha-verificada", "#ajuda-senha-verificada");
+
         if (contador == 0) {
             $("#login").trigger("reset");
-            $("#interno").css('height', '28rem');
-            $("#registrar").css('transform', 'translateX(23.625rem)');
-            $("#login").css('transform', 'translateX(23.625rem)');
+            $("#fundo").css('height', '27rem');
+            $("#registrar").css('transform', 'translateX(22rem)');
+            $("#login").css('transform', 'translateX(22rem)');
             contador++;
         } else {
             $("#registrar").trigger("reset");
-            $("#interno").css('height', '18rem');
+            $("#fundo").css('height', '17rem');
             $("#registrar").css('transform', 'translateX(0)');
             $("#login").css('transform', 'translateX(0)');
             contador--;
         }
     });
 
-    var user_estado = false;
-    var mail_estado = false;
-    var mail_estado_error = false;
+    let user;
+    let mail;
+    let senha;
+    let senha_verificada;
+    let verificação = [false, false, false, false];
 
-    //Verificando se o usuario ja esta cadastrado no banco junto do "cadastrarUser.php" atraves do AJAX
+    ////////////////////////////////////// Usuario /////////////////////////////////////////////////////////
     $("#registrar #id-user").keyup($.debounce(250, function () {
-        $("#registrar #id-texto-user").removeClass("form-user-erro");
-        $("#registrar #id-texto-user").removeClass("form-user-sucesso");
-        var user = $('#registrar #id-user').val();
+        verificandoUsuario();
+    }));
+
+    ////////////////////////////////////// Email /////////////////////////////////////////////////////////
+    $("#registrar #id-mail").keyup($.debounce(250, function () {
+        verificandoEmail();
+    }));
+
+    ////////////////////////////////////// Senha /////////////////////////////////////////////////////////
+    $("#registrar #id-senha").keyup($.debounce(250, function () {
+        verificandoSenha();
+    }));
+
+    ////////////////////////////////////// Verficar Senha /////////////////////////////////////////////////////////
+    $("#registrar #id-senha-verificada, #registrar #id-senha").keyup($.debounce(250, function () {
+        verificandoVerificarSenha();
+    }));
+
+
+    $("#id-registro").click(function (event) {
+        event.preventDefault();
+        verificandoUsuario();
+        verificandoEmail();
+        verificandoSenha();
+        verificandoVerificarSenha();
+        user = $("#registrar #id-user").val();
+        mail = $("#registrar #id-mail").val();
+        senha_verificada = $("#id-senha-verificada").val();
+        senha = $('#registrar #id-senha').val();
+
+        for (let i = 0; i <= 4; i++) {
+            if (verificação[i] == false) {
+                return;
+            }
+        }
+
+
+        $.ajax({
+            url: '../php/lib/cadastrar-user.php',
+            type: 'POST',
+            data: {
+                'save': 1,
+                'mail': mail,
+                'user': user,
+                'senha': senha_verificada,
+            },
+            success: function (response) {
+                if (response == "sucesso") {
+                    $("#registrar").submit();
+                } else {
+                    alert(response);
+                }
+
+            }
+        });
+
+    });
+
+    $("#id-entrar").click(function (event) {
+        event.preventDefault();
+        user = $("#login #id-login-user").val();
+        senha = $("#login #id-login-senha").val();
+        $.ajax({
+            url: '../php/lib/autenticar-login.php',
+            type: 'POST',
+            data: {
+                'save': 1,
+                'user': user,
+                'senha': senha,
+            },
+            success: function (response) {
+                if (response == "sucesso") {
+                    $("#login").submit();
+                } else {
+                    alert(response);
+                }
+            }
+        });
+
+    });
+
+
+    //////////////////////////////////////// Funções basicas //////////////////////////////////////////
+    function removerClasses(identificadorID, identificadorAjuda) {
+        $("#registrar " + identificadorID).removeClass("form-erro");
+        $("#registrar " + identificadorID).removeClass("form-sucesso");
+        $("#registrar " + identificadorAjuda).removeClass("ajuda-erro");
+    }
+
+    function adicionarErro(identificadorID, identificadorAjuda, texto) {
+        $("#registrar " + identificadorID).addClass("form-erro");
+        $("#registrar " + identificadorAjuda).text(texto);
+        $("#registrar " + identificadorAjuda).addClass("ajuda-erro");
+    }
+
+    function campoCorreto(identificadorID, identificadorAjuda) {
+        $("#registrar " + identificadorID).addClass("form-sucesso");
+        $("#registrar " + identificadorAjuda).removeClass("ajuda-erro");
+        $("#registrar " + identificadorAjuda).text("");
+    }
+
+    ///////////////////////////////////////////// Validando Usuario /////////////////////////////////////////////////////
+    function verificandoUsuario() {
+        removerClasses("#id-user", "#ajuda-user");
+        user = $('#registrar #id-user').val();
         if (user == '') {
-            user_estado = false;
+            removerClasses("#id-user", "#ajuda-user");
+            verificação[0] = false;
             return;
         }
 
@@ -42,32 +148,28 @@ $(function () {
                 'user': user,
             },
             success: function (response) {
-
                 if (response == 'taken') {
-                    user_estado = false;
-                    $("#registrar #id-texto-user").addClass("form-user-erro");
+                    adicionarErro("#id-user", "#ajuda-user", "Usuário já cadastrado");
+                    verificação[0] = false;
                 } else if (response == 'not_taken') {
-                    user_estado = true;
-                    $("#registrar #id-texto-user").addClass("form-user-sucesso");
+                    campoCorreto("#id-user", "#ajuda-user");
+                    verificação[0] = true;
                 }
             }
         });
-    }));
+    }
 
-    //Verificando se o email ja esta cadastrado no banco junto do "cadastrarUser.php" atraves do AJAX
-    $("#registrar #id-mail").keyup($.debounce(250, function () {
-        $("#registrar #id-texto-mail").removeClass("form-mail-erro");
-        $("#registrar #id-texto-mail").removeClass("form-mail-sucesso");
-        var mail = $('#registrar #id-mail').val();
-
+    ///////////////////////////////////////////// Validando Email /////////////////////////////////////////////////////
+    function verificandoEmail() {
+        removerClasses("#id-mail", "#ajuda-mail");
+        mail = $('#registrar #id-mail').val();
         if (mail == '') {
-            mail_estado = false;
+            removerClasses("#id-mail", "#ajuda-mail");
+            verificação[1] = false;
             return;
-        }
-        if (mail.indexOf("@") == -1 || mail.indexOf(".") == -1) {
-            mail_estado = false;
-            $("#registrar #id-texto-mail").addClass("form-mail-erro");
-            mail_estado_error = true;
+        } else if (mail.indexOf("@") <= 0 || mail.indexOf(".") == -1) {
+            adicionarErro("#id-mail", "#ajuda-mail", "Email inválido");
+            verificação[1] = false;
             return;
         }
         $.ajax({
@@ -78,52 +180,50 @@ $(function () {
                 'mail': mail,
             },
             success: function (response) {
-                mail_estado_error = false;
 
                 if (response == 'taken') {
-                    mail_estado = false;
-                    $("#registrar #id-texto-mail").addClass("form-mail-erro");
+                    adicionarErro("#id-mail", "#ajuda-mail", "Email já cadastrado");
+                    verificação[1] = false;
                 } else if (response == 'not_taken') {
-                    mail_estado = true;
-                    $("#registrar #id-texto-mail").addClass("form-mail-sucesso");
+                    campoCorreto("#id-mail", "#ajuda-mail");
+                    verificação[1] = true;
                 }
             }
         });
-    }));
+    }
 
-    $("#id-registro").click(function (event) {
-        event.preventDefault();
-        var user = $("#registrar #id-user").val();
-        var mail = $("#registrar #id-mail").val();
-        var senha_verificada = $("#id-senha-verificada").val();
-        var senha = $("#id-senha").val();
-        if (!user_estado) {
-            alert("Nome de usuario não está disponível")
-        } else if (!mail_estado && mail_estado_error) {
-            alert("Email inválido")
-        } else if (!mail_estado && !mail_estado_error) {
-            alert("Email ja está sendo utilizado")
-        } else if (senha != senha_verificada) {
-            alert("Senhas diferentes");
+    ///////////////////////////////////////////// Validando Senha /////////////////////////////////////////////////////
+    function verificandoSenha() {
+        removerClasses("#id-senha", "#ajuda-senha");
+        verificação[2] = false;
+        senha = $('#registrar #id-senha').val();
+        if (senha == '') {
+            removerClasses("#id-senha", "#ajuda-senha");
+            return;
+        } else if (senha.length < 8) {
+            adicionarErro("#id-senha", "#ajuda-senha", "Utilize no minimo 8 caracteres");
+            return;
         } else {
-            $.ajax({
-                url: '../php/lib/cadastrar-user.php',
-                type: 'POST',
-                data: {
-                    'save': 1,
-                    'mail': mail,
-                    'user': user,
-                    'senha': senha_verificada,
-                },
-                success: function (response) {
-                    if (response == "sucesso") {
-                        $("#registrar").submit();
-                    } else {
-                        alert(response);
-                    }
-
-                }
-            });
+            campoCorreto("#id-senha", "#ajuda-senha");
+            verificação[2] = true;
         }
-    });
+    }
+
+    ///////////////////////////////////////////// Validando Verificar Senha /////////////////////////////////////////////////////
+    function verificandoVerificarSenha() {
+        removerClasses("#id-senha-verificada", "#ajuda-senha-verificada");
+        verificação[3] = false;
+        senha_verificada = $('#registrar #id-senha-verificada').val();
+        senha = $('#registrar #id-senha').val();
+        if (senha_verificada == '') {
+            removerClasses("#id-senha-verificada", "#ajuda-senha-verificada");
+            return;
+        } else if (senha != senha_verificada) {
+            adicionarErro("#id-senha-verificada", "#ajuda-senha-verificada", "Senhas não correspondem");
+            return;
+        } else {
+            campoCorreto("#id-senha-verificada", "#ajuda-senha-verificada");
+            verificação[3] = true;
+        }
+    }
 });
