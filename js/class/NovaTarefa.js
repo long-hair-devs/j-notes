@@ -118,6 +118,16 @@ class NovaTarefa {
     get section() {
         return $("#nova-tarefa");
     }
+
+    get md5Final() {
+        return md5(this.tel1.val() +
+            this.nome.val() +
+            this.tel2.val() +
+            this.endereco.val() +
+            this.periodo.text() +
+            this.problema.val() +
+            this.info.val());
+    }
     /*--- Métodos ---*/
     autoCompleta() {
         if (this.tel1.val().length > 13 && this.tel1.val().length < 16) {
@@ -235,6 +245,7 @@ class NovaTarefa {
     }
 
     acaoConcluir(tipo) {
+        console.log();
         if (this.validaDados()) {
             this.botaoConcluir.prop("disabled", true);
             this.d.ajuda.mostrar(this.d.ajuda.loading);
@@ -253,15 +264,18 @@ class NovaTarefa {
                     this.periodo.text(),
                     this.problema.val(),
                     this.info.val(),
-                    () => {
+                    (saida) => {
+                        if (saida == 1) {
+                            this.d.ajuda.mostrar("<span class='texto'>Erro, não foi possível cadastrar a tarefa</span>");
+                            return;
+                        }
                         this.d.calendario.dataAtual(this.dataConvertida.getDate(), this.dataConvertida.getMonth(), this.dataConvertida.getFullYear());
                         this.d.calendario.construir();
 
                         this.form.trigger("reset");
-                        this.botaoConcluir.prop("disabled", false);
                         this.d.ajuda.mostrar("<span class='texto'>Tarefa cadastrada com sucesso!</span>");
                     });
-            } else if (tipo == 2) { // Editar
+            } else if (tipo == 2 && !(this.md5Final == this.d.painel.md5Passado)) { // Editar
                 Clientes.atualizar(this.tel1.val(), this.nome.val(), this.endereco.val(), this.tel2.val());
 
                 Tarefas.atualizar(this.tel1.val(),
@@ -272,19 +286,26 @@ class NovaTarefa {
                     this.periodo.text(),
                     this.problema.val(),
                     this.info.val(),
-                    () => {
+                    (saida) => {
                         this.d.calendario.dataAtual(this.dataConvertida.getDate(), this.dataConvertida.getMonth(), this.dataConvertida.getFullYear());
                         this.d.calendario.construir();
 
                         this.fechaModoEditar();
-                        this.botaoConcluir.prop("disabled", false);
-                        this.d.ajuda.mostrar("<span class='texto'>Tarefa editada com sucesso!</span>");
+
+                        if (saida == 1) {
+                            this.d.ajuda.mostrar("<span class='texto'>Erro, não foi possível atualizar a tarefa</span>");
+                        } else {
+                            this.d.ajuda.mostrar("<span class='texto'>Tarefa editada com sucesso!</span>");
+                        }
                     });
                 Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
                     this.d.notificacoes.atualizar();
                     this.d.concluir.atualizar();
                 });
+            } else {
+                this.d.ajuda.mostrar("<span class='texto'>Modifique algum valor para continuar</span>");
             }
+            this.botaoConcluir.prop("disabled", false);
         }
     }
 }

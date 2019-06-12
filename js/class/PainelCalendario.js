@@ -42,6 +42,14 @@ class PainelCalendario {
     set divDeletar(valor) {
         this._divDeletar = valor;
     }
+
+    get md5Passado() {
+        return this._md5Passado;
+    }
+
+    set md5Passado(valor) {
+        return this._md5Passado = valor;
+    }
     /*--- Métodos ---*/
     encheListaAnos(calendario) {
         for (let i = calendario.anoAtual - 4; i < calendario.anoAtual + 4; i++) {
@@ -158,6 +166,14 @@ class PainelCalendario {
         this.d.novaTarefa.periodo = item.find(".periodo").text();
         this.d.novaTarefa.problema = item.find(".problema").text();
         this.d.novaTarefa.info = item.find(".info").text();
+
+        this.md5Passado = md5(item.find(".tel1").text() +
+            item.find(".nome").text() +
+            item.find(".tel2").text() +
+            item.find(".endereco").text() +
+            item.find(".periodo").text() +
+            item.find(".problema").text() +
+            item.find(".info").text());
     }
 
     deletarTarefa() {
@@ -165,25 +181,26 @@ class PainelCalendario {
 
         this.divDeletar.append(this.d.ajuda.loading);
 
-        Tarefas.deletar((dados) => {
-            if (dados == 1) {
-                this.divDeletar.find(".loading").remove();
-
-                this.divDeletar.addClass("box-painel-eventos-item--animacao-deletar");
-                this.divDeletar.one("animationend", (e) => {
-                    this.divDeletar.remove();
-                });
-
-                Tarefas.atualizarMes(this.d.calendario.mesAtual, this.d.calendario.anoAtual, () => {
-                    Tarefas.id = undefined
-                    this.d.calendario.colocaIndicadorNosDias();
-                    this.d.notificacoes.atualizar();
-                });
-                Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
-                    this.d.notificacoes.atualizar();
-                    this.d.concluir.atualizar();
-                });
+        Tarefas.deletar((saida) => {
+            this.divDeletar.find(".loading").remove();
+            if (saida == 1) {
+                this.d.ajuda.mostrar("<span class='texto'>Não foi possível deletar a tarefa</span>");
+                return;
             }
+            this.divDeletar.addClass("box-painel-eventos-item--animacao-deletar");
+            this.divDeletar.one("animationend", (e) => {
+                this.divDeletar.remove();
+            });
+
+            Tarefas.atualizarMes(this.d.calendario.mesAtual, this.d.calendario.anoAtual, () => {
+                Tarefas.id = undefined
+                this.d.calendario.colocaIndicadorNosDias();
+
+                Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
+                    this.d.concluir.atualizar();
+                    this.d.notificacoes.atualizar();
+                });
+            });
         });
     }
 }

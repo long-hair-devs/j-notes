@@ -2,7 +2,7 @@ class Clientes {
     constructor() {}
     /*--- Métodos ---*/
     static cadastrar(tel1, nome, endereco, tel2) {
-        $.post('j-notes.php', {
+        $.post('./lib/process-j-notes.php', {
             'cadastra-novo-cliente': 1,
             'tel1': tel1,
             'nome': nome,
@@ -12,7 +12,7 @@ class Clientes {
     }
 
     static atualizar(tel1, nome, endereco, tel2) {
-        $.post('j-notes.php', {
+        $.post('./lib/process-j-notes.php', {
             'aplica-update-no-cliente': 1,
             'tel1': tel1,
             'nome': nome,
@@ -22,7 +22,7 @@ class Clientes {
     }
 
     static pegarDados(tel1, callback) {
-        $.post('j-notes.php', {
+        $.post('./lib/process-j-notes.php', {
             'verifica_tel_no_banco': 1,
             'tel1': tel1,
         }, (dados) => {

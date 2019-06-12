@@ -1,7 +1,14 @@
 <?php
-include_once('./lib/process-j-notes.php');
+include_once('./lib/conexao.php');
+
+session_start();
+if (!isset($_SESSION['id'])) {
+    header("location: ../index.php");
+    exit();
+}
 
 $user = $_SESSION['nome'];
+
 ?>
 
 <!DOCTYPE html>

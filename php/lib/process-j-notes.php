@@ -2,11 +2,11 @@
 include_once('conexao.php');
 
 session_start();
-
 if (!isset($_SESSION['id'])) {
     header("location: ../index.php");
     exit();
 }
+
 $user_id = $_SESSION['id'];
 
 if (isset($_POST['verifica_tel_no_banco'])) {
@@ -56,7 +56,11 @@ if (isset($_POST['cadastra-nova-tarefa'])) {
 
     $sql = "INSERT INTO tarefas (telefone1, id_user, nome, endereco, telefone2, dia, periodo, problema, informacoes) 
                     VALUES ('$tel1', '$user_id', '$nome', '$endereco', '$tel2', str_to_date('$data', '%d/%m/%Y'), '$periodo', '$problema', '$infoAdicional')";
-    mysqli_query($_conexao, $sql) or die($_conexao->error);
+
+    mysqli_query($_conexao, $sql);
+    if (mysqli_affected_rows($_conexao) > 0) {
+        echo json_encode(null);
+    }
     exit();
 }
 
@@ -71,8 +75,6 @@ if (isset($_POST['pega-eventos-mes'])) {
     if (mysqli_num_rows($results) > 0) {
         $results = mysqli_fetch_all($results, MYSQLI_NUM);
         echo json_encode($results);
-    } else {
-        echo 0;
     }
     exit();
 }
@@ -90,22 +92,23 @@ if (isset($_POST['atualiza-tarefa'])) {
 
     $sql = "UPDATE tarefas SET nome='$nome', endereco='$endereco', telefone2='$tel2', dia=str_to_date('$data', '%d/%m/%Y'), periodo='$periodo', problema='$problema', informacoes='$infoAdicional'
                 WHERE id_tarefa='$id' AND id_user ='$user_id'";
-    mysqli_query($_conexao, $sql) or die($_conexao->error);
+
+    mysqli_query($_conexao, $sql);
+    $resul = mysqli_affected_rows($_conexao);
+    if ($resul > 0) {
+        echo json_encode(null);
+    }
     exit();
 }
 
 if (isset($_POST['deleta-tarefa'])) {
     $id = $_POST['id'];
 
-    if (is_numeric($id)) {
-        $sql = "SELECT * FROM tarefas WHERE id_tarefa='$id' AND id_user='$user_id'";
-        $results = mysqli_query($_conexao, $sql) or die($_conexao->error);
+    $sql = "DELETE FROM tarefas WHERE id_tarefa='$id' AND id_user='$user_id'";
 
-        if (mysqli_num_rows($results) > 0) {
-            $sql = "DELETE FROM tarefas WHERE id_tarefa='$id'";
-            mysqli_query($_conexao, $sql) or die($_conexao->error);
-            echo 1;
-        }
+    mysqli_query($_conexao, $sql);
+    if (mysqli_affected_rows($_conexao) > 0) {
+        echo json_encode(null);
     }
     exit();
 }
@@ -120,8 +123,6 @@ if (isset($_POST['pega-nao-concluidas'])) {
     if (mysqli_num_rows($results) > 0) {
         $results = mysqli_fetch_all($results, MYSQLI_NUM);
         echo json_encode($results);
-    } else {
-        echo 0;
     }
     exit();
 }
@@ -132,11 +133,12 @@ if (isset($_POST['concluir-tarefa'])) {
     $totalGasto = $_POST['tGasto'];
     $obs = $_POST['obs'];
 
-    if (is_numeric($id)) {
-        $sql = "UPDATE tarefas SET total_recebido=CAST($total as DECIMAL(8,2)), total_gasto=CAST($totalGasto as DECIMAL(8,2)), observacoes_servico='$obs'
+    $sql = "UPDATE tarefas SET total_recebido=CAST($total as DECIMAL(8,2)), total_gasto=CAST($totalGasto as DECIMAL(8,2)), observacoes_servico='$obs'
                 WHERE id_tarefa='$id' AND id_user='$user_id'";
-        mysqli_query($_conexao, $sql) or die($_conexao->error);
-        echo 1;
+
+    mysqli_query($_conexao, $sql);
+    if (mysqli_affected_rows($_conexao) > 0) {
+        echo json_encode(null);
     }
     exit();
 }

@@ -112,20 +112,21 @@ class Concluir {
 
             form.parent().append(this.d.ajuda.loading);
 
-            Tarefas.concluir(this.pegaDinheiro(form, 0), this.pegaDinheiro(form, 1), form.find("textarea").val(), (dados) => {
-                if (dados == 1) {
-                    form.parent().find(".loading").remove();
-
-                    form.parent().addClass("box-concluir-tarefa-item--animacao-deletar");
-                    form.parent().one("animationend", (e) => {
-                        form.parent().remove();
-                    });
-
-                    Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
-                        this.d.notificacoes.atualizar();
-                        this.d.calendario.construir();
-                    });
+            Tarefas.concluir(this.pegaDinheiro(form, 0), this.pegaDinheiro(form, 1), form.find("textarea").val(), (saida) => {
+                form.parent().find(".loading").remove();
+                if (saida == 1) {
+                    this.d.ajuda.mostrar("<span class='texto'>Não foi possível concluir a tarefa</span>");
+                    return;
                 }
+                form.parent().addClass("box-concluir-tarefa-item--animacao-deletar");
+                form.parent().one("animationend", (e) => {
+                    form.parent().remove();
+                });
+
+                Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
+                    this.d.notificacoes.atualizar();
+                    this.d.calendario.construir();
+                });
             });
         }
     }

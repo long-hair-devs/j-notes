@@ -39,7 +39,7 @@ class Tarefas {
 
     /*--- Métodos ---*/
     static cadastrar(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional, callback) {
-        $.post('j-notes.php', {
+        $.post('./lib/process-j-notes.php', {
             'cadastra-nova-tarefa': 1,
             'tel1': tel1,
             'nome': nome,
@@ -50,12 +50,14 @@ class Tarefas {
             'problema': problema,
             'infoAdicional': infoAdicional,
         }, () => {
-            callback();
+            callback(0);
+        }, "json").fail(() => {
+            callback(1);
         });
     }
 
     static atualizar(tel1, nome, endereco, tel2, data, periodo, problema, infoAdicional, callback) {
-        $.post('j-notes.php', {
+        $.post('./lib/process-j-notes.php', {
             'atualiza-tarefa': 1,
             'id': this.id,
             'tel1': tel1,
@@ -67,50 +69,62 @@ class Tarefas {
             'problema': problema,
             'infoAdicional': infoAdicional,
         }, () => {
-            callback();
+            callback(0);
+        }, "json").fail(() => {
+            callback(1);
         });
     }
 
     static deletar(callback) {
-        $.post('j-notes.php', {
+        $.post('./lib/process-j-notes.php', {
             'deleta-tarefa': 1,
             'id': this.id,
-        }, (dados) => {
-            callback(dados);
+        }, () => {
+            callback(0);
+        }, "json").fail(() => {
+            callback(1);
         });
     }
 
     static concluir(total, totalGasto, obs, callback) {
-        $.post('j-notes.php', {
+        $.post('./lib/process-j-notes.php', {
             'concluir-tarefa': 1,
             'id': this.id,
             'tRecebido': total,
             'tGasto': totalGasto,
             'obs': obs,
-        }, (dados) => {
-            callback(dados);
+        }, () => {
+            callback(0);
+        }, "json").fail(() => {
+            callback(1);
         });
     }
 
     static atualizarMes(mesAtual, anoAtual, callback) {
-        $.post('j-notes.php', {
+        $.post('./lib/process-j-notes.php', {
             'pega-eventos-mes': 1,
             'mes': mesAtual,
             'ano': anoAtual,
         }, (dados) => {
             this.mes = dados;
             callback();
-        }, "json");
+        }, "json").fail(() => {
+            this.mes = 0;
+            callback();
+        });
     }
 
     static atualizarNaoConcluidas(hoje, callback) {
-        $.post('j-notes.php', {
+        $.post('./lib/process-j-notes.php', {
             'pega-nao-concluidas': 1,
             'hoje': hoje.split("-").reverse().join("-"),
         }, (dados) => {
             this.naoConcluidas = dados;
             callback();
-        }, "json");
+        }, "json").fail(() => {
+            this.naoConcluidas = 0;
+            callback();
+        });
     }
 
     static pegaId(tipo, i) {
