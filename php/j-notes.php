@@ -3,6 +3,7 @@ include_once('./lib/process-j-notes.php');
 
 $user = $_SESSION['nome'];
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -13,10 +14,10 @@ $user = $_SESSION['nome'];
     <title>J-Notes</title>
     <link rel="icon" href="../img/agenda.png">
     <link rel="stylesheet" type="text/css" href="../css/style-j-notes.css" />
-    <script type="text/javascript" src="../js/lib/jquery-3.4.0.min.js"></script>
-    <script type="text/javascript" src="../js/lib/jquery.mask.min.js"></script>
-    <script type="text/javascript" src="../js/lib/jquery.ba-throttle-debounce.min.js"></script>
-    <script type="text/javascript" src="../js/j-notes.js"></script>
+
+    <script type="text/javascript" src="../php/lib/js-load-lib.php"></script>
+    <script type="text/javascript" src="../php/lib/js-load-class.php"></script>
+    <script type="text/javascript" src="../js/JNotes.js"></script>
 </head>
 
 <body>
@@ -107,10 +108,14 @@ $user = $_SESSION['nome'];
                         </header>
                         <div>
                             <div class="notificacao-item tarefa">
-
+                                <!-- Código gerado via javaScript -->
                             </div>
                             <div class="notificacao-item concluir">
-
+                                <!-- Código gerado via javaScript -->
+                            </div>
+                            <div class="wrapper">
+                                <img src="../img/svg/pdf-file.svg" alt="icone pdf">
+                                <span>Gerar Relatório</span>
                             </div>
                         </div>
                     </div>
@@ -151,7 +156,7 @@ $user = $_SESSION['nome'];
                         <label id="l-data">
                             <span class="required">Data:</span>
                             <input class="data" id="data" name="data" type="text" placeholder="Ex: dd/mm/aa" autocomplete="off">
-                            <img id="desce-para-calendario" src="../img/svg/down.svg">
+                            <img id="seta-calendario" src="../img/svg/down.svg">
                         </label>
                         <div id="wrapper-radio" class="wrapper-radio">
                             <label id="l-radio1" class="box-radio">
@@ -205,11 +210,7 @@ $user = $_SESSION['nome'];
                             <td>Sab<span class="argola"></span></td>
                         </thead>
                         <tbody id="corpo-calendario">
-                            <script>
-                                $(function() {
-                                    mostrarCalendario(mesAtual, anoAtual);
-                                });
-                            </script>
+                            <!-- Código gerado via javaScript -->
                         </tbody>
                     </table>
                     <div class="box-painel-calendario">
@@ -226,11 +227,7 @@ $user = $_SESSION['nome'];
                                 <img id="mostra-lista-ano" src="../img/svg/down.svg">
                                 <div class="wrapper-lista-anos">
                                     <div class="box-lista-anos">
-                                        <script>
-                                            for (let i = anoAtual - 4; i < anoAtual + 4; i++) {
-                                                $(".box-lista-anos").append('<span>' + i + '</span>');
-                                            }
-                                        </script>
+                                        <!-- Código gerado via javaScript -->
                                     </div>
                                 </div>
                             </div>
@@ -259,7 +256,7 @@ $user = $_SESSION['nome'];
                     </div>
                     <div class="box-concluir-tarefa">
                         <div>
-
+                            <!-- Código gerado via javaScript -->
                         </div>
                     </div>
                 </div>
@@ -268,7 +265,9 @@ $user = $_SESSION['nome'];
     </main>
 
     <section class="overlay-ajuda">
-        <div></div>
+        <div>
+            <!-- Código gerado via javaScript -->
+        </div>
     </section>
 </body>
 
