@@ -310,9 +310,9 @@ class Relatorio {
 
 
         } else if (this.div.length == 2 || this.div.length == 3) { // Sem filtro 
-            this.geraForm("Tabela " + this.tipoMarcado, "Nenhum", this.tipoMarcado.toLowerCase(), this.ordem, "");
+            this.geraForm("Tabela de " + this.tipoMarcado.toLowerCase(), "Nenhum", this.tipoMarcado.toLowerCase(), this.ordem, "");
         } else if (this.validaDados()) { // Com filtro
-            this.geraForm("Tabela " + this.tipoMarcado, this.filtroMarcado, this.tipoMarcado.toLowerCase(), this.ordem, this.filtro);
+            this.geraForm("Tabela de " + this.tipoMarcado.toLowerCase(), this.filtroMarcado, this.tipoMarcado.toLowerCase(), this.ordem, this.filtro);
         }
         this.enviaDados();
     }
