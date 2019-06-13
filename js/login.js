@@ -15,19 +15,37 @@ $(function () {
         removerClasses("#login", "#id-login-user", "#ajuda-login-user");
         removerClasses("#login", "#id-login-senha", "#ajuda-login-senha");
         $("#fundo, #registrar, #login").addClass("animacao");
-        if (contador == 0) {
-            $("#login").trigger("reset");
-            $("#fundo").css('height', '30rem');
-            $("#registrar").css('transform', 'translateX(22rem)');
-            $("#login").css('transform', 'translateX(22rem)');
-            contador++;
+        console.log("" + $(window).width());
+        if ($("html").width() <= 980) {
+            if (contador == 0) {
+                $("#login").trigger("reset");
+                $("#fundo").css('height', '60rem');
+                $("#registrar").css('transform', 'translateX(44rem)');
+                $("#login").css('transform', 'translateX(44rem)');
+                contador++;
+            } else {
+                $("#registrar").trigger("reset");
+                $("#fundo").css('height', '40rem');
+                $("#registrar").css('transform', 'translateX(0)');
+                $("#login").css('transform', 'translateX(0)');
+                contador--;
+            }
         } else {
-            $("#registrar").trigger("reset");
-            $("#fundo").css('height', '19.5rem');
-            $("#registrar").css('transform', 'translateX(0)');
-            $("#login").css('transform', 'translateX(0)');
-            contador--;
+            if (contador == 0) {
+                $("#login").trigger("reset");
+                $("#fundo").css('height', '30rem');
+                $("#registrar").css('transform', 'translateX(22rem)');
+                $("#login").css('transform', 'translateX(22rem)');
+                contador++;
+            } else {
+                $("#registrar").trigger("reset");
+                $("#fundo").css('height', '20rem');
+                $("#registrar").css('transform', 'translateX(0)');
+                $("#login").css('transform', 'translateX(0)');
+                contador--;
+            }
         }
+
 
         $("#fundo").one("transitionend", (e) => {
             $("#fundo, #registrar, #login").removeClass("animacao");

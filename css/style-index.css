@@ -226,6 +226,7 @@ body {
     padding: 2rem 5rem 2rem 5rem;
     text-transform: uppercase;
     border-radius: 0.75rem;
+    outline: 0;
 }
 
 .apresentacao .botao_entrar .botao:hover {

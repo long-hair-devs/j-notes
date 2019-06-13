@@ -15,15 +15,15 @@
     <div id="fundo" class="fundo">
         <div id="interno" class="interno">
             <form id="login" class="box login" method="post" action="./lib/concluir-login.php">
-                <div>
-                    <span class="texto">Nome de Usuário</span>
-                    <input name="nome" type="text" class="textoinput txtlogin" autocomplete="off" id="id-login-user">
-                    <span id="ajuda-login-user" class="ajuda"></span>
 
-                    <span class="texto">Senha</span>
-                    <input name="senha" type="password" class="textoinput txtlogin" autocomplete="off" id="id-login-senha">
-                    <span id="ajuda-login-senha" class="ajuda"></span>
-                </div>
+                <span class="texto">Nome de Usuário</span>
+                <input name="nome" type="text" class="textoinput txtlogin" autocomplete="off" id="id-login-user">
+                <span id="ajuda-login-user" class="ajuda"></span>
+
+                <span class="texto">Senha</span>
+                <input name="senha" type="password" class="textoinput txtlogin" autocomplete="off" id="id-login-senha">
+                <span id="ajuda-login-senha" class="ajuda"></span>
+
                 <span class="flex-box-salvar">
                     <label><input type="checkbox" name="salvar" value="salvar" class="save" id="lembrar">
                         <span class="texto">Lembrar-me</span></label>
@@ -41,15 +41,15 @@
                 <span id="ajuda-user" class="ajuda"></span>
 
                 <span class="texto" id="id-texto-mail">E-Mail</span>
-                <input name="mail" type="email" class="textoinput" id="id-mail" required autocomplete="off">
+                <input name="mail" type="email" class="textoinput" id="id-mail" required autocomplete="off" maxlength="30">
                 <span id="ajuda-mail" class="ajuda"></span>
 
                 <span class="texto">Senha</span>
-                <input name="senha" type="password" class="textoinput" id="id-senha" required autocomplete="off">
+                <input name="senha" type="password" class="textoinput" id="id-senha" required autocomplete="off" maxlength="30">
                 <span id="ajuda-senha" class="ajuda"></span>
 
                 <span class="texto">Verificar Senha</span>
-                <input name="senha-verificada" type="password" class="textoinput" id="id-senha-verificada" required autocomplete="off">
+                <input name="senha-verificada" type="password" class="textoinput" id="id-senha-verificada" required autocomplete="off" maxlength="30">
                 <span id="ajuda-senha-verificada" class="ajuda"></span>
 
                 <span class="flex-box-botoes ">
@@ -58,6 +58,9 @@
                 </span>
             </form>
         </div>
+        <a href="../index.php" class="xis">X</a>
+        <span class="xis bolinha1"></span>
+        <span class="xis bolinha2"></span>
     </div>
 </body>
 
