@@ -11,6 +11,8 @@ body {
     justify-content: center;
     min-width: 40rem;
     min-height: 30rem;
+    width: 100vw;
+    height: 100vh;
 }
 
 @media screen and (max-width: 980px) {

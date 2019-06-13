@@ -153,6 +153,7 @@ else if ($_tabela == "geral") {
     $_pdf->SetTextColor(74, 74, 74);
 
     $_lucro = 0;
+    $_totalTarefas = 0;
 
     $_string_connection = "mysql:host=localhost;
                                 dbname=jbanco";
@@ -167,14 +168,20 @@ else if ($_tabela == "geral") {
             if ((count($_linhaOne[$_tipo]) - 1) == $_i) {
                 $_lucro += $_line['lucro'];
             }
+            $_totalTarefas += 1;
         }
     }
 
     $_pdf->SetFillColor(200, 200, 200);
     $_pdf->SetFont('helvetica', 'B', 12);
-    $_pdf->Cell($_height / 5, 1, "Lucro total: ", 0, 0, 'R', true);
+    $_pdf->Cell(3.5, 1, "Lucro total: ", 0, 0, 'R', false);
     $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell($_height / 4, 1, $_lucro, 0, 1, 'C', true);
+    $_pdf->Cell(4, 1, $_lucro, 0, 0, 'C', false);
+    $_pdf->Cell(1, 1, "", 0, 0, 'R', false);
+    $_pdf->SetFont('helvetica', 'B', 12);
+    $_pdf->Cell(3.5, 1, "Total de tarefas: ", 0, 0, 'R', false);
+    $_pdf->SetFont('helvetica', '', 11);
+    $_pdf->Cell(4, 1, $_totalTarefas, 0, 0, 'C', false);
 }
 
 
