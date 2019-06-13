@@ -173,9 +173,9 @@ class Relatorio {
 
     get filtro() {
         if (this.filtroMarcado == "Data") {
-            return `AND (tarefa.dia BETWEEN STR_TO_DATE('${this.campoData.eq(0).val()}', 'd%/%m/%y') AND STR_TO_DATE('${this.campoData.eq(1).val()}', '%d/%m/%y'))`;
+            return ` AND (tarefas.dia BETWEEN STR_TO_DATE('${this.campoData.eq(0).val()}', '%d/%m/%Y') AND STR_TO_DATE('${this.campoData.eq(1).val()}', '%d/%m/%Y'))`;
         } else {
-            return `AND (total_recebido-total_gasto BETWEEN ${this.pegaDinheiro(0)} AND ${this.pegaDinheiro(1)})`;
+            return ` AND (total_recebido-total_gasto BETWEEN ${this.pegaDinheiro(0)} AND ${this.pegaDinheiro(1)})`;
         }
     }
     /*--- Métodos ---*/
