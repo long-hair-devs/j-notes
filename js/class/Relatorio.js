@@ -151,6 +151,14 @@ class Relatorio {
         return $("input[name=filtro]:checked").siblings(".radio-texto").text();
     }
 
+    get ordem() {
+        if ($("input[name=ordem]:checked").siblings(".radio-texto").text() == "Crescente")
+            return "ORDER BY $_tabela.dia ASC";
+        else {
+            return "ORDER BY $_tabela.dia DESC";
+        }
+    }
+
     get textoDiv() {
         return `<span class="texto">O que deseja no seu relatório?</span>
         <div class="box-relatorio">
@@ -161,6 +169,14 @@ class Relatorio {
                 <img id="desce-lista-relatorio" src="../img/svg/down-white.svg">
             </div>
         </div>`;
+    }
+
+    get filtro() {
+        if (this.filtroMarcado == "Data") {
+            return `AND (" . $_tabela . ".dia BETWEEN STR_TO_DATE('${this.campoData.eq(0).val()}', 'd%/%m/%y') AND STR_TO_DATE('${this.campoData.eq(1).val()}', '%d/%m/%y'))`;
+        } else {
+            return `AND (total_recebido-total_gasto BETWEEN ${this.campoDinheiro.eq(0).val()} AND ${this.campoDinheiro.eq(1).val()})`;
+        }
     }
     /*--- Métodos ---*/
     dataConvertida(i) {
@@ -209,10 +225,7 @@ class Relatorio {
         this.titulo = item.text();
         item.text(temp);
 
-        console.log(Secundario.transformaPxEmRem(this.div.height()));
-
         this.fechaLista();
-
 
         item.parent().parent().nextAll().remove();
 
@@ -289,15 +302,32 @@ class Relatorio {
             }
             this.campoDinheiro.eq(1).parent().removeClass("label--erro");
         }
+        return true;
     }
 
     acaoConcluir() {
         if (this.div.length == 1) { // Pré-definido
 
+
         } else if (this.div.length == 2 || this.div.length == 3) { // Sem filtro 
-
+            this.geraForm("Tabela " + this.tipoMarcado, "Nenhum", this.tipoMarcado.toLowerCase(), this.ordem, "");
         } else if (this.validaDados()) { // Com filtro
-
+            this.geraForm("Tabela " + this.tipoMarcado, this.filtroMarcado, this.tipoMarcado.toLowerCase(), this.ordem, this.filtro);
         }
+        this.enviaDados();
+    }
+
+    geraForm(tipo, nomeFiltro, nomeTabela, ordem, comandoFiltro) {
+        this.div.parent().append(`<form method="post" action="./lib/pdf.php">
+                <input name="tipo" value="${tipo}">
+                <input name="nome-filtro" value="${nomeFiltro}">
+                <input name="nome-tabela" value="${nomeTabela}">
+                <input name="ordem" value="${ordem}">
+                <input name="filtro" value="${comandoFiltro}">
+            </form>`);
+    }
+
+    enviaDados() {
+        this.div.siblings("form").submit();
     }
 }

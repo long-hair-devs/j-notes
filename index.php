@@ -180,7 +180,6 @@
 
 	function calcTamanhoFonte() {
 		$("html").css("font-size", Math.round(6 + ($(window).width() / 100) * 0.5));
-		console.log("sadasdasd");
 	}
 </script>
 

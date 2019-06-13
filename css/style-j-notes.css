@@ -1362,6 +1362,9 @@ main section > div .wrapper-section {
   margin: 0;
   text-align: center;
 }
+.pdf {
+  display: none;
+}
 /* Mobile */
 @media only screen and (max-width: 720px) {
   .overlay-ajuda {
