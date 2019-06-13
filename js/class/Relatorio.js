@@ -32,17 +32,17 @@ class Relatorio {
             return `<span class="texto">Selecione o tipo de relatório</span>
             <div class="box-relatorio">
                 <label class="box-radio">
-                    <input name="tipo" type="radio">
+                    <input name="tipo" type="radio" value="tarefas">
                     <span class="radio-novo"></span>
                     <span class="radio-texto">Tarefas</span>
                 </label>
                 <label class="box-radio">
-                    <input name="tipo" type="radio">
+                    <input name="tipo" type="radio" value="clientes">
                     <span class="radio-novo"></span>
                     <span class="radio-texto">Clientes</span>
                 </label>
                 <label class="box-radio">
-                    <input name="tipo" type="radio">
+                    <input name="tipo" type="radio" value="geral">
                     <span class="radio-novo"></span>
                     <span class="radio-texto">Geral</span>
                 </label>
@@ -53,7 +53,7 @@ class Relatorio {
     }
 
     get textoCustomizado2() {
-        if (this.tipoMarcado == "Tarefas") {
+        if (this.tipoMarcado == "tarefas") {
             return `<span class="texto">Escolha o filtro</span>
                 <div class="box-relatorio">
                     <label class="box-radio">
@@ -144,7 +144,7 @@ class Relatorio {
     }
 
     get tipoMarcado() {
-        return $("input[name=tipo]:checked").siblings(".radio-texto").text();
+        return $("input[name=tipo]:checked").val();
     }
 
     get filtroMarcado() {
@@ -311,12 +311,14 @@ class Relatorio {
 
     acaoConcluir() {
         if (this.div.length == 1) { // Pré-definido
+            let dataAtual = `${Secundario.pad(this.d.calendario.hoje.getDate())}/${Secundario.pad(this.d.calendario.hoje.getMonth() + 1)}/${this.d.calendario.hoje.getFullYear()}`;
+            let dataPrimeiroDia = `01/${Secundario.pad(this.d.calendario.hoje.getMonth() + 1)}/${this.d.calendario.hoje.getFullYear()}`;
 
+            this.geraForm("Tabela de tarefas", "Data", "tarefas", "ORDER BY tarefas.dia ASC", ` AND (tarefas.dia BETWEEN STR_TO_DATE('${dataPrimeiroDia}', '%d/%m/%Y') AND STR_TO_DATE('${dataAtual}', '%d/%m/%Y'))`);
         } else if (this.div.length == 2 || this.div.length == 3) { // Sem filtro 
-            this.geraForm("Tabela de " + this.tipoMarcado.toLowerCase(), "Nenhum", this.tipoMarcado.toLowerCase(), this.ordem, "");
+            this.geraForm("Tabela de " + this.tipoMarcado, "Nenhum", this.tiraS(this.tipoMarcado), this.ordem, "");
         } else if (this.validaDados()) { // Com filtro
-            this.geraForm("Tabela de " + this.tipoMarcado.toLowerCase(), this.filtroMarcado, this.tipoMarcado.toLowerCase(), this.ordem, this.filtro);
-            console.log(this.filtro);
+            this.geraForm("Tabela de " + this.tipoMarcado, this.filtroMarcado, this.tiraS(this.tipoMarcado), this.ordem, this.filtro);
         }
     }
 
@@ -333,5 +335,12 @@ class Relatorio {
 
     enviaDados() {
         this.div.siblings("form").submit();
+    }
+
+    tiraS(texto) {
+        if (texto == "clientes") {
+            return texto.replace("s", "");
+        }
+        return texto;
     }
 }

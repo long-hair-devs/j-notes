@@ -143,8 +143,8 @@ class PainelCalendario {
             ${Tarefas.pegaProblema(1, i) != "" ? `<span class="texto">${Tarefas.pegaProblema(1, i)}</span>` : ``}
             ${Tarefas.pegaInfo(1, i) != "" ? `<span class="texto">${Tarefas.pegaInfo(1, i)}</span>` : ``}
             <span class="texto">Total Recebido: R$ ${Tarefas.pegaTotal(i)}</span>
-            ${Tarefas.pegaTotalGasto(i) != 0.00 ? `<span class="texto">${Tarefas.pegaTotalGasto(i)}</span>` : ``}
-            ${Tarefas.pegaObsercacoes(i) != "" ? `<span class="texto">${Tarefas.pegaObsercacoes(i)}</span>` : ``}`;
+            ${Tarefas.pegaTotalGasto(i) != 0.00 ? `<span class="texto">Total Gasto: R$ ${Tarefas.pegaTotalGasto(i)}</span>` : ``}
+            ${Tarefas.pegaObsercacoes(i) != null ? `<span class="texto">${Tarefas.pegaObsercacoes(i)}</span>` : ``}`;
         }
         this.div.prepend(comando);
     }
