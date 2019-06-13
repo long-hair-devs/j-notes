@@ -2,16 +2,17 @@
 define('FPDF_FONTPATH', 'font/');
 require_once("fpdf/fpdf.php");
 date_default_timezone_set('America/Sao_Paulo');
+session_start();
 
 $_linhaOne = array(
     "Tabela de clientes" => array(array("nome", "NOME", 6), array("telefone1", "TELEFONE 1", 5), array("telefone2", "TELEFONE 2", 5), array("telefone1", "QUANTIDADE DE TAREFAS", 8.7)),
     "Tabela de tarefas" => array(array("dia", "DATA", 3.5), array("periodo", utf8_decode("PERÍODO"), 3), array("nome", "CLIENTE", 6.5), array("telefone1", "TELEFONE", 5), array("total_recebido", utf8_decode("LUCRO"), 6.7))
 );
 
-$_tipo = "Tabela de geral";
-$_filtroTipo = "Nenhum";
-$_user = "vitorLF";
-$_IDuser = 2;
+$_tipo = $_POST['tipo'];
+$_filtroTipo = $_POST['nome-filtro'];
+$_user = $_SESSION['nome'];
+$_IDuser = $_SESSION['id'];
 if ($_tipo == "Tabela de tarefas" || $_tipo == "Tabela de clientes") {
     $_orientacao_pag = "L";
 } else {
@@ -19,13 +20,15 @@ if ($_tipo == "Tabela de tarefas" || $_tipo == "Tabela de clientes") {
 }
 //L = Horizontal ///// P = Vertical
 
-$_tabela = "geral";
+$_tabela = "tarefas";
+$_order = "" . $_POST['ordem'];
 $_order = "ORDER BY $_tabela.dia ASC";
 //ASC = crescente ///// DESC = decrescente
 
 //$_filtro =  " AND (" . $_tabela . ".dia BETWEEN STR_TO_DATE('08-06-2019', '%d-%m-%Y') AND STR_TO_DATE('22-06-2019', '%d-%m-%Y'))";
-//$_filtro = " AND (total_recebido-total_gasto BETWEEN 120 AND 180)";
-$_filtro = "";
+$_filtro = " AND (total_recebido-total_gasto BETWEEN 120 AND 180)";
+//$_filtro = "" . $_POST['filtro'];
+//$_filtro = "";
 
 
 $_orientacao_pag == "L" ? $_height = 24.7 : $_height = 16;
@@ -176,8 +179,7 @@ else if ($_tabela == "geral") {
     $_pdf->SetFont('helvetica', 'B', 12);
     $_pdf->Cell(3.5, 1, "Lucro total: ", 0, 0, 'R', false);
     $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell(4, 1, $_lucro, 0, 0, 'C', false);
-    $_pdf->Cell(1, 1, "", 0, 0, 'R', false);
+    $_pdf->Cell(4, 1, $_lucro, 0, 1, 'C', false);
     $_pdf->SetFont('helvetica', 'B', 12);
     $_pdf->Cell(3.5, 1, "Total de tarefas: ", 0, 0, 'R', false);
     $_pdf->SetFont('helvetica', '', 11);

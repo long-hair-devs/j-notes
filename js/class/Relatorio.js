@@ -153,9 +153,9 @@ class Relatorio {
 
     get ordem() {
         if ($("input[name=ordem]:checked").siblings(".radio-texto").text() == "Crescente")
-            return "ORDER BY $_tabela.dia ASC";
+            return "ORDER BY tarefas.dia ASC";
         else {
-            return "ORDER BY $_tabela.dia DESC";
+            return "ORDER BY tarefas.dia DESC";
         }
     }
 
@@ -173,9 +173,9 @@ class Relatorio {
 
     get filtro() {
         if (this.filtroMarcado == "Data") {
-            return `AND (" . $_tabela . ".dia BETWEEN STR_TO_DATE('${this.campoData.eq(0).val()}', 'd%/%m/%y') AND STR_TO_DATE('${this.campoData.eq(1).val()}', '%d/%m/%y'))`;
+            return ` AND (" . $_tabela . ".dia BETWEEN STR_TO_DATE('${this.campoData.eq(0).val()}', 'd%/%m/%y') AND STR_TO_DATE('${this.campoData.eq(1).val()}', '%d/%m/%y'))`;
         } else {
-            return `AND (total_recebido-total_gasto BETWEEN ${this.campoDinheiro.eq(0).val()} AND ${this.campoDinheiro.eq(1).val()})`;
+            return ` AND (total_recebido-total_gasto BETWEEN ${this.campoDinheiro.eq(0).val()} AND ${this.campoDinheiro.eq(1).val()})`;
         }
     }
     /*--- Métodos ---*/
