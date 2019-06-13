@@ -323,7 +323,7 @@ class Relatorio {
     }
 
     geraForm(tipo, nomeFiltro, nomeTabela, ordem, comandoFiltro) {
-        this.div.parent().append(`<form class="pdf" method="post" action="./lib/pdf.php">
+        this.div.parent().append(`<form target="_blank" class="pdf" method="post" action="./lib/pdf.php">
                 <input name="tipo" value="${tipo}">
                 <input name="nome-filtro" value="${nomeFiltro}">
                 <input name="nome-tabela" value="${nomeTabela}">
