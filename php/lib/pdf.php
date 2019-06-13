@@ -73,6 +73,8 @@ if ($_tabela == "cliente") {
                 $_somaTarefas = "SELECT * FROM tarefas WHERE telefone1 = '$_where' AND id_user='$_line[id_user]'";
                 $_qtsLinhas = mysqli_num_rows(mysqli_query($_conexao, $_somaTarefas));
                 $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, $_qtsLinhas, 0, 1, 'C', true);
+            } else if (2 == $_i && $_line["telefone2"] == "") {
+                $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, "NA", 0, 0, 'C', true);
             } else {
                 $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode($_line[$_linhaOne[$_tipo][$_i][0]]), 0, 0, 'C', true);
             }
@@ -119,9 +121,9 @@ else if ($_tabela == "tarefas") {
         for ($_i = 0; $_i < count($_linhaOne[$_tipo]); $_i++) {
             if ((count($_linhaOne[$_tipo]) - 1) == $_i) {
                 if ($_line['lucro'] == NULL) {
-                    $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode("Não concluida"), 0, 1, 'C', true);
+                    $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode("Não concluída"), 0, 1, 'C', true);
                 } else {
-                    $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode($_line['lucro']), 0, 1, 'C', true);
+                    $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode("R$ " . $_line['lucro']), 0, 1, 'C', true);
                     $_lucro += $_line['lucro'];
                 }
             } else if (0 == $_i) {
@@ -143,7 +145,7 @@ else if ($_tabela == "tarefas") {
     $_pdf->SetFont('helvetica', 'B', 12);
     $_pdf->Cell(5, 1, "Lucro total: ", 0, 0, 'R', true);
     $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell(6.7, 1, $_lucro, 0, 1, 'C', true);
+    $_pdf->Cell(6.7, 1, "R$ " . $_lucro, 0, 1, 'C', true);
 }
 
 //////////////////////////////////////////////////////////////////// Gerando a tabela de GERAL //////////////////////////////////////////////////////////////////////
