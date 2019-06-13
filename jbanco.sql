@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
   id_user int(11) NOT NULL AUTO_INCREMENT ,
   usuario varchar(20) NOT NULL,
   email varchar(30) NOT NULL,
-  senha varchar(30) NOT NULL,
+  senha varchar(40) NOT NULL,
   
   PRIMARY KEY (id_user)
 );
