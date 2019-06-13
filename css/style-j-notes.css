@@ -576,7 +576,8 @@ main section > div .wrapper-section {
 #nova-tarefa .box-nova-tarefa label.label--erro input,
 #nova-tarefa .box-nova-tarefa label.label--erro textarea,
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.label--erro input,
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.label--erro textarea {
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.label--erro textarea,
+.overlay-ajuda > div .box-relatorio label.label--erro input {
   border: 0.15rem solid red;
 }
 #nova-tarefa .box-nova-tarefa label .loading {
@@ -1130,7 +1131,8 @@ main section > div .wrapper-section {
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label input[type="text"] {
   width: auto;
 }
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.tem-valor::after {
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.tem-valor::after,
+.overlay-ajuda > div .box-relatorio label.tem-valor::after {
   content: 'R$';
   position: absolute;
   top: 65%;
@@ -1139,7 +1141,8 @@ main section > div .wrapper-section {
   right: unset;
   font-size: 1.2rem;
 }
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.tem-valor input[type="text"] {
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label.tem-valor input[type="text"],
+.overlay-ajuda > div .box-relatorio label.tem-valor input[type="text"] {
   padding-left: 2rem;
 }
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form .l-total-recebido {
@@ -1249,7 +1252,7 @@ main section > div .wrapper-section {
   color: #FFF;
 }
 .overlay-ajuda > div.animacao {
-  transition: height 0.35s 0.25s;
+  transition: height 0.4s;
 }
 .overlay-ajuda > div .box-confirmacao {
   margin: 0;
@@ -1288,6 +1291,9 @@ main section > div .wrapper-section {
   font-size: 1.2rem;
   color: #FFF;
 }
+.overlay-ajuda > div .box-relatorio label.tem-valor::after {
+  top: 56%;
+}
 .overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio {
   position: fixed;
   width: 32rem;
@@ -1298,6 +1304,7 @@ main section > div .wrapper-section {
   flex-flow: column nowrap;
   align-items: center;
   justify-content: flex-start;
+  flex-shrink: 0;
   background: #333;
   border-radius: 0.75rem;
   will-change: height;

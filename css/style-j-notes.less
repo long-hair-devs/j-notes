@@ -1235,7 +1235,7 @@ main {
         }
 
         &.animacao {
-            transition: height 0.35s 0.25s;
+            transition: height 0.4s;
         }
 
         .box-confirmacao {
@@ -1310,12 +1310,31 @@ main {
                     }
                 }
 
+                &.tem-valor {
+                    &:extend(#concluir-tarefa .box-concluir-tarefa>div .box-concluir-tarefa-item form label.tem-valor);
+
+                    &::after {
+                        &:extend(#concluir-tarefa .box-concluir-tarefa>div .box-concluir-tarefa-item form label.tem-valor::after);
+                        top: 56%;
+                    }
+
+                    input[type="text"] {
+                        &:extend(#concluir-tarefa .box-concluir-tarefa>div .box-concluir-tarefa-item form label.tem-valor input[type="text"]);
+                    }
+                }
+
+                &.label--erro {
+                    input {
+                        &:extend(#nova-tarefa .box-nova-tarefa label.label--erro input);
+                    }
+                }
             }
 
             .wrapper-lista-relatorio {
                 position: fixed;
                 .tamanhos(32rem, 3.4rem);
                 .flex(column nowrap, center);
+                flex-shrink: 0;
                 background: @cinza-claro;
                 border-radius: @borda-padrao;
                 will-change: height;

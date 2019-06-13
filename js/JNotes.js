@@ -8,7 +8,7 @@ class JNotes {
         this._calendario = new Calendario(this);
         this._painel = new PainelCalendario(this);
         this._concluir = new Concluir(this);
-        this._relatorio = new Relatorio();
+        this._relatorio = new Relatorio(this);
     }
     /*--- Getters e Setters ---*/
     get tarefas() {
@@ -282,6 +282,20 @@ class JNotes {
         // Listener para quando clicar no radio button filtro no modo customizado 
         ajuda.div.on('click', 'input[name=filtro]', function () {
             relatorio.colocaOpcoes($(this).parent().parent());
+        });
+
+        // Listener para adicionar o R$ quando digitar no campo dinheiro 
+        ajuda.div.on('keydown', '.dinheiror', function (e) {
+            if (e.originalEvent.keyCode == 8 || e.originalEvent.keyCode == 46) {
+                $(this).val().length == 1 ? $(this).parent().removeClass("tem-valor") : "";
+            } else {
+                $(this).val().length == 0 ? $(this).parent().addClass("tem-valor") : "";
+            }
+        });
+
+        // Listener para realizar a ação de concluir 
+        ajuda.div.on('click', '.botao', () => {
+            relatorio.acaoConcluir();
         });
     }
 }
