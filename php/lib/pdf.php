@@ -1,5 +1,7 @@
 <?php
 define('FPDF_FONTPATH', 'font/');
+include_once('conexao.php');
+
 require_once("fpdf/fpdf.php");
 date_default_timezone_set('America/Sao_Paulo');
 session_start();
@@ -9,29 +11,22 @@ $_linhaOne = array(
     "Tabela de tarefas" => array(array("dia", "DATA", 3.5), array("periodo", utf8_decode("PERÍODO"), 3), array("nome", "CLIENTE", 6.5), array("telefone1", "TELEFONE", 5), array("total_recebido", utf8_decode("LUCRO"), 6.7))
 );
 
+$_IDuser = $_SESSION['id'];
+$_user = $_SESSION['nome'];
 $_tipo = $_POST['tipo'];
 $_filtroTipo = $_POST['nome-filtro'];
-$_user = $_SESSION['nome'];
-$_IDuser = $_SESSION['id'];
+$_tabela = $_POST['nome-tabela'];
+$_order = $_POST['ordem'];
+$_filtro =  $_POST['filtro'];
+
 if ($_tipo == "Tabela de tarefas" || $_tipo == "Tabela de clientes") {
     $_orientacao_pag = "L";
 } else {
     $_orientacao_pag = "P";
 }
 //L = Horizontal ///// P = Vertical
-
-$_tabela = $_POST['nome-tabela'];
-$_order = $_POST['ordem'];
-//$_order = "";
-//ASC = crescente ///// DESC = decrescente
-
-//$_filtro =  " AND (" . $_tabela . ".dia BETWEEN STR_TO_DATE('08-06-2019', '%d-%m-%Y') AND STR_TO_DATE('22-06-2019', '%d-%m-%Y'))";
-//$_filtro = " AND (total_recebido-total_gasto BETWEEN 120 AND 180)";
-$_filtro = "" . $_POST['filtro'];
-//$_filtro = "";
-
-
 $_orientacao_pag == "L" ? $_height = 24.7 : $_height = 16;
+
 $_pdf = new FPDF($_orientacao_pag, 'cm', 'A4');
 $_pdf->Open();
 $_pdf->SetMargins(2.5, 2);
@@ -66,7 +61,6 @@ if ($_tabela == "cliente") {
                                 dbname=jbanco";
 
     $_pdo = new PDO($_string_connection, "root", "");
-    $_conexao = mysqli_connect('localhost', 'root', '', 'jbanco') or die(misqli_error());
     $_sql = $_pdo->prepare("SELECT * FROM $_tabela WHERE id_user=$_IDuser "); // ORDER BY $_tabela.dia DESC
     $_sql->execute();
     $_resultset = $_sql->fetchAll(PDO::FETCH_ASSOC);
@@ -114,8 +108,7 @@ else if ($_tabela == "tarefas") {
     $_lucro = 0;
 
 
-    $_string_connection = "mysql:host=localhost;
-                                dbname=jbanco";
+    $_string_connection = "mysql:host=localhost; dbname=jbanco";
 
     $_pdo = new PDO($_string_connection, "root", "");
     $_sql = $_pdo->prepare("SELECT nome, dia, periodo, telefone1, total_recebido-total_gasto AS 'lucro' FROM $_tabela  WHERE id_user=$_IDuser" . $_filtro . " " . $_order);
