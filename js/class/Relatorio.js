@@ -281,7 +281,7 @@ class Relatorio {
             }
             this.campoData.eq(0).parent().removeClass();
 
-            if (!(this.dataConvertida(1).getTime() <= this.d.calendario.hoje.getTime()) || !(this.dataConvertida(1) > this.dataConvertida(0))) {
+            if (!(this.dataConvertida(1) > this.dataConvertida(0))) {
                 this.campoData.eq(1).parent().addClass("label--erro");
                 this.campoData.eq(1).focus();
                 return false;
