@@ -153,9 +153,9 @@ class Relatorio {
 
     get ordem() {
         if ($("input[name=ordem]:checked").siblings(".radio-texto").text() == "Crescente")
-            return "ORDER BY $_tabela.dia ASC";
+            return "ORDER BY tarefas.dia ASC";
         else {
-            return "ORDER BY $_tabela.dia DESC";
+            return "ORDER BY tarefas.dia DESC";
         }
     }
 
