@@ -118,8 +118,12 @@ else if ($_tabela == "tarefas") {
     foreach ($_resultset as $_line) {
         for ($_i = 0; $_i < count($_linhaOne[$_tipo]); $_i++) {
             if ((count($_linhaOne[$_tipo]) - 1) == $_i) {
-                $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode($_line['lucro']), 0, 1, 'C', true);
-                $_lucro += $_line['lucro'];
+                if ($_line['lucro'] == NULL) {
+                    $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode("Não concluida"), 0, 1, 'C', true);
+                } else {
+                    $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode($_line['lucro']), 0, 1, 'C', true);
+                    $_lucro += $_line['lucro'];
+                }
             } else if (0 == $_i) {
                 $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, implode("/", array_reverse(explode("-", $_line[$_linhaOne[$_tipo][$_i][0]]))), 0, 0, 'C', true);
             } else {
@@ -150,12 +154,15 @@ else if ($_tabela == "geral") {
 
     $_lucro = 0;
     $_totalTarefas = 0;
+    $_totalTarefasConcluidas = 0;
+    $_totalTarefasParaConcluir = 0;
+    $_clientesCadastrados = 0;
 
     $_string_connection = "mysql:host=localhost;
                                 dbname=jbanco";
 
     $_pdo = new PDO($_string_connection, "root", "");
-    $_sql = $_pdo->prepare("SELECT nome, dia, periodo, telefone1, total_recebido-total_gasto AS 'lucro' FROM tarefas  WHERE id_user=$_IDuser" . $_filtro . " " . $_order);
+    $_sql = $_pdo->prepare("SELECT nome, dia, periodo, telefone1, total_recebido, total_recebido-total_gasto AS 'lucro' FROM tarefas  WHERE id_user=$_IDuser" . $_filtro . " " . $_order);
     $_sql->execute();
     $_resultset = $_sql->fetchAll(PDO::FETCH_ASSOC);
 
@@ -164,23 +171,38 @@ else if ($_tabela == "geral") {
             if ((count($_linhaOne["Tabela de tarefas"]) - 1) == $_i) {
                 $_lucro += $_line['lucro'];
             }
+            if (0 == $_i && $_line['total_recebido'] != NULL) {
+                $_totalTarefasConcluidas += 1;
+            } else if (0 == $_i && $_line['total_recebido'] == NULL) {
+                $_totalTarefasParaConcluir += 1;
+            }
         }
         $_totalTarefas += 1;
     }
+    $_somaClientes = "SELECT * FROM cliente WHERE id_user='$_IDuser'";
+    $_clientesCadastrados = mysqli_num_rows(mysqli_query($_conexao, $_somaClientes));
 
     $_pdf->SetFillColor(200, 200, 200);
     $_pdf->SetFont('helvetica', 'B', 12);
+    $_pdf->Cell(7.7, 1.5,  utf8_decode("Quantidade de clientes cadastrados: "), 0, 0, 'L', false);
+    $_pdf->SetFont('helvetica', '', 11);
+    $_pdf->Cell(4, 1.5, $_clientesCadastrados, 0, 1, 'L', false);
+    $_pdf->SetFont('helvetica', 'B', 12);
+    $_pdf->Cell(7.5, 1.5, "Quantidade de tarefas para concluir: ", 0, 0, 'L', false);
+    $_pdf->SetFont('helvetica', '', 11);
+    $_pdf->Cell(4, 1.5,  $_totalTarefasParaConcluir, 0, 1, 'L', false);
+    $_pdf->SetFont('helvetica', 'B', 12);
+    $_pdf->Cell(7, 1.5, "Quantidade de tarefas concluidas: ", 0, 0, 'L', false);
+    $_pdf->SetFont('helvetica', '', 11);
+    $_pdf->Cell(4, 1.5,  $_totalTarefasConcluidas, 0, 1, 'L', false);
+    $_pdf->SetFont('helvetica', 'B', 12);
+    $_pdf->Cell(4.7, 1.5, "Quantidade de tarefas: ", 0, 0, 'L', false);
+    $_pdf->SetFont('helvetica', '', 11);
+    $_pdf->Cell(4, 1.5, $_totalTarefas, 0, 1, 'L', false);
+    $_pdf->SetFont('helvetica', 'B', 12);
     $_pdf->Cell(2.4, 1.5, "Lucro total: ", 0, 0, 'L', false);
     $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell(4, 1.5, $_lucro, 0, 1, 'L', false);
-    $_pdf->SetFont('helvetica', 'B', 12);
-    $_pdf->Cell(3.4, 1.5, "Total de tarefas: ", 0, 0, 'L', false);
-    $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell(4, 1.5, $_totalTarefas, 0, 1, 'L', false);
-    $_pdf->SetFont('helvetica', 'B', 12);
-    $_pdf->Cell(5.7, 1.5, "Total de tarefas concluidas: ", 0, 0, 'L', false);
-    $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell(4, 1.5, $_totalTarefas, 0, 1, 'L', false);
+    $_pdf->Cell(4, 1.5, "R$ " . $_lucro, 0, 1, 'L', false);
 }
 
 
@@ -219,46 +241,4 @@ function construirCabecalho($_pdf, $_height, $_user, $_tipo, $_filtroTipo)
     $_pdf->Ln(0.2);
     $_pdf->Cell($_height, 0.05, '', 0, 1, 'C', true);
     $_pdf->Ln(0.2);
-}
-
-function gerarTabela($_pdf, $_height, $_tipo, $_linhaOne, $_tabela, $_IDuser)
-{
-    $_pdf->Ln(0.5);
-    $_pdf->SetFont('helvetica', 'B', 12);
-    $_pdf->SetTextColor(74, 74, 74);
-
-    for ($_i = 0; $_i < count($_linhaOne[$_tipo]); $_i++) {
-        if ((count($_linhaOne[$_tipo]) - 1) == $_i) {
-            $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, $_linhaOne[$_tipo][$_i][1], 0, 1, 'C', false);
-            $_pdf->Cell($_height, 0.05, '', 0, 1, 'C', true);
-        } else {
-            $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, $_linhaOne[$_tipo][$_i][1], 0, 0, 'C', false);
-        }
-    }
-
-    $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->SetFillColor(230, 230, 230);
-    $_fundo = 1;
-    //Conexão com o banco
-    include_once("bd/conexao.php");
-    $_sql = $_pdo->prepare("SELECT * FROM $_tabela WHERE id_user=$_IDuser");
-    $_sql->execute();
-    $_resultset = $_sql->fetchAll(PDO::FETCH_ASSOC);
-
-
-    foreach ($_resultset as $_line) {
-        for ($_i = 0; $_i < count($_linhaOne[$_tipo]); $_i++) {
-            if ((count($_linhaOne[$_tipo]) - 1) == $_i) {
-                $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode($_line[$_linhaOne[$_tipo][$_i][0]]), 0, 1, 'C', true);
-            } else {
-                $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode($_line[$_linhaOne[$_tipo][$_i][0]]), 0, 0, 'C', true);
-            }
-        }
-        $_fundo++;
-        if (($_fundo % 2) == 0) {
-            $_pdf->SetFillColor(255, 255, 255);
-        } else {
-            $_pdf->SetFillColor(230, 230, 230);
-        }
-    }
 }
