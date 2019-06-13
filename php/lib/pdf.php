@@ -20,14 +20,14 @@ if ($_tipo == "Tabela de tarefas" || $_tipo == "Tabela de clientes") {
 }
 //L = Horizontal ///// P = Vertical
 
-$_tabela = "tarefas";
-$_order = "" . $_POST['ordem'];
-$_order = "ORDER BY $_tabela.dia ASC";
+$_tabela = $_POST['nome-tabela'];
+$_order = $_POST['ordem'];
+//$_order = "";
 //ASC = crescente ///// DESC = decrescente
 
 //$_filtro =  " AND (" . $_tabela . ".dia BETWEEN STR_TO_DATE('08-06-2019', '%d-%m-%Y') AND STR_TO_DATE('22-06-2019', '%d-%m-%Y'))";
-$_filtro = " AND (total_recebido-total_gasto BETWEEN 120 AND 180)";
-//$_filtro = "" . $_POST['filtro'];
+//$_filtro = " AND (total_recebido-total_gasto BETWEEN 120 AND 180)";
+$_filtro = "" . $_POST['filtro'];
 //$_filtro = "";
 
 
@@ -56,7 +56,7 @@ if ($_tabela == "cliente") {
             $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, $_linhaOne[$_tipo][$_i][1], 0, 0, 'C', false);
         }
     }
-
+    //
     $_pdf->SetFont('helvetica', '', 11);
     $_pdf->SetFillColor(230, 230, 230);
     $_fundo = 1;
@@ -162,28 +162,32 @@ else if ($_tabela == "geral") {
                                 dbname=jbanco";
 
     $_pdo = new PDO($_string_connection, "root", "");
-    $_sql = $_pdo->prepare("SELECT nome, dia, periodo, telefone1, total_recebido-total_gasto AS 'lucro' FROM $_tabela  WHERE id_user=$_IDuser" . $_filtro . " " . $_order);
+    $_sql = $_pdo->prepare("SELECT nome, dia, periodo, telefone1, total_recebido-total_gasto AS 'lucro' FROM tarefas  WHERE id_user=$_IDuser" . $_filtro . " " . $_order);
     $_sql->execute();
     $_resultset = $_sql->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($_resultset as $_line) {
-        for ($_i = 0; $_i < count($_linhaOne[$_tipo]); $_i++) {
-            if ((count($_linhaOne[$_tipo]) - 1) == $_i) {
+        for ($_i = 0; $_i < count($_linhaOne["Tabela de tarefas"]); $_i++) {
+            if ((count($_linhaOne["Tabela de tarefas"]) - 1) == $_i) {
                 $_lucro += $_line['lucro'];
             }
-            $_totalTarefas += 1;
         }
+        $_totalTarefas += 1;
     }
 
     $_pdf->SetFillColor(200, 200, 200);
     $_pdf->SetFont('helvetica', 'B', 12);
-    $_pdf->Cell(3.5, 1, "Lucro total: ", 0, 0, 'R', false);
+    $_pdf->Cell(2.4, 1.5, "Lucro total: ", 0, 0, 'L', false);
     $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell(4, 1, $_lucro, 0, 1, 'C', false);
+    $_pdf->Cell(4, 1.5, $_lucro, 0, 1, 'L', false);
     $_pdf->SetFont('helvetica', 'B', 12);
-    $_pdf->Cell(3.5, 1, "Total de tarefas: ", 0, 0, 'R', false);
+    $_pdf->Cell(3.4, 1.5, "Total de tarefas: ", 0, 0, 'L', false);
     $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell(4, 1, $_totalTarefas, 0, 0, 'C', false);
+    $_pdf->Cell(4, 1.5, $_totalTarefas, 0, 1, 'L', false);
+    $_pdf->SetFont('helvetica', 'B', 12);
+    $_pdf->Cell(5.7, 1.5, "Total de tarefas concluidas: ", 0, 0, 'L', false);
+    $_pdf->SetFont('helvetica', '', 11);
+    $_pdf->Cell(4, 1.5, $_totalTarefas, 0, 1, 'L', false);
 }
 
 
