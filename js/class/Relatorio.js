@@ -116,6 +116,19 @@ class Relatorio {
                         <input class="dinheiror" name="dinheiror2" type="text" placeholder="Ex: R$ 000,00" autocomplete="off">
                     </label>         
                 </div>
+                <span class="texto">Escolha a maneira para ordenar</span>
+                <div class="box-relatorio">
+                    <label class="box-radio">
+                        <input name="ordem" type="radio" checked>
+                        <span class="radio-novo"></span>
+                        <span class="radio-texto">Crescente</span>
+                    </label>
+                    <label class="box-radio">
+                        <input name="ordem" type="radio">
+                        <span class="radio-novo"></span>
+                        <span class="radio-texto">Decrescente</span>
+                    </label>
+                </div>
                 <input class="botao" value="Gerar" name="botao-gerar" id="botao-gerar" type="button">`
         } else {
             return '<input class="botao" value="Gerar" name="botao-gerar" id="botao-gerar" type="button">';
@@ -167,11 +180,11 @@ class Relatorio {
     abreOuFechaLista() {
         this.lista.addClass("wrapper-lista-relatorio--animacao");
 
-        if (Secundario.transformaPxEmRem(this.lista.height()) == 3.4) {
-            this.lista.css('height', (Secundario.descobreTamanho(this.lista) - 4) + "rem");
+        if (!this.lista.hasClass("wrapper-lista-relatorio--visivel")) {
+            this.lista.addClass("wrapper-lista-relatorio--visivel");
             this.lista.find("img").addClass("img--girada");
         } else {
-            this.lista.css('height', '');
+            this.lista.removeClass("wrapper-lista-relatorio--visivel");
             this.lista.find("img").removeClass("img--girada");
         }
         this.lista.one("transitionend", (e) => {
@@ -180,9 +193,9 @@ class Relatorio {
     }
 
     fechaLista() {
-        if (Secundario.transformaPxEmRem(this.lista.height()) != 3.4) {
+        if (this.lista.hasClass("wrapper-lista-relatorio--visivel")) {
             this.lista.addClass("wrapper-lista-relatorio--animacao");
-            this.lista.css('height', '');
+            this.lista.removeClass("wrapper-lista-relatorio--visivel");
             this.lista.find("img").removeClass("img--girada");
 
             this.lista.one("transitionend", (e) => {
@@ -196,7 +209,10 @@ class Relatorio {
         this.titulo = item.text();
         item.text(temp);
 
+        console.log(Secundario.transformaPxEmRem(this.div.height()));
+
         this.fechaLista();
+
 
         item.parent().parent().nextAll().remove();
 

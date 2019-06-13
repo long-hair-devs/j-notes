@@ -1349,6 +1349,9 @@ main section > div .wrapper-section {
 .overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio .titulo {
   margin: 0.1rem -1rem;
 }
+.overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio--visivel {
+  height: 6.75rem;
+}
 .overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio--animacao {
   transition: height 0.25s;
 }
