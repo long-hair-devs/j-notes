@@ -8,6 +8,7 @@ class JNotes {
         this._calendario = new Calendario(this);
         this._painel = new PainelCalendario(this);
         this._concluir = new Concluir(this);
+        this._relatorio = new Relatorio();
     }
     /*--- Getters e Setters ---*/
     get tarefas() {
@@ -48,6 +49,10 @@ class JNotes {
 
     get concluir() {
         return this._concluir;
+    }
+
+    get relatorio() {
+        return this._relatorio;
     }
     /*--- Métodos ---*/
     ativaScrollSpy(scrollSpy) {
@@ -234,7 +239,7 @@ class JNotes {
         });
 
         // Listener para impedir que a tarefa seja fechada, se expandida, quando clicar no botão de concluir. Em vez disso roda o método de concluir
-        concluir.div.on('click', 'img', function handler(e) {
+        concluir.div.on('click', 'img', function (e) {
             if (Secundario.transformaPxEmRem($(this).parent().height()) > 9) {
                 e.stopPropagation();
 
@@ -251,9 +256,37 @@ class JNotes {
             }
         });
     }
+
+    ativaRelatorio(relatorio, ajuda) {
+        // Mostra a ajuda com as opções para ser possível gerar o relatório 
+        relatorio.botao.click(() => {
+            ajuda.mostrar(relatorio.textoDiv);
+            ajuda.div.addClass("relatorio");
+        });
+
+        // Listener para descer a lista de opções pré definidas
+        ajuda.div.on('click', '#desce-lista-relatorio', () => {
+            relatorio.abreOuFechaLista();
+        });
+
+        // Listener para quando clicar nos itens da lista 
+        ajuda.div.on('click', '.texto', function () {
+            relatorio.acaoLista($(this));
+        });
+
+        // Listener para quando clicar no radio button tipo no modo customizado 
+        ajuda.div.on('click', 'input[name=tipo]', function () {
+            relatorio.colocaFiltros($(this).parent().parent());
+        });
+
+        // Listener para quando clicar no radio button filtro no modo customizado 
+        ajuda.div.on('click', 'input[name=filtro]', function () {
+            relatorio.colocaOpcoes($(this).parent().parent());
+        });
+    }
 }
 
-$(function () {
+$(() => {
     jnotes = new JNotes();
 
     // Zerando os vetores
@@ -285,4 +318,6 @@ $(function () {
     jnotes.ativaPainel(jnotes.painel, jnotes.calendario, jnotes.novaTarefa, jnotes.ajuda);
 
     jnotes.ativaConcluir(jnotes.concluir, jnotes.notificacoes);
+
+    jnotes.ativaRelatorio(jnotes.relatorio, jnotes.ajuda);
 });

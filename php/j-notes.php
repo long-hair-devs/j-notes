@@ -162,7 +162,7 @@ $user = $_SESSION['nome'];
                         </label>
                         <label id="l-data">
                             <span class="required">Data:</span>
-                            <input class="data" id="data" name="data" type="text" placeholder="Ex: dd/mm/aa" autocomplete="off">
+                            <input class="data" id="data" name="data" type="text" placeholder="Ex: dd/mm/aaaa" autocomplete="off">
                             <img id="seta-calendario" src="../img/svg/down.svg">
                         </label>
                         <div id="wrapper-radio" class="wrapper-radio">

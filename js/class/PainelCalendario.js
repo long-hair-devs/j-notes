@@ -171,6 +171,7 @@ class PainelCalendario {
             item.find(".nome").text() +
             item.find(".tel2").text() +
             item.find(".endereco").text() +
+            this.d.calendario.dataSelecionadaString("/") +
             item.find(".periodo").text() +
             item.find(".problema").text() +
             item.find(".info").text());
@@ -195,11 +196,11 @@ class PainelCalendario {
             Tarefas.atualizarMes(this.d.calendario.mesAtual, this.d.calendario.anoAtual, () => {
                 Tarefas.id = undefined
                 this.d.calendario.colocaIndicadorNosDias();
-
-                Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
-                    this.d.concluir.atualizar();
-                    this.d.notificacoes.atualizar();
-                });
+                this.d.notificacoes.atualizar();
+            });
+            Tarefas.atualizarNaoConcluidas(this.d.calendario.dataSelecionadaString("-"), () => {
+                this.d.concluir.atualizar();
+                this.d.notificacoes.atualizar();
             });
         });
     }

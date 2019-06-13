@@ -124,6 +124,7 @@ class NovaTarefa {
             this.nome.val() +
             this.tel2.val() +
             this.endereco.val() +
+            this.data.val() +
             this.periodo.text() +
             this.problema.val() +
             this.info.val());
@@ -245,7 +246,6 @@ class NovaTarefa {
     }
 
     acaoConcluir(tipo) {
-        console.log();
         if (this.validaDados()) {
             this.botaoConcluir.prop("disabled", true);
             this.d.ajuda.mostrar(this.d.ajuda.loading);
@@ -303,7 +303,7 @@ class NovaTarefa {
                     this.d.concluir.atualizar();
                 });
             } else {
-                this.d.ajuda.mostrar("<span class='texto'>Modifique algum valor para continuar</span>");
+                this.d.ajuda.mostrar("<span class='texto'>Modifique algum valor, ou cancele a edição para continuar</span>");
             }
             this.botaoConcluir.prop("disabled", false);
         }

@@ -1212,11 +1212,30 @@ main {
         background: @azul;
         border-radius: @borda-padrao;
         .flex(column nowrap, center, center);
+        will-change: height;
+        overflow: hidden;
 
         .texto {
             margin: 1rem 0;
             font-size: 1.2rem;
             text-align: center;
+        }
+
+        &.relatorio {
+            height: 10.6rem;
+            justify-content: flex-start;
+
+            .botao {
+                &:extend(#nova-tarefa .box-nova-tarefa #wrapper-botao .botao);
+                flex-shrink: 0;
+                background: @cinza-escuro;
+                margin-top: 1rem;
+                color: @branco-fonte;
+            }
+        }
+
+        &.animacao {
+            transition: height 0.35s 0.25s;
         }
 
         .box-confirmacao {
@@ -1236,6 +1255,109 @@ main {
                     &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>div .wrapper-painel-crud span);
                     font-size: 1.2rem;
                     color: @branco-fonte;
+                }
+            }
+        }
+
+        .box-relatorio {
+            &:extend(#calendario .box-painel-calendario>div .box-painel-eventos .box-painel-eventos-item>div);
+            flex-shrink: 0;
+            height: 3.4rem;
+            margin: 0;
+
+            &:first-of-type {
+                align-items: flex-start;
+            }
+
+            &.opcoes {
+                height: 4.4rem;
+            }
+
+            label {
+                &:extend(#nova-tarefa .box-nova-tarefa label);
+
+                &>span {
+                    &:extend(#nova-tarefa .box-nova-tarefa label>span);
+                    margin-top: 0;
+                    text-align: center;
+                }
+
+                input[type="text"] {
+                    &:extend(#nova-tarefa .box-nova-tarefa label input[type="text"]);
+                    width: 12rem;
+                }
+
+                &.box-radio {
+                    &:extend(#nova-tarefa .box-nova-tarefa label.box-radio);
+                    flex-flow: row nowrap;
+
+                    input[type="radio"] {
+                        &:extend(#nova-tarefa .box-nova-tarefa label.box-radio input[type="radio"]);
+                    }
+
+                    .radio-novo {
+                        &:extend(#nova-tarefa .box-nova-tarefa label.box-radio .radio-novo);
+                    }
+
+                    .radio-texto {
+                        margin: 0 0 0 0.5rem;
+                        font-size: 1.2rem;
+                        color: @branco-fonte;
+                    }
+
+                    input[type="radio"]:checked~.radio-novo {
+                        &:extend(#nova-tarefa .box-nova-tarefa label.box-radio input[type="radio"]:checked~.radio-novo);
+                    }
+                }
+
+            }
+
+            .wrapper-lista-relatorio {
+                position: fixed;
+                .tamanhos(32rem, 3.4rem);
+                .flex(column nowrap, center);
+                background: @cinza-claro;
+                border-radius: @borda-padrao;
+                will-change: height;
+                overflow: hidden;
+
+                img {
+                    .positions(absolute, 1.2rem, unset, unset, 2.5%);
+                    .tamanhos(1rem, 1rem, 1rem, -1rem);
+                    box-sizing: unset;
+                    cursor: pointer;
+                    transition: transform 0.25s;
+
+                    &.img--girada {
+                        transform: rotate(-180deg);
+                    }
+                }
+
+                &>span {
+                    flex-shrink: 0;
+                    padding: 1rem;
+                    box-sizing: unset;
+                    color: @branco-fonte;
+                    cursor: pointer;
+                }
+
+                .barra {
+                    .tamanhos(95%, @linha-borda);
+                    background: @branco-fundo;
+                    margin-bottom: 1rem;
+                    cursor: initial;
+                }
+
+                .texto {
+                    margin: -1rem -1rem 0 -1rem;
+                }
+
+                .titulo {
+                    margin: 0.1rem -1rem;
+                }
+
+                &--animacao {
+                    transition: height 0.25s;
                 }
             }
         }
@@ -1269,7 +1391,7 @@ main {
 
 .loading {
     border: @borda-padrao solid @preto-fundo; // círculo
-    border-radius: 50%; // faz ser cirular
+    border-radius: 100%; // faz ser cirular
     border-top: @borda-padrao solid @cinza-mais-claro; // parte que "gira"
     animation: spin 0.75s linear infinite; // usa o keyframe spin
 }

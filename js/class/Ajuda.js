@@ -78,7 +78,10 @@ class Ajuda {
     }
 
     fechar() {
-        this.overlay.fadeOut();
+        this.overlay.fadeOut(() => {
+            this.div.removeClass("relatorio");
+            this.div.css('height', '');
+        });
     }
 
     escolheTextoCerto(item) {

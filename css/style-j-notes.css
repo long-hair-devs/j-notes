@@ -482,7 +482,8 @@ main section > div .wrapper-section {
   border-radius: 0.75rem;
 }
 #nova-tarefa .box-nova-tarefa label,
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label {
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label,
+.overlay-ajuda > div .box-relatorio label {
   position: relative;
   display: flex;
   flex-flow: column nowrap;
@@ -490,7 +491,8 @@ main section > div .wrapper-section {
   justify-content: flex-start;
 }
 #nova-tarefa .box-nova-tarefa label > span,
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label > span {
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label > span,
+.overlay-ajuda > div .box-relatorio label > span {
   margin: 1rem 0 0.5rem 0;
   font-size: 1.2rem;
   color: #FFF;
@@ -504,7 +506,9 @@ main section > div .wrapper-section {
 #nova-tarefa .box-nova-tarefa label textarea,
 #nova-tarefa .box-nova-tarefa #wrapper-botao .botao,
 #concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label input[type="text"],
-#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label textarea {
+.overlay-ajuda > div .box-relatorio label input[type="text"],
+#concluir-tarefa .box-concluir-tarefa > div .box-concluir-tarefa-item form label textarea,
+.overlay-ajuda > div.relatorio .botao {
   width: 17rem;
   height: 2.5rem;
   padding: 0 0 0 0.25rem;
@@ -540,17 +544,20 @@ main section > div .wrapper-section {
   transform: translate(-50%, -50%);
   cursor: pointer;
 }
-#nova-tarefa .box-nova-tarefa label.box-radio {
+#nova-tarefa .box-nova-tarefa label.box-radio,
+.overlay-ajuda > div .box-relatorio label.box-radio {
   flex-direction: row;
   align-items: center;
   cursor: pointer;
 }
-#nova-tarefa .box-nova-tarefa label.box-radio input[type="radio"] {
+#nova-tarefa .box-nova-tarefa label.box-radio input[type="radio"],
+.overlay-ajuda > div .box-relatorio label.box-radio input[type="radio"] {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
-#nova-tarefa .box-nova-tarefa label.box-radio .radio-novo {
+#nova-tarefa .box-nova-tarefa label.box-radio .radio-novo,
+.overlay-ajuda > div .box-relatorio label.box-radio .radio-novo {
   position: relative;
   width: 1rem;
   height: 1rem;
@@ -562,7 +569,8 @@ main section > div .wrapper-section {
 #nova-tarefa .box-nova-tarefa label.box-radio .radio-texto {
   margin: 0 0.5rem;
 }
-#nova-tarefa .box-nova-tarefa label.box-radio input[type="radio"]:checked ~ .radio-novo {
+#nova-tarefa .box-nova-tarefa label.box-radio input[type="radio"]:checked ~ .radio-novo,
+.overlay-ajuda > div .box-relatorio label.box-radio input[type="radio"]:checked ~ .radio-novo {
   background: #6DA8D6;
 }
 #nova-tarefa .box-nova-tarefa label.label--erro input,
@@ -622,7 +630,8 @@ main section > div .wrapper-section {
   align-items: stretch;
   justify-content: space-evenly;
 }
-#nova-tarefa .box-nova-tarefa #wrapper-botao .botao {
+#nova-tarefa .box-nova-tarefa #wrapper-botao .botao,
+.overlay-ajuda > div.relatorio .botao {
   width: 10rem;
   height: 3.5rem;
   padding: 0;
@@ -942,7 +951,8 @@ main section > div .wrapper-section {
   display: none;
 }
 #calendario .box-painel-calendario > div .box-painel-eventos .box-painel-eventos-item > div,
-.overlay-ajuda > div .box-confirmacao {
+.overlay-ajuda > div .box-confirmacao,
+.overlay-ajuda > div .box-relatorio {
   align-self: center;
   width: 100%;
   height: 1.8rem;
@@ -1220,11 +1230,26 @@ main section > div .wrapper-section {
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
+  will-change: height;
+  overflow: hidden;
 }
 .overlay-ajuda > div .texto {
   margin: 1rem 0;
   font-size: 1.2rem;
   text-align: center;
+}
+.overlay-ajuda > div.relatorio {
+  height: 10.6rem;
+  justify-content: flex-start;
+}
+.overlay-ajuda > div.relatorio .botao {
+  flex-shrink: 0;
+  background: #222;
+  margin-top: 1rem;
+  color: #FFF;
+}
+.overlay-ajuda > div.animacao {
+  transition: height 0.35s 0.25s;
 }
 .overlay-ajuda > div .box-confirmacao {
   margin: 0;
@@ -1236,6 +1261,89 @@ main section > div .wrapper-section {
 .overlay-ajuda > div .box-confirmacao .wrapper span {
   font-size: 1.2rem;
   color: #FFF;
+}
+.overlay-ajuda > div .box-relatorio {
+  flex-shrink: 0;
+  height: 3.4rem;
+  margin: 0;
+}
+.overlay-ajuda > div .box-relatorio:first-of-type {
+  align-items: flex-start;
+}
+.overlay-ajuda > div .box-relatorio.opcoes {
+  height: 4.4rem;
+}
+.overlay-ajuda > div .box-relatorio label > span {
+  margin-top: 0;
+  text-align: center;
+}
+.overlay-ajuda > div .box-relatorio label input[type="text"] {
+  width: 12rem;
+}
+.overlay-ajuda > div .box-relatorio label.box-radio {
+  flex-flow: row nowrap;
+}
+.overlay-ajuda > div .box-relatorio label.box-radio .radio-texto {
+  margin: 0 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: #FFF;
+}
+.overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio {
+  position: fixed;
+  width: 32rem;
+  height: 3.4rem;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  background: #333;
+  border-radius: 0.75rem;
+  will-change: height;
+  overflow: hidden;
+}
+.overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio img {
+  position: absolute;
+  top: 1.2rem;
+  left: unset;
+  bottom: unset;
+  right: 2.5%;
+  width: 1rem;
+  height: 1rem;
+  padding: 1rem;
+  margin: -1rem;
+  box-sizing: unset;
+  cursor: pointer;
+  transition: transform 0.25s;
+}
+.overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio img.img--girada {
+  transform: rotate(-180deg);
+}
+.overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio > span {
+  flex-shrink: 0;
+  padding: 1rem;
+  box-sizing: unset;
+  color: #FFF;
+  cursor: pointer;
+}
+.overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio .barra {
+  width: 95%;
+  height: 0.15rem;
+  padding: 0;
+  margin: 0;
+  background: #DDD;
+  margin-bottom: 1rem;
+  cursor: initial;
+}
+.overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio .texto {
+  margin: -1rem -1rem 0 -1rem;
+}
+.overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio .titulo {
+  margin: 0.1rem -1rem;
+}
+.overlay-ajuda > div .box-relatorio .wrapper-lista-relatorio--animacao {
+  transition: height 0.25s;
 }
 .overlay-ajuda > div .loading {
   width: 3.7rem;
@@ -1259,7 +1367,7 @@ main section > div .wrapper-section {
 }
 .loading {
   border: 0.75rem solid #111;
-  border-radius: 50%;
+  border-radius: 100%;
   border-top: 0.75rem solid #444;
   animation: spin 0.75s linear infinite;
 }
