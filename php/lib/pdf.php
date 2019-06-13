@@ -118,8 +118,12 @@ else if ($_tabela == "tarefas") {
     foreach ($_resultset as $_line) {
         for ($_i = 0; $_i < count($_linhaOne[$_tipo]); $_i++) {
             if ((count($_linhaOne[$_tipo]) - 1) == $_i) {
-                $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode($_line['lucro']), 0, 1, 'C', true);
-                $_lucro += $_line['lucro'];
+                if ($_line['lucro'] == NULL) {
+                    $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode("Não concluida"), 0, 1, 'C', true);
+                } else {
+                    $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, utf8_decode($_line['lucro']), 0, 1, 'C', true);
+                    $_lucro += $_line['lucro'];
+                }
             } else if (0 == $_i) {
                 $_pdf->Cell($_linhaOne[$_tipo][$_i][2], 1, implode("/", array_reverse(explode("-", $_line[$_linhaOne[$_tipo][$_i][0]]))), 0, 0, 'C', true);
             } else {
@@ -152,6 +156,7 @@ else if ($_tabela == "geral") {
     $_totalTarefas = 0;
     $_totalTarefasConcluidas = 0;
     $_totalTarefasParaConcluir = 0;
+    $_clientesCadastrados = 0;
 
     $_string_connection = "mysql:host=localhost;
                                 dbname=jbanco";
@@ -174,24 +179,30 @@ else if ($_tabela == "geral") {
         }
         $_totalTarefas += 1;
     }
+    $_somaClientes = "SELECT * FROM cliente WHERE id_user='$_IDuser'";
+    $_clientesCadastrados = mysqli_num_rows(mysqli_query($_conexao, $_somaClientes));
 
     $_pdf->SetFillColor(200, 200, 200);
     $_pdf->SetFont('helvetica', 'B', 12);
-    $_pdf->Cell(2.4, 1.5, "Lucro total: ", 0, 0, 'L', false);
+    $_pdf->Cell(7.7, 1.5,  utf8_decode("Quantidade de clientes cadastrados: "), 0, 0, 'L', false);
     $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell(4, 1.5, $_lucro, 0, 1, 'L', false);
+    $_pdf->Cell(4, 1.5, $_clientesCadastrados, 0, 1, 'L', false);
     $_pdf->SetFont('helvetica', 'B', 12);
-    $_pdf->Cell(3.4, 1.5, "Total de tarefas: ", 0, 0, 'L', false);
+    $_pdf->Cell(7.5, 1.5, "Quantidade de tarefas para concluir: ", 0, 0, 'L', false);
     $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell(4, 1.5, $_totalTarefas, 0, 1, 'L', false);
+    $_pdf->Cell(4, 1.5,  $_totalTarefasParaConcluir, 0, 1, 'L', false);
     $_pdf->SetFont('helvetica', 'B', 12);
-    $_pdf->Cell(5.7, 1.5, "Total de tarefas concluidas: ", 0, 0, 'L', false);
+    $_pdf->Cell(7, 1.5, "Quantidade de tarefas concluidas: ", 0, 0, 'L', false);
     $_pdf->SetFont('helvetica', '', 11);
     $_pdf->Cell(4, 1.5,  $_totalTarefasConcluidas, 0, 1, 'L', false);
     $_pdf->SetFont('helvetica', 'B', 12);
-    $_pdf->Cell(6.7, 1.5, "Total de tarefas para concluir: ", 0, 0, 'L', false);
+    $_pdf->Cell(4.7, 1.5, "Quantidade de tarefas: ", 0, 0, 'L', false);
     $_pdf->SetFont('helvetica', '', 11);
-    $_pdf->Cell(4, 1.5,  $_totalTarefasParaConcluir, 0, 1, 'L', false);
+    $_pdf->Cell(4, 1.5, $_totalTarefas, 0, 1, 'L', false);
+    $_pdf->SetFont('helvetica', 'B', 12);
+    $_pdf->Cell(2.4, 1.5, "Lucro total: ", 0, 0, 'L', false);
+    $_pdf->SetFont('helvetica', '', 11);
+    $_pdf->Cell(4, 1.5, "R$ " . $_lucro, 0, 1, 'L', false);
 }
 
 
