@@ -162,7 +162,6 @@ $(function () {
                 }
             }
         });
-
     });
 
     $("#login #id-login-senha, #login #id-login-user").click(function () {

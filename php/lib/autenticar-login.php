@@ -7,7 +7,7 @@ if (isset($_POST['save'])) {
     $_usuarioValido = "SELECT * FROM usuarios WHERE usuario = '$_user'";
     $_rowsUser = mysqli_num_rows(mysqli_query($_conexao, $_usuarioValido));
 
-    $_sql = "SELECT * FROM usuarios WHERE usuario = '$_user' and senha = '$_senha'";
+    $_sql = "SELECT * FROM usuarios WHERE usuario = '$_user' AND senha = '$_senha'";
     $_query = mysqli_query($_conexao, $_sql);
     $_rows = mysqli_num_rows($_query);
 

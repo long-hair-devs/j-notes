@@ -173,9 +173,9 @@ class Relatorio {
 
     get filtro() {
         if (this.filtroMarcado == "Data") {
-            return `AND (" . $_tabela . ".dia BETWEEN STR_TO_DATE('${this.campoData.eq(0).val()}', 'd%/%m/%y') AND STR_TO_DATE('${this.campoData.eq(1).val()}', '%d/%m/%y'))`;
+            return `AND (tarefa.dia BETWEEN STR_TO_DATE('${this.campoData.eq(0).val()}', 'd%/%m/%y') AND STR_TO_DATE('${this.campoData.eq(1).val()}', '%d/%m/%y'))`;
         } else {
-            return `AND (total_recebido-total_gasto BETWEEN ${this.campoDinheiro.eq(0).val()} AND ${this.campoDinheiro.eq(1).val()})`;
+            return `AND (total_recebido-total_gasto BETWEEN ${this.pegaDinheiro(0)} AND ${this.pegaDinheiro(1)})`;
         }
     }
     /*--- Métodos ---*/
@@ -258,6 +258,10 @@ class Relatorio {
         this.calcTamanho();
     }
 
+    pegaDinheiro(i) {
+        return this.campoDinheiro.eq(i).val() != 0 ? this.campoDinheiro.eq(i).val().split(".").join("").split(",").join(".") : "0.00";
+    }
+
     validaDados() {
         if (this.div.find("input[type=text]").hasClass("datar")) {
             if (!(this.campoData.eq(0).val().length == 10)) {
@@ -308,23 +312,23 @@ class Relatorio {
     acaoConcluir() {
         if (this.div.length == 1) { // Pré-definido
 
-
         } else if (this.div.length == 2 || this.div.length == 3) { // Sem filtro 
             this.geraForm("Tabela de " + this.tipoMarcado.toLowerCase(), "Nenhum", this.tipoMarcado.toLowerCase(), this.ordem, "");
         } else if (this.validaDados()) { // Com filtro
             this.geraForm("Tabela de " + this.tipoMarcado.toLowerCase(), this.filtroMarcado, this.tipoMarcado.toLowerCase(), this.ordem, this.filtro);
+            console.log(this.filtro);
         }
-        this.enviaDados();
     }
 
     geraForm(tipo, nomeFiltro, nomeTabela, ordem, comandoFiltro) {
-        this.div.parent().append(`<form method="post" action="./lib/pdf.php">
+        this.div.parent().append(`<form class="pdf" method="post" action="./lib/pdf.php">
                 <input name="tipo" value="${tipo}">
                 <input name="nome-filtro" value="${nomeFiltro}">
                 <input name="nome-tabela" value="${nomeTabela}">
                 <input name="ordem" value="${ordem}">
                 <input name="filtro" value="${comandoFiltro}">
             </form>`);
+        this.enviaDados();
     }
 
     enviaDados() {
