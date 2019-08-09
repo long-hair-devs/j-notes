@@ -1,0 +1,308 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(315deg, #222, #6DA8D6);
+    background-attachment: fixed;
+    font-family: "Montserrat", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40rem;
+    min-height: 30rem;
+    width: 100vw;
+    height: 100vh;
+}
+
+@media screen and (max-width: 980px) {
+    body {
+        width: 100vw;
+        height: 100vh;
+    }
+
+}
+
+.xis {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(10.2rem, -9.8rem);
+    z-index: 1;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    background-color: #222;
+    padding: 0.8rem 1rem;
+    border-radius: 100%;
+    outline: 0;
+}
+
+.bolinha1 {
+    transform: translate(13.5rem, -10.5rem);
+    padding: 0.5rem;
+}
+
+.bolinha2 {
+    transform: translate(12.8rem, -12rem);
+    padding: 0.25rem;
+}
+
+.xis:hover {
+    color: #6DA8D6;
+}
+
+@media screen and (max-width: 980px) {
+    .xis {
+        transform: translate(20.4rem, -19.6rem);
+        font-weight: bold;
+        font-size: 2.4rem;
+        padding: 1.6rem 2rem;
+    }
+
+    .bolinha1 {
+        transform: translate(27rem, -21rem);
+        padding: 1rem;
+    }
+
+    .bolinha2 {
+        transform: translate(25.6rem, -24rem);
+        padding: 0.5rem;
+    }
+}
+
+/*///////////////// Fundo que corta a visão /////////////*/
+.fundo {
+    height: 20rem;
+    width: 20.2rem;
+    background-color: #222;
+    overflow: hidden;
+    border: 1.5rem solid #222;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 980px) {
+    .fundo {
+        height: 40rem;
+        width: 40.4rem;
+        border: 3rem solid #222;
+        border-radius: 1.5rem;
+    }
+}
+
+/*////////////////////////// Parte que contem os dois forms ////////////*/
+.interno {
+    align-self: flex-end;
+    width: 42rem;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 980px) {
+    .interno {
+        width: 84rem;
+    }
+}
+
+/*////////////////// Classes em comum //////////////////////*/
+.texto {
+    color: #DDD;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.textoinput {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    outline: 0;
+    border: 0.1rem solid #DDD;
+    border-radius: 0.5rem;
+    background: #DDD;
+    font-size: 1.2rem;
+    font-family: inherit;
+    font-weight: bold;
+    height: 2.5rem;
+}
+
+.flex-box-botoes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.botao {
+    padding: 1rem 2rem 1rem 2rem;
+    border: none;
+    border-radius: 0.75rem;
+    outline: 0;
+    background: #6DA8D6;
+    color: #000;
+    font-size: 1.2rem;
+    font-family: inherit;
+    font-weight: bold;
+    text-transform: capitalize;
+    cursor: pointer;
+}
+
+.botao:hover {
+    background: #DDD;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.link:hover {
+    color: #6DA8D6;
+}
+
+.animacao {
+    transition: 0.25s ease-in;
+}
+
+@media screen and (max-width: 980px) {
+    .texto {
+        font-size: 2.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .textoinput {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        outline: 0;
+        border: 0.2rem solid #DDD;
+        font-size: 2.4rem;
+        height: 5rem;
+        border-radius: 1.5rem;
+    }
+
+    .botao {
+        padding: 2rem 4rem 2rem 4rem;
+        font-size: 2.4rem;
+        border-radius: 1.5rem;
+    }
+}
+
+
+/*/////////////////////// Classes referentes ao login //////////////////////*/
+.login {
+    width: 20rem;
+    height: 20rem;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+
+}
+
+.login div {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.login .flex-box-salvar label {
+    display: flex;
+    align-items: center;
+}
+
+label {
+    cursor: pointer;
+}
+
+.save {
+    margin: 0 0.5rem 0.5rem 0;
+    cursor: pointer;
+}
+
+.login .flex-box-botoes {
+    margin-top: 1.3rem;
+}
+
+@media screen and (max-width: 980px) {
+    .login {
+        width: 40rem;
+        height: 40rem;
+
+    }
+
+    .save {
+        margin: 0 1rem 1rem 0;
+        font-size: 300%;
+        display: inline;
+    }
+
+    .login .flex-box-botoes {
+        margin-top: 2.6rem;
+    }
+}
+
+/*/////////////////////// Classes referentes ao registrar //////////////////////*/
+.registrar {
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.botao-desabilitado {
+    background-color: #aaa;
+}
+
+.botao-desabilitado:hover {
+    background-color: #aaa;
+}
+
+@media screen and (max-width: 980px) {
+    .registrar {
+        width: 40rem;
+    }
+}
+
+
+
+
+/* Classes para verificar a validade do dado */
+.form-erro {
+    border: 0.1rem solid #e61919;
+}
+
+.form-sucesso {
+    border: 0.1rem solid #00a000;
+}
+
+.ajuda {
+    margin-top: 0.25rem;
+    min-height: 1rem;
+    margin-bottom: 0.7rem;
+}
+
+.ajuda-erro {
+    color: #e61919;
+    font-size: 0.9rem;
+}
+
+@media screen and (max-width: 980px) {
+    .form-erro {
+        border: 0.2rem solid #e61919;
+    }
+
+    .form-sucesso {
+        border: 0.2rem solid #00a000;
+    }
+
+    .ajuda {
+        margin-top: 0.5rem;
+        min-height: 2rem;
+        margin-bottom: 1.4rem;
+    }
+
+    .ajuda-erro {
+        font-size: 1.8rem;
+    }
+}
